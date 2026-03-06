@@ -21,7 +21,7 @@ export default function Header() {
       <nav id="navbar" className={`site-nav ${scrolled ? 'scrolled' : ''} ${isMenuOpen ? 'menu-open' : ''}`} style={{ position: 'relative' }}>
       <Link to="/" className="logo flex items-center gap-4">
         <img 
-          src="/logo.png" 
+          src="/logo.png?v=5" 
           alt="Chine Cargo Logis" 
           className="h-14 w-auto object-contain"
         />
