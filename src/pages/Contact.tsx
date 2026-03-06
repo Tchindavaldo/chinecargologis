@@ -1,4 +1,4 @@
-import { Mail, Phone, MapPin, Clock, ArrowRight } from 'lucide-react';
+import { Mail, Phone, MapPin, Clock, ArrowRight, Send } from 'lucide-react';
 import SEO from '../components/SEO';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -11,185 +11,158 @@ export default function Contact() {
   const siteName = getSiteName();
 
   return (
-    <div className="min-h-screen bg-white font-sans text-brand-dark">
+    <div className="min-h-screen" style={{ background: 'var(--dark)', color: 'var(--text)' }}>
       <SEO 
-        title={`Contact - ${siteName} | Global Logistics Partner`}
-        description={`Contact ${siteName} for your international transport needs. Get a free quote for sea, air, and land freight solutions.`}
-        keywords={`contact ${siteName}, logistics quote, shipping contact, freight forwarder china`}
-        canonical="https://www.maerskaircargo.com/contact"
+        title={`Contact - ${siteName} | Partenaire Logistique Mondial`}
+        description={`Contactez ${siteName} pour vos besoins de transport international. Obtenez un devis gratuit pour vos solutions de fret maritime, aérien et terrestre.`}
+        keywords={`contact ${siteName}, devis logistique, contact expédition, transitaire chine`}
+        canonical="https://chinecargologis.com/contact"
       />
       <Header />
 
-      {/* Hero Section */}
-      <section className="relative bg-brand-dark text-white py-32 overflow-hidden">
-        <div className="absolute top-0 right-0 w-2/3 h-full bg-brand-secondary/10 -skew-x-12 translate-x-1/4 pointer-events-none" />
-        <div className="absolute bottom-0 left-0 w-1/3 h-full bg-brand-accent/5 skew-x-12 -translate-x-1/4 pointer-events-none" />
+      {/* HERO SECTION - SUBPAGE STYLE */}
+      <section className="hero" style={{ minHeight: '60vh' }}>
+        <div className="hero-img-bg" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1423666639041-f56000c27a9a?w=1800&q=80')" }}></div>
+        <div className="hero-overlay"></div>
+        <div className="hero-overlay2"></div>
         
-        {/* Background Image with Overlay */}
-        <div className="absolute inset-0 z-0 opacity-20">
-           <img 
-             src="https://images.unsplash.com/photo-1423666639041-f56000c27a9a?q=80&w=2074" 
-             alt="Contact Support" 
-             className="w-full h-full object-cover"
-           />
-           <div className="absolute inset-0 bg-gradient-to-r from-brand-dark via-brand-dark/95 to-brand-dark/40" />
-        </div>
-        
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-4xl">
-            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full mb-6 border border-white/10">
-              <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-              <p className="text-sm font-medium text-blue-50">Online Support 24/7</p>
-            </div>
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
-              Get in <span className="text-brand-accent">Touch</span>
-            </h1>
-            <p className="text-xl text-gray-300 mb-8 max-w-2xl leading-relaxed">
-              Ready to streamline your supply chain? Our team is here to answer your questions and provide tailored solutions.
-            </p>
-            <div className="flex items-center gap-3 text-sm font-medium text-gray-400">
-              <Link to="/" className="hover:text-white transition-colors">Home</Link>
-              <ArrowRight size={14} />
-              <span className="text-brand-accent">Contact</span>
-            </div>
+        <div className="hero-content">
+          <div className="hero-badge">Support 24/7</div>
+          <h1 className="animate-fade-in-up">
+            Parlons de votre <em>Projet</em>
+          </h1>
+          <p className="hero-sub animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+            Prêt à optimiser votre chaîne d'approvisionnement ? Notre équipe est là pour répondre à vos questions et vous proposer des solutions sur mesure.
+          </p>
+          
+          <div className="flex items-center gap-3 text-sm font-medium text-gray-500 mt-8">
+            <Link to="/" className="hover:text-red-600 transition-colors font-semibold">Accueil</Link>
+            <ArrowRight size={14} />
+            <span className="text-red-500 font-semibold">Contact</span>
           </div>
         </div>
       </section>
 
-      <section className="py-24 bg-white relative">
+      {/* CONTACT INFO & FORM */}
+      <section className="how py-24" style={{ background: 'var(--darker)' }}>
         <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center mb-16">
-            <h2 className="text-brand-accent font-bold tracking-widest uppercase mb-3 text-sm">Contact Us</h2>
-            <h3 className="text-4xl font-bold text-brand-dark mb-6">We Value Your Feedback & Queries</h3>
+          <div className="max-w-4xl mx-auto text-center mb-16 animate-reveal">
+            <div className="section-tag">Contactez-nous</div>
+            <h2 className="text-gray-900 mb-6">Nous apprécions vos commentaires et questions</h2>
             <p className="text-gray-600 text-lg leading-relaxed">
-              {siteName} is a global supplier of transport and logistics solutions.
-              Reach out to us for any inquiries or to request a quote for your shipping needs.
+              {siteName} est un fournisseur mondial de solutions de transport et de logistique.
+              Contactez-nous pour toute demande de renseignements ou pour demander un devis pour vos besoins d'expédition.
             </p>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
-            <div>
-              <h3 className="text-2xl font-bold text-brand-dark mb-6">Contact Information</h3>
-              <div className="space-y-6">
-                <div className="flex items-start gap-4 p-6 bg-gray-50 rounded-xl border border-gray-100 hover:border-brand-accent/30 transition-colors group">
-                  <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center text-brand-accent shadow-sm group-hover:bg-brand-accent group-hover:text-white transition-colors">
-                     <MapPin size={24} />
+            <div className="space-y-6">
+              <h3 className="section-tag">Coordonnées</h3>
+              
+              <div className="grid grid-cols-1 gap-4">
+                {[
+                  settings?.site_address ? { icon: <MapPin size={22} />, title: "Notre Emplacement", value: settings.site_address } : null,
+                  settings?.site_phone ? { icon: <Phone size={22} />, title: "Numéro de Téléphone", value: settings.site_phone } : null,
+                  settings?.site_email ? { icon: <Mail size={22} />, title: "Adresse E-mail", value: settings.site_email } : null,
+                ].filter(Boolean).map((item, i) => (
+                  <div key={i} className="bg-white border border-gray-100 shadow-lg rounded-xl p-6 group" style={{ cursor: 'default' }}>
+                    <div className="flex items-center gap-5">
+                      <div className="w-12 h-12 bg-red-50 rounded-xl flex items-center justify-center text-red-600 group-hover:bg-red-600 group-hover:text-white transition-all duration-300">
+                        {item!.icon}
+                      </div>
+                      <div>
+                        <div className="stat-label mb-1" style={{ textAlign: 'left' }}>{item!.title}</div>
+                        <div className="text-gray-900 font-bold">{item!.value}</div>
+                      </div>
+                    </div>
                   </div>
-                  <div>
-                    <div className="font-bold text-lg mb-1 text-brand-dark">Our Location</div>
-                    <div className="text-gray-600">{settings.site_address || "123 Logistics Way, Transport City"}</div>
-                  </div>
-                </div>
+                ))}
                 
-                <div className="flex items-start gap-4 p-6 bg-gray-50 rounded-xl border border-gray-100 hover:border-brand-accent/30 transition-colors group">
-                  <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center text-brand-accent shadow-sm group-hover:bg-brand-accent group-hover:text-white transition-colors">
-                     <Phone size={24} />
-                  </div>
-                  <div>
-                    <div className="font-bold text-lg mb-1 text-brand-dark">Phone Number</div>
-                    <div className="text-gray-600">{settings.site_phone || "+1 234 567 890"}</div>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4 p-6 bg-gray-50 rounded-xl border border-gray-100 hover:border-brand-accent/30 transition-colors group">
-                  <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center text-brand-accent shadow-sm group-hover:bg-brand-accent group-hover:text-white transition-colors">
-                     <Mail size={24} />
-                  </div>
-                  <div>
-                    <div className="font-bold text-lg mb-1 text-brand-dark">Email Address</div>
-                    <div className="text-gray-600">{settings.site_email || "contact@maerskaircargo.com"}</div>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4 p-6 bg-gray-50 rounded-xl border border-gray-100 hover:border-brand-accent/30 transition-colors group">
-                  <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center text-brand-accent shadow-sm group-hover:bg-brand-accent group-hover:text-white transition-colors">
-                     <Clock size={24} />
-                  </div>
-                  <div>
-                    <div className="font-bold text-lg mb-1 text-brand-dark">Business Hours</div>
-                    <div className="text-gray-600">Monday - Friday: 9:00 AM - 6:00 PM</div>
-                    <div className="text-gray-600">Saturday: 9:00 AM - 1:00 PM</div>
-                    <div className="text-gray-600">Sunday: Closed</div>
+                <div className="bg-white border border-gray-100 shadow-lg rounded-xl p-6 group" style={{ cursor: 'default' }}>
+                  <div className="flex items-start gap-5">
+                    <div className="w-12 h-12 bg-red-50 rounded-xl flex items-center justify-center text-red-600 group-hover:bg-red-600 group-hover:text-white transition-all duration-300">
+                      <Clock size={22} />
+                    </div>
+                    <div>
+                      <div className="stat-label mb-1" style={{ textAlign: 'left' }}>Heures d'ouverture</div>
+                      <div className="text-gray-900 font-bold space-y-1">
+                        <div className="text-sm font-semibold">Lundi - Vendredi: 9h00 - 18h00</div>
+                        <div className="text-sm font-semibold">Samedi: 9h00 - 13h00</div>
+                        <div className="text-sm text-red-600 font-bold">Dimanche: Fermé</div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="bg-gray-50 rounded-2xl p-8 border border-gray-100 shadow-lg">
-              <h3 className="text-2xl font-bold text-brand-dark mb-6">Send Us a Message</h3>
-              <form className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="bg-white border border-gray-100 shadow-2xl rounded-2xl overflow-hidden">
+              <div className="p-8 lg:p-10">
+                <h3 className="section-tag mb-6">Envoyez-nous un message</h3>
+                <form className="space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <label className="stat-label mb-2 block font-bold text-gray-500" style={{ textAlign: 'left' }}>Votre Nom *</label>
+                      <input
+                        type="text"
+                        placeholder="Nom complet"
+                        className="w-full p-4 border border-gray-100 rounded-xl bg-gray-50 focus:border-red-600 focus:bg-white transition-all outline-none text-gray-900 font-medium"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <label className="stat-label mb-2 block font-bold text-gray-500" style={{ textAlign: 'left' }}>Votre Email *</label>
+                      <input
+                        type="email"
+                        placeholder="Adresse e-mail"
+                        className="w-full p-4 border border-gray-100 rounded-xl bg-gray-50 focus:border-red-600 focus:bg-white transition-all outline-none text-gray-900 font-medium"
+                        required
+                      />
+                    </div>
+                  </div>
                   <div>
-                    <label className="block text-gray-700 font-medium mb-2 text-sm">Your Name *</label>
+                    <label className="stat-label mb-2 block font-bold text-gray-500" style={{ textAlign: 'left' }}>Sujet *</label>
                     <input
                       type="text"
-                      placeholder="Full Name"
-                      className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:border-brand-accent focus:ring-1 focus:ring-brand-accent bg-white transition-all"
+                      placeholder="Objet de votre demande"
+                      className="w-full p-4 border border-gray-100 rounded-xl bg-gray-50 focus:border-red-600 focus:bg-white transition-all outline-none text-gray-900 font-medium"
                       required
                     />
                   </div>
                   <div>
-                    <label className="block text-gray-700 font-medium mb-2 text-sm">Your Email *</label>
-                    <input
-                      type="email"
-                      placeholder="Email Address"
-                      className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:border-brand-accent focus:ring-1 focus:ring-brand-accent bg-white transition-all"
+                    <label className="stat-label mb-2 block font-bold text-gray-500" style={{ textAlign: 'left' }}>Votre Message *</label>
+                    <textarea
+                      placeholder="Comment pouvons-nous vous aider ?"
+                      rows={5}
+                      className="w-full p-4 border border-gray-100 rounded-xl bg-gray-50 focus:border-red-600 focus:bg-white transition-all outline-none text-gray-900 font-medium resize-none"
                       required
-                    />
+                    ></textarea>
                   </div>
-                </div>
-                <div>
-                  <label className="block text-gray-700 font-medium mb-2 text-sm">Phone Number</label>
-                  <input
-                    type="tel"
-                    placeholder="Phone Number"
-                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:border-brand-accent focus:ring-1 focus:ring-brand-accent bg-white transition-all"
-                  />
-                </div>
-                <div>
-                  <label className="block text-gray-700 font-medium mb-2 text-sm">Subject *</label>
-                  <input
-                    type="text"
-                    placeholder="Subject"
-                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:border-brand-accent focus:ring-1 focus:ring-brand-accent bg-white transition-all"
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="block text-gray-700 font-medium mb-2 text-sm">Your Message *</label>
-                  <textarea
-                    placeholder="How can we help you?"
-                    rows={5}
-                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:border-brand-accent focus:ring-1 focus:ring-brand-accent bg-white transition-all resize-none"
-                    required
-                  ></textarea>
-                </div>
-                <button className="w-full bg-brand-accent hover:bg-brand-dark text-white px-8 py-4 rounded-lg font-bold transition-all shadow-md hover:shadow-xl transform hover:-translate-y-0.5">
-                  Send Message
-                </button>
-              </form>
+                  <button className="btn-primary w-full flex items-center justify-center gap-2 py-5 text-lg">
+                    Envoyer le Message <Send size={18} />
+                  </button>
+                </form>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Process Section */}
-      <section className="py-20 bg-gray-50 border-t border-gray-200">
+      {/* PROCESS SECTION */}
+      <section className="partners py-24" style={{ background: 'var(--dark)' }}>
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl font-bold mb-12 text-center text-brand-dark">Seamless Shipping Process</h2>
+            <h2 className="text-3xl font-bold mb-12 text-center text-gray-900">Processus d'expédition fluide</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {[
-                { step: "01", title: "Request a Quote", desc: "Fill out our contact form with your shipping details to get started." },
-                { step: "02", title: "Custom Solution", desc: "Receive a tailored shipping plan and competitive pricing from our experts." },
-                { step: "03", title: "Ship & Track", desc: "We handle the logistics while you track your shipment in real-time." }
+                { step: "01", title: "Demande de devis", desc: "Remplissez notre formulaire de contact avec vos détails d'expédition pour commencer." },
+                { step: "02", title: "Solution sur mesure", desc: "Recevez un plan d'expédition personnalisé et des tarifs compétitifs de nos experts." },
+                { step: "03", title: "Expédier et suivre", desc: "Nous gérons la logistique pendant que vous suivez votre expédition en temps réel." }
               ].map((item, i) => (
-                <div key={i} className="text-center p-8 bg-white rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow relative overflow-hidden group">
-                  <span className="absolute -right-4 -top-4 text-8xl font-black text-gray-50 group-hover:text-brand-light/30 transition-colors z-0 select-none">
-                    {item.step}
-                  </span>
-                  <div className="relative z-10">
-                    <div className="text-xl font-bold text-brand-accent mb-3">{item.step}. {item.title}</div>
+                <div key={i} className="bg-white border border-gray-100 shadow-xl rounded-2xl group overflow-hidden" style={{ cursor: 'default' }}>
+                  <div className="p-8">
+                    <div className="text-4xl font-black text-red-600/5 mb-2">{item.step}</div>
+                    <div className="text-xl font-bold text-red-600 mb-3" style={{ fontFamily: 'Orbitron, sans-serif' }}>{item.title}</div>
                     <p className="text-gray-500 text-sm leading-relaxed">{item.desc}</p>
                   </div>
                 </div>
@@ -199,26 +172,25 @@ export default function Contact() {
         </div>
       </section>
 
-      {/* CTA Bottom */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="bg-brand-dark text-white rounded-2xl p-12 text-center relative overflow-hidden shadow-2xl">
-            <div className="absolute top-0 right-0 w-full h-full bg-brand-accent/5" />
-             <div className="relative z-10">
-                <h2 className="text-4xl font-bold mb-4">Ready to Ship Your Cargo?</h2>
-                <p className="text-xl mb-8 text-gray-300">
-                  Contact us today and get a free quote for your shipping needs
-                </p>
-                <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <a href={`tel:${settings.site_phone}`} className="bg-white text-brand-dark px-8 py-4 rounded-lg font-bold hover:bg-gray-100 transition inline-block">
-                    Call Us Now
-                  </a>
-                  <a href={`mailto:${settings.site_email}`} className="bg-brand-accent text-white px-8 py-4 rounded-lg font-bold hover:bg-brand-light hover:text-brand-dark transition inline-block">
-                    Send Email
-                  </a>
-                </div>
-             </div>
-          </div>
+      {/* CTA SECTION - SHARED DESIGN */}
+      <section className="cta-section">
+        <div className="cta-bg-img" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1600&q=70')" }}></div>
+        <div className="cta-bg-overlay"></div>
+        <div className="cta-inner">
+            <div className="corner-tl"></div>
+            <div className="corner-br"></div>
+            <div>
+                <h2 className="cta-title">Prêt à expédier votre cargaison ?</h2>
+                <p className="cta-sub">Contactez-nous dès aujourd'hui et obtenez un devis gratuit pour vos besoins d'expédition internationale.</p>
+            </div>
+            <div className="flex gap-4">
+              {settings?.site_phone && (
+                <a href={`tel:${settings.site_phone}`} className="btn-secondary">Appelez-nous</a>
+              )}
+              {settings?.site_email && (
+                <a href={`mailto:${settings.site_email}`} className="btn-primary">Envoyer un Email</a>
+              )}
+            </div>
         </div>
       </section>
 
@@ -226,3 +198,4 @@ export default function Contact() {
     </div>
   );
 }
+

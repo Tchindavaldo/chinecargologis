@@ -22,7 +22,7 @@
 
 #### A. Balises hreflang ajoutées
 ```html
-<link rel="alternate" hreflang="fr-CM" href="https://chinelogistique.com/" />
+<link rel="alternate" hreflang="fr-CM" href="https://chinecargologis.com/" />
 ```
 Pays ciblés :
 - 🇨🇲 Cameroun (fr-CM)
@@ -86,17 +86,17 @@ git push origin main
 ### Étape 3 : Tester l'Accessibilité du Favicon
 
 **Test A - Navigateur** :
-1. Ouvrez : `https://chinelogistique.com/favicon.ico`
+1. Ouvrez : `https://chinecargologis.com/favicon.ico`
 2. Vous devriez voir l'icône s'afficher
 
 **Test B - Outil de validation** :
 1. Allez sur : https://realfavicongenerator.net/favicon_checker
-2. Entrez : `https://chinelogistique.com`
+2. Entrez : `https://chinecargologis.com`
 3. Vérifiez que **"There is an ICO favicon"** ✅
 
 **Test C - Google Rich Results** :
 1. Allez sur : https://search.google.com/test/rich-results
-2. Entrez : `https://chinelogistique.com`
+2. Entrez : `https://chinecargologis.com`
 3. Vérifiez que le favicon est détecté
 
 ---
@@ -105,7 +105,7 @@ git push origin main
 
 #### A. Vérifier le Ciblage Géographique
 1. Allez sur : https://search.google.com/search-console
-2. Sélectionnez votre propriété `chinelogistique.com`
+2. Sélectionnez votre propriété `chinecargologis.com`
 3. Menu **Paramètres** → **Ciblage géographique**
 4. **IMPORTANT** : Assurez-vous que c'est sur **"Non spécifié"** ou **"International"**
    - ❌ Ne ciblez PAS uniquement la France
@@ -114,17 +114,17 @@ git push origin main
 #### B. Soumettre le Sitemap à Nouveau
 1. Dans Search Console, allez dans **Sitemaps**
 2. Si un sitemap existe déjà, supprimez-le
-3. Ajoutez : `https://chinelogistique.com/sitemap.xml`
+3. Ajoutez : `https://chinecargologis.com/sitemap.xml`
 4. Cliquez sur **Soumettre**
 
 #### C. Demander une Réindexation
 1. Allez dans **Inspection d'URL**
 2. Testez et demandez l'indexation pour :
-   - `https://chinelogistique.com/`
-   - `https://chinelogistique.com/about`
-   - `https://chinelogistique.com/services`
-   - `https://chinelogistique.com/contact`
-   - `https://chinelogistique.com/track`
+   - `https://chinecargologis.com/`
+   - `https://chinecargologis.com/about`
+   - `https://chinecargologis.com/services`
+   - `https://chinecargologis.com/contact`
+   - `https://chinecargologis.com/track`
 
 ---
 
@@ -141,7 +141,7 @@ git push origin main
 
 #### Option B - Demander à quelqu'un au Cameroun
 1. Demandez à un ami/collègue au Cameroun
-2. Qu'il recherche sur Google : `chinelogistique` ou `transport chine cameroun`
+2. Qu'il recherche sur Google : `chinecargologis` ou `transport chine cameroun`
 3. Vérifiez si le site apparaît
 
 #### Option C - Google Search Console (Monitoring)
@@ -155,7 +155,7 @@ git push origin main
 ## ⏱️ Délais Attendus
 
 ### Favicon ICO
-- **Immédiat** : Accessible sur https://chinelogistique.com/favicon.ico
+- **Immédiat** : Accessible sur https://chinecargologis.com/favicon.ico
 - **1-2 jours** : Détecté par les outils de validation
 - **3-7 jours** : Affiché dans les résultats Google
 
@@ -202,7 +202,7 @@ git push origin main
 Vous saurez que tout fonctionne quand :
 
 ### Favicon ✅
-- ✅ https://chinelogistique.com/favicon.ico est accessible
+- ✅ https://chinecargologis.com/favicon.ico est accessible
 - ✅ realfavicongenerator.net détecte le favicon ICO
 - ✅ Le favicon s'affiche dans les onglets de tous les navigateurs
 - ✅ Le favicon apparaît dans les résultats Google
@@ -219,9 +219,9 @@ Vous saurez que tout fonctionne quand :
 
 ### Si le favicon n'est toujours pas détecté après 7 jours :
 1. Vérifiez que le fichier est bien à la racine : `/favicon.ico`
-2. Testez l'URL directement : https://chinelogistique.com/favicon.ico
+2. Testez l'URL directement : https://chinecargologis.com/favicon.ico
 3. Videz le cache de votre navigateur (Ctrl+Shift+R)
-4. Vérifiez les headers HTTP avec : `curl -I https://chinelogistique.com/favicon.ico`
+4. Vérifiez les headers HTTP avec : `curl -I https://chinecargologis.com/favicon.ico`
 
 ### Si le site n'apparaît toujours pas au Cameroun après 4 semaines :
 1. Vérifiez qu'il n'y a pas de blocage géographique dans Vercel
@@ -263,7 +263,7 @@ git push origin main
 curl -I http://localhost:5173/favicon.ico
 
 # Tester le favicon en production
-curl -I https://chinelogistique.com/favicon.ico
+curl -I https://chinecargologis.com/favicon.ico
 
 # Vérifier les fichiers statiques
 bash test-static-files.sh

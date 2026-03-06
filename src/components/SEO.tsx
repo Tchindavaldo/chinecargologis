@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import { getSiteName } from '../utils/siteConfig';
 
 interface SEOProps {
   title?: string;
@@ -10,14 +9,12 @@ interface SEOProps {
   noindex?: boolean;
 }
 
-const siteName = getSiteName();
-
 export default function SEO({
-  title = `${siteName} - Global Logistics & Shipping Solutions`,
-  description = `${siteName}, your trusted partner for maritime, air, road and rail transport. Professional logistics solutions with real-time tracking.`,
-  keywords = "international logistics, sea freight, air freight, road transport, rail transport, cargo shipping, international delivery, package tracking",
+  title = "Chine Cargo Logis - Transport et Logistique International depuis la Chine",
+  description = "Chine Cargo Logis, votre partenaire de confiance pour le transport maritime, aérien, routier et ferroviaire depuis la Chine. Solutions logistiques professionnelles avec suivi en temps réel.",
+  keywords = "transport chine, logistique internationale, fret maritime, fret aérien, transport routier, transport ferroviaire, expédition chine, cargo chine, livraison internationale, suivi colis",
   canonical,
-  ogImage = "/logo512x512.png",
+  ogImage = "https://www.chinecargologis.com/logo512x512.png",
   noindex = false
 }: SEOProps) {
   useEffect(() => {
@@ -97,10 +94,10 @@ export default function SEO({
       "url": canonical || window.location.href,
       "isPartOf": {
         "@type": "WebSite",
-        "name": siteName,
+        "name": "Chine Cargo Logis",
         "url": window.location.origin
       },
-      "inLanguage": "en-US",
+      "inLanguage": "fr-FR",
       "potentialAction": {
         "@type": "SearchAction",
         "target": `${window.location.origin}/track?tracking={search_term_string}`,

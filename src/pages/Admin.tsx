@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, Edit, Trash2, LogOut, Package, Upload, X, Settings, MessageCircle } from 'lucide-react';
+import { Plus, Edit, Trash2, LogOut, Package, Upload, X, Settings, MessageCircle, AlertTriangle } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import Toast from '../components/Toast';
 
@@ -87,7 +87,7 @@ export default function Admin() {
     site_phone: '',
     site_address: '',
     support_email: '',
-    company_name: 'Jongleur Maersk',
+    company_name: 'Chine Cargo Logis',
     company_description: '',
   });
   const [savingSettings, setSavingSettings] = useState(false);
@@ -96,6 +96,9 @@ export default function Admin() {
   const [whatsappPhone, setWhatsappPhone] = useState('');
   const [whatsappMessage, setWhatsappMessage] = useState('');
   const [selectedTrackingNumber, setSelectedTrackingNumber] = useState('');
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [itemToDelete, setItemToDelete] = useState<{ id: string; tracking_number: string } | null>(null);
+  const [deleting, setDeleting] = useState(false);
   const [formData, setFormData] = useState<ShipmentForm>({
     tracking_number: '',
     status: '',
@@ -155,7 +158,7 @@ export default function Admin() {
   const fetchShipments = async () => {
     try {
       const { data, error } = await supabase
-        .from('jongleur_maersk_shipments')
+        .from('tolito_chinecargologis_shipments')
         .select('id, tracking_number, status, origin, destination, carrier, shipper_name, receiver_name, created_at')
         .order('created_at', { ascending: false });
 
@@ -171,7 +174,7 @@ export default function Admin() {
   const fetchSiteSettings = async () => {
     try {
       const { data, error } = await supabase
-        .from('jongleur_maersk_site_settings')
+        .from('tolito_chinecargologis_site_settings')
         .select('*')
         .limit(1)
         .maybeSingle();
@@ -184,7 +187,7 @@ export default function Admin() {
           site_phone: data.site_phone || '',
           site_address: data.site_address || '',
           support_email: data.support_email || '',
-          company_name: data.company_name || 'Jongleur Maersk',
+          company_name: data.company_name || 'Chine Cargo Logis',
           company_description: data.company_description || '',
         });
       }
@@ -199,7 +202,7 @@ export default function Admin() {
       if (siteSettings.id) {
         // Update existing settings
         const { error } = await supabase
-          .from('jongleur_maersk_site_settings')
+          .from('tolito_chinecargologis_site_settings')
           .update({
             site_email: siteSettings.site_email,
             site_phone: siteSettings.site_phone,
@@ -215,7 +218,7 @@ export default function Admin() {
       } else {
         // Insert new settings
         const { data, error } = await supabase
-          .from('jongleur_maersk_site_settings')
+          .from('tolito_chinecargologis_site_settings')
           .insert([{
             site_email: siteSettings.site_email,
             site_phone: siteSettings.site_phone,
@@ -241,9 +244,19 @@ export default function Admin() {
     }
   };
 
+  const [loggingOut, setLoggingOut] = useState(false);
+
   const handleLogout = async () => {
-    await supabase.auth.signOut();
-    navigate('/login');
+    setLoggingOut(true);
+    try {
+      await new Promise(resolve => setTimeout(resolve, 800)); // Smooth transition
+      await supabase.auth.signOut();
+      navigate('/login');
+    } catch (err) {
+      console.error('Logout error:', err);
+    } finally {
+      setLoggingOut(false);
+    }
   };
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -349,6 +362,20 @@ export default function Admin() {
       errors.quantity = 'La quantité doit être positive';
     }
 
+    // Validation date et heure de statut
+    if (!formData.status_date) {
+      errors.status_date = 'La date du statut est requise';
+    }
+    if (!formData.status_time) {
+      errors.status_time = 'L\'heure du statut est requise';
+    }
+    if (!formData.expected_delivery_date) {
+      errors.expected_delivery_date = 'La date de livraison prévue est requise';
+    }
+    if (!formData.departure_date) {
+      errors.departure_date = 'La date de départ est requise';
+    }
+
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
   };
@@ -366,23 +393,32 @@ export default function Admin() {
 
     setSaving(true);
 
+    // Préparer les données en remplaçant les chaînes vides par null pour les dates
+    const dataToSave = {
+      ...formData,
+      expected_delivery_date: formData.expected_delivery_date || null,
+      departure_date: formData.departure_date || null,
+      status_date: formData.status_date || null,
+      status_time: formData.status_time || null,
+    };
+
     try {
       if (editingId) {
         const { error } = await supabase
-          .from('jongleur_maersk_shipments')
-          .update({ ...formData, updated_at: new Date().toISOString() })
+          .from('tolito_chinecargologis_shipments')
+          .update({ ...dataToSave, updated_at: new Date().toISOString() })
           .eq('id', editingId);
 
         if (error) throw error;
         
-        setToast({ message: 'Shipment updated successfully!', type: 'success' });
+        setToast({ message: 'Expédition mise à jour avec succès !', type: 'success' });
       } else {
         // Générer un code de tracking si non fourni
         const trackingNumber = formData.tracking_number || generateTrackingNumber();
-        const shipmentData = { ...formData, tracking_number: trackingNumber };
+        const shipmentData = { ...dataToSave, tracking_number: trackingNumber };
         
         const { error } = await supabase
-          .from('jongleur_maersk_shipments')
+          .from('tolito_chinecargologis_shipments')
           .insert([shipmentData]);
 
         if (error) throw error;
@@ -396,9 +432,21 @@ export default function Admin() {
       setEditingId(null);
       resetForm();
       fetchShipments();
-    } catch (err: unknown) {
-      const errorMessage = err instanceof Error ? err.message : 'Unknown error occurred';
-      setToast({ message: 'Error saving shipment: ' + errorMessage, type: 'error' });
+    } catch (err: any) {
+      console.error('Submission error:', err);
+      let errorMessage = 'Une erreur inconnue est survenue';
+      
+      if (err.code === '22007') {
+        errorMessage = 'Format de date invalide. Veuillez vérifier les champs de date.';
+      } else if (err.code === '23505') {
+        errorMessage = 'Ce numéro de tracking existe déjà.';
+      } else if (err.code === 'PGRST205') {
+        errorMessage = 'Table introuvable dans la base de données. Contactez l\'administrateur.';
+      } else if (err.message) {
+        errorMessage = err.message;
+      }
+
+      setToast({ message: 'Erreur lors de l\'enregistrement : ' + errorMessage, type: 'error' });
     } finally {
       setSaving(false);
     }
@@ -407,7 +455,7 @@ export default function Admin() {
   const handleEdit = async (id: string) => {
     try {
       const { data, error } = await supabase
-        .from('jongleur_maersk_shipments')
+        .from('tolito_chinecargologis_shipments')
         .select('*')
         .eq('id', id)
         .single();
@@ -415,34 +463,34 @@ export default function Admin() {
       if (error) throw error;
 
       setFormData({
-        tracking_number: data.tracking_number,
-        status: data.status,
-        origin: data.origin,
-        destination: data.destination,
-        carrier: data.carrier,
-        carrier_reference: data.carrier_reference,
-        product: data.product,
-        type_of_shipment: data.type_of_shipment,
-        quantity: data.quantity,
-        weight: data.weight,
-        payment_mode: data.payment_mode,
-        shipment_mode: data.shipment_mode,
-        total_freight: data.total_freight,
-        expected_delivery_date: data.expected_delivery_date,
-        departure_date: data.departure_date,
-        departure_time: data.departure_time,
-        delivery_time: data.delivery_time,
-        package_description: data.package_description,
-        shipper_name: data.shipper_name,
-        shipper_phone: data.shipper_phone,
-        shipper_email: data.shipper_email,
-        shipper_address: data.shipper_address,
-        receiver_name: data.receiver_name,
-        receiver_phone: data.receiver_phone,
-        receiver_email: data.receiver_email,
-        receiver_address: data.receiver_address,
-        comment: data.comment,
-        image_url: data.image_url,
+        tracking_number: data.tracking_number || '',
+        status: data.status || '',
+        origin: data.origin || '',
+        destination: data.destination || '',
+        carrier: data.carrier || '',
+        carrier_reference: data.carrier_reference || '',
+        product: data.product || '',
+        type_of_shipment: data.type_of_shipment || '',
+        quantity: data.quantity || 0,
+        weight: data.weight || '',
+        payment_mode: data.payment_mode || '',
+        shipment_mode: data.shipment_mode || '',
+        total_freight: data.total_freight || '',
+        expected_delivery_date: data.expected_delivery_date || '',
+        departure_date: data.departure_date || '',
+        departure_time: data.departure_time || '',
+        delivery_time: data.delivery_time || '',
+        package_description: data.package_description || '',
+        shipper_name: data.shipper_name || '',
+        shipper_phone: data.shipper_phone || '',
+        shipper_email: data.shipper_email || '',
+        shipper_address: data.shipper_address || '',
+        receiver_name: data.receiver_name || '',
+        receiver_phone: data.receiver_phone || '',
+        receiver_email: data.receiver_email || '',
+        receiver_address: data.receiver_address || '',
+        comment: data.comment || '',
+        image_url: data.image_url || '',
         insurances: data.insurances || [],
         import_tax: data.import_tax || '',
         import_tax_paid: data.import_tax_paid || false,
@@ -459,20 +507,32 @@ export default function Admin() {
     }
   };
 
-  const handleDelete = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this shipment?')) return;
+  const handleDelete = (id: string, tracking_number: string) => {
+    setItemToDelete({ id, tracking_number });
+    setShowDeleteModal(true);
+  };
 
+  const confirmDelete = async () => {
+    if (!itemToDelete) return;
+    
+    setDeleting(true);
     try {
       const { error } = await supabase
-        .from('jongleur_maersk_shipments')
+        .from('tolito_chinecargologis_shipments')
         .delete()
-        .eq('id', id);
+        .eq('id', itemToDelete.id);
 
       if (error) throw error;
+      
+      setToast({ message: 'Expédition supprimée avec succès !', type: 'success' });
+      setShowDeleteModal(false);
+      setItemToDelete(null);
       fetchShipments();
-    } catch (err: unknown) {
-      const errorMessage = err instanceof Error ? err.message : 'Unknown error occurred';
-      setToast({ message: 'Error deleting shipment: ' + errorMessage, type: 'error' });
+    } catch (err: any) {
+      console.error('Delete error:', err);
+      setToast({ message: 'Erreur lors de la suppression : ' + (err.message || 'Erreur inconnue'), type: 'error' });
+    } finally {
+      setDeleting(false);
     }
   };
 
@@ -555,23 +615,30 @@ export default function Admin() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      <header className="bg-blue-600 text-white p-4 shadow-lg">
+    <div className="min-h-screen" style={{ background: 'var(--darker)' }}>
+      <header className="bg-gray-900 text-white p-4 shadow-xl border-b border-red-600/20">
         <div className="container mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <Package size={32} className="flex-shrink-0" />
-            {/* Desktop: Full title, Mobile: Just "Admin" */}
-            <h1 className="text-2xl font-bold hidden md:block">Shipment Admin Dashboard</h1>
-            <h1 className="text-2xl font-bold md:hidden">Admin</h1>
+            <div className="w-10 h-10 bg-red-600 rounded-lg flex items-center justify-center shadow-lg shadow-red-600/20">
+              <Package size={24} className="text-white" />
+            </div>
+            <h1 className="text-xl font-bold tracking-wider" style={{ fontFamily: 'Orbitron, sans-serif' }}>
+              DASHBOARD <span className="text-red-600">ADMIN</span>
+            </h1>
           </div>
-          {/* Desktop: Button with text, Mobile: Icon only */}
+          
           <button
             onClick={handleLogout}
-            className="flex items-center gap-2 bg-blue-700 hover:bg-blue-800 px-4 py-2 rounded-lg transition"
-            title="Logout"
+            disabled={loggingOut}
+            className="flex items-center gap-2 bg-white/5 hover:bg-red-600 px-3 md:px-4 py-2 rounded-lg transition-all duration-300 font-bold text-xs border border-white/10 hover:border-red-600 group disabled:opacity-50"
+            style={{ fontFamily: 'Rajdhani, sans-serif' }}
           >
-            <LogOut size={20} />
-            <span className="hidden md:inline">Logout</span>
+            {loggingOut ? (
+              <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+            ) : (
+              <LogOut size={16} className="text-red-500 group-hover:text-white transition-colors" />
+            )}
+            <span className="hidden md:inline">{loggingOut ? 'CONNEXION...' : 'DÉCONNEXION'}</span>
           </button>
         </div>
       </header>
@@ -583,28 +650,30 @@ export default function Admin() {
             <nav className="-mb-px flex gap-8">
               <button
                 onClick={() => setActiveTab('shipments')}
-                className={`py-4 px-1 border-b-2 font-medium text-sm transition ${
+                className={`py-4 px-1 border-b-2 font-bold text-xs uppercase tracking-widest transition-all duration-300 ${
                   activeTab === 'shipments'
-                    ? 'border-blue-600 text-blue-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    ? 'border-red-600 text-red-600'
+                    : 'border-transparent text-gray-500 hover:text-red-600 hover:border-red-600/30'
                 }`}
+                style={{ fontFamily: 'Rajdhani, sans-serif' }}
               >
                 <div className="flex items-center gap-2">
-                  <Package size={20} />
-                  Shipments Management
+                  <Package size={18} />
+                  <span>Expéditions</span>
                 </div>
               </button>
               <button
                 onClick={() => setActiveTab('settings')}
-                className={`py-4 px-1 border-b-2 font-medium text-sm transition ${
+                className={`py-4 px-1 border-b-2 font-bold text-xs uppercase tracking-widest transition-all duration-300 ${
                   activeTab === 'settings'
-                    ? 'border-blue-600 text-blue-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    ? 'border-red-600 text-red-600'
+                    : 'border-transparent text-gray-500 hover:text-red-600 hover:border-red-600/30'
                 }`}
+                style={{ fontFamily: 'Rajdhani, sans-serif' }}
               >
                 <div className="flex items-center gap-2">
-                  <Settings size={20} />
-                  Site Settings
+                  <Settings size={18} />
+                  <span>Paramètres du site</span>
                 </div>
               </button>
             </nav>
@@ -622,7 +691,7 @@ export default function Admin() {
                   setEditingId(null);
                   setShowForm(true);
                 }}
-                className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition"
+                className="flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg font-semibold transition"
                 title="Add New Shipment"
               >
                 <Plus size={20} />
@@ -632,7 +701,7 @@ export default function Admin() {
 
         {loading ? (
           <div className="text-center py-12">
-            <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+            <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-red-600"></div>
           </div>
         ) : (
           <div className="bg-white rounded-lg shadow-md overflow-hidden">
@@ -694,16 +763,16 @@ export default function Admin() {
                         </button>
                         <button
                           onClick={() => handleEdit(shipment.id)}
-                          className="text-blue-600 hover:text-blue-900 mr-4"
+                          className="text-red-600 hover:text-red-900 mr-4"
                         >
                           <Edit size={18} />
                         </button>
-                        <button
-                          onClick={() => handleDelete(shipment.id)}
-                          className="text-blue-600 hover:text-blue-900"
-                        >
-                          <Trash2 size={18} />
-                        </button>
+                          <button
+                            onClick={() => handleDelete(shipment.id, shipment.tracking_number)}
+                            className="text-red-600 hover:text-red-900"
+                          >
+                            <Trash2 size={18} />
+                          </button>
                       </td>
                     </tr>
                   ))}
@@ -714,7 +783,7 @@ export default function Admin() {
         )}
 
       {showForm && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 overflow-y-auto">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-[999] overflow-y-auto">
           <div className="bg-white rounded-lg shadow-xl max-w-4xl w-full my-8">
             <div className="flex items-center justify-between p-6 border-b border-gray-200">
               <h3 className="text-2xl font-bold text-gray-900">
@@ -743,7 +812,7 @@ export default function Admin() {
                     required
                     value={formData.tracking_number}
                     onChange={(e) => setFormData({ ...formData, tracking_number: e.target.value })}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
                   />
                 </div>
 
@@ -755,7 +824,7 @@ export default function Admin() {
                     type="text"
                     value={formData.status}
                     onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
                   />
                 </div>
 
@@ -770,7 +839,7 @@ export default function Admin() {
                     className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
                       formErrors.origin 
                         ? 'border-red-500 focus:ring-red-600' 
-                        : 'border-gray-300 focus:ring-blue-600'
+                        : 'border-gray-300 focus:ring-red-600'
                     }`}
                   />
                   {formErrors.origin && (
@@ -789,7 +858,7 @@ export default function Admin() {
                     className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
                       formErrors.destination 
                         ? 'border-red-500 focus:ring-red-600' 
-                        : 'border-gray-300 focus:ring-blue-600'
+                        : 'border-gray-300 focus:ring-red-600'
                     }`}
                   />
                   {formErrors.destination && (
@@ -808,7 +877,7 @@ export default function Admin() {
                     className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
                       formErrors.carrier 
                         ? 'border-red-500 focus:ring-red-600' 
-                        : 'border-gray-300 focus:ring-blue-600'
+                        : 'border-gray-300 focus:ring-red-600'
                     }`}
                   />
                   {formErrors.carrier && (
@@ -824,7 +893,7 @@ export default function Admin() {
                     type="text"
                     value={formData.carrier_reference}
                     onChange={(e) => setFormData({ ...formData, carrier_reference: e.target.value })}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
                   />
                 </div>
 
@@ -836,7 +905,7 @@ export default function Admin() {
                     type="text"
                     value={formData.product}
                     onChange={(e) => setFormData({ ...formData, product: e.target.value })}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
                   />
                 </div>
 
@@ -848,7 +917,7 @@ export default function Admin() {
                     type="text"
                     value={formData.type_of_shipment}
                     onChange={(e) => setFormData({ ...formData, type_of_shipment: e.target.value })}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
                   />
                 </div>
 
@@ -860,7 +929,7 @@ export default function Admin() {
                     type="number"
                     value={formData.quantity}
                     onChange={(e) => setFormData({ ...formData, quantity: parseInt(e.target.value) || 0 })}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
                   />
                 </div>
 
@@ -872,7 +941,7 @@ export default function Admin() {
                     type="text"
                     value={formData.weight}
                     onChange={(e) => setFormData({ ...formData, weight: e.target.value })}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
                   />
                 </div>
 
@@ -884,7 +953,7 @@ export default function Admin() {
                     type="text"
                     value={formData.payment_mode}
                     onChange={(e) => setFormData({ ...formData, payment_mode: e.target.value })}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
                   />
                 </div>
 
@@ -896,7 +965,7 @@ export default function Admin() {
                     type="text"
                     value={formData.shipment_mode}
                     onChange={(e) => setFormData({ ...formData, shipment_mode: e.target.value })}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
                   />
                 </div>
 
@@ -908,32 +977,46 @@ export default function Admin() {
                     type="text"
                     value={formData.total_freight}
                     onChange={(e) => setFormData({ ...formData, total_freight: e.target.value })}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
                   />
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Expected Delivery Date
+                    Expected Delivery Date *
                   </label>
                   <input
                     type="date"
                     value={formData.expected_delivery_date}
                     onChange={(e) => setFormData({ ...formData, expected_delivery_date: e.target.value })}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                    className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
+                      formErrors.expected_delivery_date 
+                        ? 'border-red-500 focus:ring-red-600' 
+                        : 'border-gray-300 focus:ring-red-600'
+                    }`}
                   />
+                  {formErrors.expected_delivery_date && (
+                    <p className="text-red-500 text-sm mt-1">{formErrors.expected_delivery_date}</p>
+                  )}
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Departure Date
+                    Departure Date *
                   </label>
                   <input
                     type="date"
                     value={formData.departure_date}
                     onChange={(e) => setFormData({ ...formData, departure_date: e.target.value })}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                    className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
+                      formErrors.departure_date 
+                        ? 'border-red-500 focus:ring-red-600' 
+                        : 'border-gray-300 focus:ring-red-600'
+                    }`}
                   />
+                  {formErrors.departure_date && (
+                    <p className="text-red-500 text-sm mt-1">{formErrors.departure_date}</p>
+                  )}
                 </div>
 
                 <div>
@@ -944,7 +1027,7 @@ export default function Admin() {
                     type="text"
                     value={formData.departure_time}
                     onChange={(e) => setFormData({ ...formData, departure_time: e.target.value })}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
                     placeholder="e.g., 13:30 AT"
                   />
                 </div>
@@ -957,7 +1040,7 @@ export default function Admin() {
                     type="text"
                     value={formData.delivery_time}
                     onChange={(e) => setFormData({ ...formData, delivery_time: e.target.value })}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
                     placeholder="e.g., 15:00"
                   />
                 </div>
@@ -977,7 +1060,7 @@ export default function Admin() {
                       className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
                         formErrors.shipper_name 
                           ? 'border-red-500 focus:ring-red-600' 
-                          : 'border-gray-300 focus:ring-blue-600'
+                          : 'border-gray-300 focus:ring-red-600'
                       }`}
                       pattern="[a-zA-ZÀ-ÿ\s'-]+"
                       title="Le nom ne doit contenir que des lettres"
@@ -998,7 +1081,7 @@ export default function Admin() {
                       className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
                         formErrors.shipper_phone 
                           ? 'border-red-500 focus:ring-red-600' 
-                          : 'border-gray-300 focus:ring-blue-600'
+                          : 'border-gray-300 focus:ring-red-600'
                       }`}
                       placeholder="+33 1 23 45 67 89"
                       pattern="[+]?[0-9\s\-()]+"
@@ -1020,7 +1103,7 @@ export default function Admin() {
                       className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
                         formErrors.shipper_email 
                           ? 'border-red-500 focus:ring-red-600' 
-                          : 'border-gray-300 focus:ring-blue-600'
+                          : 'border-gray-300 focus:ring-red-600'
                       }`}
                       placeholder="example@email.com"
                       required
@@ -1038,7 +1121,7 @@ export default function Admin() {
                       type="text"
                       value={formData.shipper_address}
                       onChange={(e) => setFormData({ ...formData, shipper_address: e.target.value })}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
                     />
                   </div>
                 </div>
@@ -1058,7 +1141,7 @@ export default function Admin() {
                       className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
                         formErrors.receiver_name 
                           ? 'border-red-500 focus:ring-red-600' 
-                          : 'border-gray-300 focus:ring-blue-600'
+                          : 'border-gray-300 focus:ring-red-600'
                       }`}
                       pattern="[a-zA-ZÀ-ÿ\s'-]+"
                       title="Le nom ne doit contenir que des lettres"
@@ -1079,7 +1162,7 @@ export default function Admin() {
                       className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
                         formErrors.receiver_phone 
                           ? 'border-red-500 focus:ring-red-600' 
-                          : 'border-gray-300 focus:ring-blue-600'
+                          : 'border-gray-300 focus:ring-red-600'
                       }`}
                       placeholder="+33 1 23 45 67 89"
                       pattern="[+]?[0-9\s\-()]+"
@@ -1101,7 +1184,7 @@ export default function Admin() {
                       className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
                         formErrors.receiver_email 
                           ? 'border-red-500 focus:ring-red-600' 
-                          : 'border-gray-300 focus:ring-blue-600'
+                          : 'border-gray-300 focus:ring-red-600'
                       }`}
                       placeholder="example@email.com"
                       required
@@ -1119,7 +1202,7 @@ export default function Admin() {
                       type="text"
                       value={formData.receiver_address}
                       onChange={(e) => setFormData({ ...formData, receiver_address: e.target.value })}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
                     />
                   </div>
                 </div>
@@ -1135,7 +1218,7 @@ export default function Admin() {
                       value={formData.comment}
                       onChange={(e) => setFormData({ ...formData, comment: e.target.value })}
                       rows={3}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
                     />
                   </div>
 
@@ -1143,25 +1226,39 @@ export default function Admin() {
                   <div className="grid grid-cols-2 gap-6">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Status Date
+                        Status Date *
                       </label>
                       <input
                         type="date"
                         value={formData.status_date}
                         onChange={(e) => setFormData({ ...formData, status_date: e.target.value })}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                        className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
+                          formErrors.status_date 
+                            ? 'border-red-500 focus:ring-red-600' 
+                            : 'border-gray-300 focus:ring-red-600'
+                        }`}
                       />
+                      {formErrors.status_date && (
+                        <p className="text-red-500 text-sm mt-1">{formErrors.status_date}</p>
+                      )}
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Status Time
+                        Status Time *
                       </label>
                       <input
                         type="time"
                         value={formData.status_time}
                         onChange={(e) => setFormData({ ...formData, status_time: e.target.value })}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                        className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
+                          formErrors.status_time 
+                            ? 'border-red-500 focus:ring-red-600' 
+                            : 'border-gray-300 focus:ring-red-600'
+                        }`}
                       />
+                      {formErrors.status_time && (
+                        <p className="text-red-500 text-sm mt-1">{formErrors.status_time}</p>
+                      )}
                     </div>
                   </div>
 
@@ -1173,7 +1270,7 @@ export default function Admin() {
                     <select
                       value={formData.tracking_stage}
                       onChange={(e) => setFormData({ ...formData, tracking_stage: e.target.value })}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
                     >
                       <option value="picked_up">Picked Up</option>
                       <option value="in_transit">In Transit</option>
@@ -1193,7 +1290,7 @@ export default function Admin() {
                       max="100"
                       value={formData.tracking_progress}
                       onChange={(e) => setFormData({ ...formData, tracking_progress: parseInt(e.target.value) || 0 })}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
                     />
                   </div>
 
@@ -1215,7 +1312,7 @@ export default function Admin() {
                                 newInsurances[index].name = e.target.value;
                                 setFormData({ ...formData, insurances: newInsurances });
                               }}
-                              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 mb-2"
+                              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600 mb-2"
                             />
                             <input
                               type="text"
@@ -1226,7 +1323,7 @@ export default function Admin() {
                                 newInsurances[index].amount = e.target.value;
                                 setFormData({ ...formData, insurances: newInsurances });
                               }}
-                              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
                             />
                             <label className="flex items-center gap-2 mt-2">
                               <input
@@ -1237,7 +1334,7 @@ export default function Admin() {
                                   newInsurances[index].paid = e.target.checked;
                                   setFormData({ ...formData, insurances: newInsurances });
                                 }}
-                                className="rounded border-gray-300 text-blue-600 focus:ring-blue-600"
+                                className="rounded border-gray-300 text-red-600 focus:ring-red-600"
                               />
                               <span className="text-sm text-gray-700">Paid</span>
                             </label>
@@ -1248,7 +1345,7 @@ export default function Admin() {
                               const newInsurances = formData.insurances.filter((_, i) => i !== index);
                               setFormData({ ...formData, insurances: newInsurances });
                             }}
-                            className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition"
+                            className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition"
                           >
                             <X size={20} />
                           </button>
@@ -1262,7 +1359,7 @@ export default function Admin() {
                             insurances: [...formData.insurances, { name: '', amount: '', paid: false }]
                           });
                         }}
-                        className="w-full px-4 py-2 border-2 border-dashed border-gray-300 rounded-lg text-gray-600 hover:border-blue-600 hover:text-blue-600 transition"
+                        className="w-full px-4 py-2 border-2 border-dashed border-gray-300 rounded-lg text-gray-600 hover:border-red-600 hover:text-red-600 transition"
                       >
                         + Add Insurance
                       </button>
@@ -1280,14 +1377,14 @@ export default function Admin() {
                         placeholder="e.g., 150000 CFA"
                         value={formData.import_tax}
                         onChange={(e) => setFormData({ ...formData, import_tax: e.target.value })}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
                       />
                       <label className="flex items-center gap-2">
                         <input
                           type="checkbox"
                           checked={formData.import_tax_paid}
                           onChange={(e) => setFormData({ ...formData, import_tax_paid: e.target.checked })}
-                          className="rounded border-gray-300 text-blue-600 focus:ring-blue-600"
+                          className="rounded border-gray-300 text-red-600 focus:ring-red-600"
                         />
                         <span className="text-sm text-gray-700">Import Tax Paid</span>
                       </label>
@@ -1300,7 +1397,7 @@ export default function Admin() {
                     </label>
                     <div className="space-y-4">
                       <div className="flex items-center gap-4">
-                        <label className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg cursor-pointer hover:bg-blue-700 transition">
+                        <label className="flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg cursor-pointer hover:bg-red-700 transition">
                           <Upload size={20} />
                           {uploadingImage ? 'Uploading...' : 'Upload Image'}
                           <input
@@ -1313,7 +1410,7 @@ export default function Admin() {
                         </label>
                         {uploadingImage && (
                           <div className="flex items-center gap-2 text-sm text-gray-600">
-                            <svg className="animate-spin h-4 w-4 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <svg className="animate-spin h-4 w-4 text-red-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                             </svg>
@@ -1335,7 +1432,7 @@ export default function Admin() {
                               setImagePreview(null);
                               setFormData({ ...formData, image_url: '' });
                             }}
-                            className="absolute top-2 right-2 bg-blue-600 text-white p-1 rounded-full hover:bg-blue-700"
+                            className="absolute top-2 right-2 bg-red-600 text-white p-1 rounded-full hover:bg-red-700"
                           >
                             <X size={16} />
                           </button>
@@ -1366,7 +1463,7 @@ export default function Admin() {
                 <button
                   type="submit"
                   disabled={saving || uploadingImage}
-                  className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                  className="px-6 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-semibold transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
                 >
                   {saving ? (
                     <>
@@ -1404,8 +1501,8 @@ export default function Admin() {
                     type="text"
                     value={siteSettings.company_name}
                     onChange={(e) => setSiteSettings({ ...siteSettings, company_name: e.target.value })}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-                    placeholder="Jongleur Maersk"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
+                    placeholder="Chine Cargo Logis"
                   />
                 </div>
 
@@ -1417,8 +1514,8 @@ export default function Admin() {
                     type="email"
                     value={siteSettings.site_email}
                     onChange={(e) => setSiteSettings({ ...siteSettings, site_email: e.target.value })}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-                    placeholder="contact@maersk-cargo.com"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
+                    placeholder="contact@chinecargologis.com"
                   />
                 </div>
 
@@ -1430,8 +1527,8 @@ export default function Admin() {
                     type="email"
                     value={siteSettings.support_email}
                     onChange={(e) => setSiteSettings({ ...siteSettings, support_email: e.target.value })}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-                    placeholder="support@jongleurmaersk.com"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
+                    placeholder="support@chinecargologis.com"
                   />
                 </div>
 
@@ -1443,7 +1540,7 @@ export default function Admin() {
                     type="tel"
                     value={siteSettings.site_phone}
                     onChange={(e) => setSiteSettings({ ...siteSettings, site_phone: e.target.value })}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
                     placeholder="+86 123 456 7890"
                   />
                 </div>
@@ -1456,7 +1553,7 @@ export default function Admin() {
                     type="text"
                     value={siteSettings.site_address}
                     onChange={(e) => setSiteSettings({ ...siteSettings, site_address: e.target.value })}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
                     placeholder="Hong Kong"
                   />
                 </div>
@@ -1469,7 +1566,7 @@ export default function Admin() {
                     value={siteSettings.company_description}
                     onChange={(e) => setSiteSettings({ ...siteSettings, company_description: e.target.value })}
                     rows={4}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
                     placeholder="Brief description of your company..."
                   />
                 </div>
@@ -1479,7 +1576,7 @@ export default function Admin() {
                 <button
                   onClick={saveSiteSettings}
                   disabled={savingSettings}
-                  className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                  className="px-6 py-3 bg-red-600 hover:bg-red-700 text-white rounded-lg font-semibold transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
                 >
                   {savingSettings ? (
                     <>
@@ -1501,7 +1598,7 @@ export default function Admin() {
 
       {/* Success Modal */}
       {showSuccessModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[999] p-4">
           <div className="bg-white rounded-lg shadow-2xl max-w-md w-full p-8">
             <div className="text-center">
               <div className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-100 mb-4">
@@ -1512,9 +1609,9 @@ export default function Admin() {
               <h3 className="text-2xl font-bold text-gray-900 mb-2">Shipment Created!</h3>
               <p className="text-gray-600 mb-6">Your shipment has been successfully created.</p>
               
-              <div className="bg-blue-50 border-2 border-blue-200 rounded-lg p-4 mb-6">
+              <div className="bg-red-50 border-2 border-red-200 rounded-lg p-4 mb-6">
                 <p className="text-sm font-medium text-gray-700 mb-2">Tracking Number:</p>
-                <p className="text-2xl font-bold text-blue-600 select-all">{newTrackingNumber}</p>
+                <p className="text-2xl font-bold text-red-600 select-all">{newTrackingNumber}</p>
               </div>
 
               <p className="text-sm text-gray-500 mb-6">
@@ -1533,7 +1630,7 @@ export default function Admin() {
                 </button>
                 <button
                   onClick={() => setShowSuccessModal(false)}
-                  className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-medium"
+                  className="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition font-medium"
                 >
                   Close
                 </button>
@@ -1545,7 +1642,7 @@ export default function Admin() {
 
       {/* WhatsApp Modal */}
       {showWhatsAppModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[999] p-4">
           <div className="bg-white rounded-lg shadow-2xl max-w-md w-full p-8">
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-2xl font-bold text-gray-900">Envoyer via WhatsApp</h3>
@@ -1640,6 +1737,53 @@ export default function Admin() {
         </div>
       )}
 
+      {/* Delete Confirmation Modal */}
+      {showDeleteModal && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-[999] animate-in fade-in duration-300">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden border border-gray-100 animate-in zoom-in-95 duration-300">
+            <div className="p-8 text-center">
+              <div className="w-20 h-20 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-6">
+                <AlertTriangle className="text-red-600" size={40} />
+              </div>
+              <h3 className="text-2xl font-bold text-gray-900 mb-2">Supprimer l'expédition ?</h3>
+              <p className="text-gray-500 mb-8 leading-relaxed">
+                Êtes-vous sûr de vouloir supprimer l'expédition <span className="font-bold text-gray-900">{itemToDelete?.tracking_number}</span> ? Cette action est irréversible.
+              </p>
+              
+              <div className="flex gap-4">
+                <button
+                  onClick={() => {
+                    setShowDeleteModal(false);
+                    setItemToDelete(null);
+                  }}
+                  disabled={deleting}
+                  className="flex-1 px-6 py-3 border border-gray-200 rounded-xl text-gray-600 font-bold hover:bg-gray-50 transition-all disabled:opacity-50"
+                >
+                  Annuler
+                </button>
+                <button
+                  onClick={confirmDelete}
+                  disabled={deleting}
+                  className="flex-1 px-6 py-3 bg-red-600 text-white rounded-xl font-bold hover:bg-red-700 shadow-lg shadow-red-600/20 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+                >
+                  {deleting ? (
+                    <>
+                      <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                      <span>Suppression...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Trash2 size={18} />
+                      <span>Supprimer</span>
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Toast Notification */}
       {toast && (
         <Toast
@@ -1647,6 +1791,20 @@ export default function Admin() {
           type={toast.type}
           onClose={() => setToast(null)}
         />
+      )}
+      {/* Global Logout Loader */}
+      {loggingOut && (
+        <div className="fixed inset-0 bg-gray-900/80 backdrop-blur-md flex flex-col items-center justify-center z-[1000] animate-fade-in">
+          <div className="w-16 h-16 bg-red-600 rounded-2xl flex items-center justify-center shadow-2xl shadow-red-600/30 mb-6 animate-bounce">
+            <Package size={32} className="text-white" />
+          </div>
+          <div className="text-white text-xl font-bold tracking-[0.2em] mb-2" style={{ fontFamily: 'Orbitron, sans-serif' }}>
+            DÉCONNEXION
+          </div>
+          <div className="w-48 h-1 bg-white/10 rounded-full overflow-hidden">
+            <div className="h-full bg-red-600 animate-progress-fast"></div>
+          </div>
+        </div>
       )}
     </div>
   );

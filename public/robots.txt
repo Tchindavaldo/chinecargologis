@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://www.chinelogistique.com/sitemap.xml
+Sitemap: https://www.chinecargologis.com/sitemap.xml
 
 # Explicitly allow favicon and icon files
 Allow: /favicon.ico
@@ -20,6 +20,8 @@ Allow: /about
 Allow: /services
 Allow: /contact
 Allow: /track
+Allow: /blog
+Allow: /network
 Allow: /terms-and-conditions
 
 # Crawl delay

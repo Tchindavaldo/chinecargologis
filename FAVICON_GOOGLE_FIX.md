@@ -74,7 +74,7 @@ git push
 **C'est tout !** 🎉 Vercel va automatiquement :
 1. Détecter votre push
 2. Exécuter `npm run build`
-3. Déployer sur `chinelogistique.com`
+3. Déployer sur `chinecargologis.com`
 4. Appliquer les règles de `vercel.json`
 
 #### Étape 2 : Vérifier le déploiement
@@ -87,9 +87,9 @@ Vous devriez voir le déploiement réussir avec un statut "Ready".
 
 **Option A - Navigateur (le plus simple)** :
 Ouvrez ces URLs dans votre navigateur :
-- `https://chinelogistique.com/favicon.ico` → doit montrer l'icône
-- `https://chinelogistique.com/sitemap.xml` → doit montrer le XML
-- `https://chinelogistique.com/robots.txt` → doit montrer le fichier texte
+- `https://chinecargologis.com/favicon.ico` → doit montrer l'icône
+- `https://chinecargologis.com/sitemap.xml` → doit montrer le XML
+- `https://chinecargologis.com/robots.txt` → doit montrer le fichier texte
 
 **Option B - Script de test** :
 ```bash
@@ -98,9 +98,9 @@ bash test-static-files.sh
 
 **Option C - Commandes curl** :
 ```bash
-curl -I https://chinelogistique.com/favicon.ico
-curl -I https://chinelogistique.com/sitemap.xml
-curl -I https://chinelogistique.com/robots.txt
+curl -I https://chinecargologis.com/favicon.ico
+curl -I https://chinecargologis.com/sitemap.xml
+curl -I https://chinecargologis.com/robots.txt
 ```
 
 ✅ **Résultat attendu** : Tous les fichiers doivent retourner **HTTP 200 OK**
@@ -111,24 +111,24 @@ curl -I https://chinelogistique.com/robots.txt
 
 ### 1. Google Search Console
 1. Connectez-vous à [Google Search Console](https://search.google.com/search-console)
-2. Sélectionnez votre propriété `chinelogistique.com`
+2. Sélectionnez votre propriété `chinecargologis.com`
 3. Allez dans **Couverture** ou **Pages**
 4. Vérifiez s'il y a des erreurs liées aux favicons
 
 ### 2. Test de l'URL du favicon
 Testez ces URLs pour vérifier qu'elles sont accessibles :
-- `https://chinelogistique.com/favicon.ico`
-- `https://chinelogistique.com/favicon-32x32.png`
-- `https://chinelogistique.com/icon.svg`
+- `https://chinecargologis.com/favicon.ico`
+- `https://chinecargologis.com/favicon-32x32.png`
+- `https://chinecargologis.com/icon.svg`
 
 ### 3. Demander une réindexation
 1. Dans Google Search Console, allez dans **Inspection d'URL**
-2. Entrez votre URL principale : `https://chinelogistique.com`
+2. Entrez votre URL principale : `https://chinecargologis.com`
 3. Cliquez sur **Demander une indexation**
 
 ### 4. Soumettre le sitemap
 1. Dans Google Search Console, allez dans **Sitemaps**
-2. Soumettez : `https://chinelogistique.com/sitemap.xml`
+2. Soumettez : `https://chinecargologis.com/sitemap.xml`
 
 ### 5. Vérification avec les outils Google
 - Utilisez l'outil [Rich Results Test](https://search.google.com/test/rich-results) pour tester votre page
@@ -164,10 +164,10 @@ Vos fichiers actuels sont corrects :
 ## Commandes utiles pour tester
 ```bash
 # Tester l'accessibilité du favicon
-curl -I https://chinelogistique.com/favicon.ico
+curl -I https://chinecargologis.com/favicon.ico
 
 # Vérifier les headers HTTP
-curl -H "User-Agent: Googlebot" https://chinelogistique.com/favicon.ico
+curl -H "User-Agent: Googlebot" https://chinecargologis.com/favicon.ico
 ```
 
 ## 📝 Checklist complète pour Vercel
@@ -177,9 +177,9 @@ curl -H "User-Agent: Googlebot" https://chinelogistique.com/favicon.ico
 - [ ] Modifications commitées : `git add . && git commit -m "Fix favicon et sitemap"`
 - [ ] Push vers GitHub/GitLab : `git push`
 - [ ] Déploiement Vercel réussi (vérifier sur dashboard Vercel)
-- [ ] Test navigateur : `https://chinelogistique.com/favicon.ico` accessible
-- [ ] Test navigateur : `https://chinelogistique.com/sitemap.xml` accessible
-- [ ] Test navigateur : `https://chinelogistique.com/robots.txt` accessible
+- [ ] Test navigateur : `https://chinecargologis.com/favicon.ico` accessible
+- [ ] Test navigateur : `https://chinecargologis.com/sitemap.xml` accessible
+- [ ] Test navigateur : `https://chinecargologis.com/robots.txt` accessible
 - [ ] (Optionnel) Script de test : `bash test-static-files.sh`
 - [ ] Favicon visible dans l'onglet du navigateur
 

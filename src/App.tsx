@@ -9,10 +9,13 @@ import Admin from './pages/Admin';
 import Blog from './pages/Blog';
 import Network from './pages/Network';
 import TermsAndConditions from './pages/TermsAndConditions';
-
+import CustomCursor from './components/CustomCursor';
+import ScrollToTop from './components/ScrollToTop';
 function App() {
   return (
     <Router>
+      <ScrollToTop />
+      <CustomCursor />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />

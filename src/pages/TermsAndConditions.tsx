@@ -1,184 +1,172 @@
-import { FileText, ShieldCheck, Lock, Globe, Scale, Phone, Mail } from 'lucide-react';
+import { FileText, ShieldCheck, Lock, Globe, Scale, Phone, Mail, ChevronRight } from 'lucide-react';
 import SEO from '../components/SEO';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import { Link } from 'react-router-dom';
 
 export default function TermsAndConditions() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen" style={{ background: 'var(--dark)', color: 'var(--text)' }}>
       <SEO
-        title="Conditions Générales - Jongleur Maersk"
-        description="Consultez les conditions générales d'utilisation et de services de Jongleur Maersk. Transparence, conformité et responsabilités." 
-        keywords="conditions générales, termes et conditions, jongleurmaersk, politique d'utilisation"
-        canonical="https://jongleurmaersk.com/terms-and-conditions"
+        title="Conditions Générales - Chine Cargo Logis"
+        description="Consultez les conditions générales d'utilisation et de services de Chine Cargo Logis. Transparence, conformité et responsabilités." 
+        keywords="conditions générales, termes et conditions, china delivery express, politique d'utilisation"
+        canonical="https://chinecargologis.com/terms"
       />
       <Header />
 
-      <section className="relative bg-blue-600 text-white py-24 overflow-hidden">
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{
-            backgroundImage: 'url(https://images.unsplash.com/photo-1505839673365-e3971f8d9184?q=80&w=2100)'
-          }}
-        >
-          <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-black/30" />
-        </div>
-
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-4xl">
-            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full mb-4 text-sm font-medium">
-              <FileText size={16} className="text-white" />
-              <span>Conditions Générales</span>
-            </div>
-            <h1 className="text-5xl md:text-6xl font-bold mb-4 leading-tight">
-              Termes & Conditions d'Utilisation
-            </h1>
-            <p className="text-xl text-blue-100 mb-6 max-w-3xl">
-              Merci de lire attentivement ces conditions générales qui régissent l'utilisation de notre site web et de nos services logistiques internationaux.
-            </p>
-            <div className="flex flex-wrap items-center gap-3 text-sm md:text-base text-blue-100">
-              <span className="font-medium">Dernière mise à jour : 05 novembre 2025</span>
-              <span className="hidden md:inline">•</span>
-              <span className="font-medium">Jongleur Maersk SARL</span>
-            </div>
+      {/* HERO SECTION */}
+      <section className="hero" style={{ minHeight: '50vh' }}>
+        <div className="hero-img-bg" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1505839673365-e3971f8d9184?q=80&w=2100')" }}></div>
+        <div className="hero-overlay"></div>
+        <div className="hero-overlay2"></div>
+        
+        <div className="hero-content">
+          <div className="hero-badge">⚖ Juridique</div>
+          <h1 className="animate-fade-in-up">
+            Termes & <em>Conditions</em>
+          </h1>
+          <p className="hero-sub animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+            Transparence, conformité et cadre légal de nos services logistiques mondiaux.
+          </p>
+          
+          <div className="flex items-center gap-3 text-sm font-medium text-gray-500 mt-8">
+            <Link to="/" className="hover:text-red-600 transition-colors font-semibold">Accueil</Link>
+            <ChevronRight size={14} />
+            <span className="text-red-500 font-semibold">Conditions Générales</span>
           </div>
         </div>
-
-        <div className="absolute -bottom-12 -right-12 w-72 h-72 bg-white/5 rounded-full blur-3xl" />
-        <div className="absolute top-16 -left-16 w-56 h-56 bg-white/5 rounded-full blur-3xl" />
       </section>
 
-      <main className="py-20 bg-white">
+      <main className="py-24" style={{ background: 'var(--darker)' }}>
         <div className="container mx-auto px-4 max-w-6xl">
-          <section className="mb-16">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="p-6 bg-gray-50 border border-gray-200 rounded-xl shadow-sm">
-                <ShieldCheck className="text-blue-600 mb-4" size={36} />
-                <h2 className="text-xl font-bold mb-2">Confiance & Transparence</h2>
-                <p className="text-gray-600 text-sm leading-relaxed">
-                  Nous nous engageons à fournir des informations claires sur nos services, tarifs, délais et politiques afin de garantir une relation durable avec nos clients.
+          
+          {/* Key Principles */}
+          <section className="mb-24 animate-reveal">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="bg-white p-10 border border-gray-100 shadow-xl rounded-2xl">
+                <ShieldCheck className="text-red-600 mb-6" size={42} />
+                <h2 className="text-xl font-bold mb-4 text-gray-900" style={{ fontFamily: 'Orbitron, sans-serif' }}>Confiance</h2>
+                <p className="text-gray-500 text-sm leading-relaxed">
+                  Nous nous engageons à fournir des informations claires sur nos services, tarifs et délais afin de garantir une relation durable.
                 </p>
               </div>
-              <div className="p-6 bg-gray-50 border border-gray-200 rounded-xl shadow-sm">
-                <Lock className="text-blue-600 mb-4" size={36} />
-                <h2 className="text-xl font-bold mb-2">Protection des Données</h2>
-                <p className="text-gray-600 text-sm leading-relaxed">
-                  Toutes les données collectées sont traitées conformément aux réglementations en vigueur (RGPD) et utilisées uniquement pour la gestion de vos expéditions.
+              <div className="bg-white p-10 border border-gray-100 shadow-xl rounded-2xl">
+                <Lock className="text-red-600 mb-6" size={42} />
+                <h2 className="text-xl font-bold mb-4 text-gray-900" style={{ fontFamily: 'Orbitron, sans-serif' }}>Sécurité</h2>
+                <p className="text-gray-500 text-sm leading-relaxed">
+                  Toutes les données sont traitées conformément au RGPD et utilisées uniquement pour la gestion de vos expéditions mondiales.
                 </p>
               </div>
-              <div className="p-6 bg-gray-50 border border-gray-200 rounded-xl shadow-sm">
-                <Globe className="text-blue-600 mb-4" size={36} />
-                <h2 className="text-xl font-bold mb-2">Responsabilité Globale</h2>
-                <p className="text-gray-600 text-sm leading-relaxed">
-                  Nos services couvrent plus de 200 pays avec des standards de qualité uniformes et des partenaires soigneusement sélectionnés.
+              <div className="bg-white p-10 border border-gray-100 shadow-xl rounded-2xl">
+                <Globe className="text-red-600 mb-6" size={42} />
+                <h2 className="text-xl font-bold mb-4 text-gray-900" style={{ fontFamily: 'Orbitron, sans-serif' }}>Globalité</h2>
+                <p className="text-gray-500 text-sm leading-relaxed">
+                  Nos services couvrent plus de 180 pays avec des standards de qualité uniformes et des partenaires certifiés.
                 </p>
               </div>
             </div>
           </section>
 
+          {/* Legal Articles */}
           <section className="space-y-12">
-            <article className="bg-white border border-gray-200 rounded-2xl shadow-sm p-8">
-              <header className="flex items-center gap-3 mb-6">
-                <Scale className="text-blue-600" size={32} />
-                <div>
-                  <h3 className="text-2xl font-semibold">1. Acceptation des Conditions</h3>
-                  <p className="text-gray-500 text-sm">Application à tous les utilisateurs et clients de Jongleur Maersk</p>
+            {[
+              {
+                icon: <Scale className="text-red-600" size={32} />,
+                title: "1. Acceptation des Conditions",
+                subtitle: "Application à tous les utilisateurs de Chine Cargo Logis",
+                content: "En accédant à notre plateforme ou en utilisant nos services, vous acceptez pleinement ces conditions générales. Si vous n'êtes pas d'accord, veuillez ne pas utiliser nos services.",
+                list: [
+                  "Les conditions peuvent être mises à jour sans préavis.",
+                  "Les clients professionnels peuvent signer un contrat spécifique.",
+                  "La version française des conditions fait foi en cas de litige."
+                ]
+              },
+              {
+                icon: <FileText className="text-red-600" size={32} />,
+                title: "2. Prestations Logistiques",
+                subtitle: "Description des services logistiques fournis",
+                content: "Chine Cargo Logis offre des services de transport international, de dédouanement et de stockage. Chaque prestation est encadrée par des procédures certifiées.",
+                list: [
+                  "Les délais sont donnés à titre indicatif selon les formalités douanières.",
+                  "Les marchandises prohibées nécessitent une validation préalable.",
+                  "Des assurances complémentaires sont proposées sur demande."
+                ]
+              },
+              {
+                icon: <Lock className="text-red-600" size={32} />,
+                title: "3. Confidentialité & Données",
+                subtitle: "Traitement sécurisé des informations",
+                content: "Nous limitons la collecte des données aux informations nécessaires au traitement et à la conformité légale de vos envois internationaux.",
+                list: [
+                  "Conformité totale au RGPD.",
+                  "Accès restreint aux données par le personnel habilité.",
+                  "Droits de modification et de suppression sur simple demande."
+                ]
+              },
+              {
+                icon: <Globe className="text-red-600" size={32} />,
+                title: "4. Responsabilités",
+                subtitle: "Engagements et limites de responsabilité",
+                content: "Notre responsabilité est limitée conformément aux conventions internationales de transport en vigueur.",
+                list: [
+                  "Exactitude impérative des informations fournies par le client.",
+                  "Tentative de résolution amiable privilégiée en cas de litige.",
+                  "Compétence exclusive des tribunaux du siège social."
+                ]
+              }
+            ].map((article, idx) => (
+              <article key={idx} className="bg-white border border-gray-100 shadow-xl rounded-2xl p-10 animate-reveal" style={{ animationDelay: `${idx * 0.1}s` }}>
+                <header className="flex items-center gap-6 mb-8">
+                  <div className="w-14 h-14 bg-red-50 flex items-center justify-center border border-red-100 rounded-xl">
+                    {article.icon}
+                  </div>
+                  <div>
+                    <h3 className="text-2xl font-bold text-gray-900 mb-1" style={{ fontFamily: 'Orbitron, sans-serif' }}>{article.title}</h3>
+                    <p className="text-red-600 text-xs font-bold tracking-widest uppercase" style={{ fontFamily: 'Rajdhani, sans-serif' }}>{article.subtitle}</p>
+                  </div>
+                </header>
+                <div className="space-y-6">
+                  <p className="text-gray-600 leading-relaxed text-lg font-medium">{article.content}</p>
+                  <ul className="space-y-3">
+                    {article.list.map((item, i) => (
+                      <li key={i} className="flex items-start gap-4 text-gray-500 text-sm font-medium">
+                        <span className="text-red-600 font-bold mt-1">▶</span>
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-              </header>
-              <div className="space-y-4 text-gray-600 leading-relaxed">
-                <p>
-                  En accédant à notre plateforme ou en utilisant nos services, vous acceptez pleinement ces conditions générales. Si vous n'êtes pas d'accord, veuillez ne pas utiliser nos services.
-                </p>
-                <ul className="list-disc pl-6 space-y-2">
-                  <li>Les conditions peuvent être mises à jour sans préavis, la version la plus récente prévalant.</li>
-                  <li>Les clients professionnels peuvent signer un contrat spécifique complétant ces conditions.</li>
-                  <li>Les traductions sont fournies à titre informatif ; la version française fait foi.</li>
-                </ul>
-              </div>
-            </article>
-
-            <article className="bg-white border border-gray-200 rounded-2xl shadow-sm p-8">
-              <header className="flex items-center gap-3 mb-6">
-                <FileText className="text-blue-600" size={32} />
-                <div>
-                  <h3 className="text-2xl font-semibold">2. Prestations Logistiques</h3>
-                  <p className="text-gray-500 text-sm">Description des services fournis par Jongleur Maersk</p>
-                </div>
-              </header>
-              <div className="space-y-4 text-gray-600 leading-relaxed">
-                <p>
-                  Jongleur Maersk offre des services de transport international, de dédouanement, de stockage et de conseil logistique. Chaque prestation est encadrée par des procédures internes certifiées.
-                </p>
-                <ul className="list-disc pl-6 space-y-2">
-                  <li>Les délais sont donnés à titre indicatif et peuvent varier selon les formalités douanières.</li>
-                  <li>Les marchandises prohibées ou dangereuses nécessitent une validation préalable.</li>
-                  <li>Les assurances complémentaires peuvent être proposées sur demande.</li>
-                </ul>
-              </div>
-            </article>
-
-            <article className="bg-white border border-gray-200 rounded-2xl shadow-sm p-8">
-              <header className="flex items-center gap-3 mb-6">
-                <Lock className="text-blue-600" size={32} />
-                <div>
-                  <h3 className="text-2xl font-semibold">3. Confidentialité & Données</h3>
-                  <p className="text-gray-500 text-sm">Traitement sécurisé et confidentialité</p>
-                </div>
-              </header>
-              <div className="space-y-4 text-gray-600 leading-relaxed">
-                <p>
-                  Nous limitons la collecte des données aux informations nécessaires au traitement des expéditions et à la conformité légale. Les données sont conservées pour la durée strictement nécessaire.
-                </p>
-                <ul className="list-disc pl-6 space-y-2">
-                  <li>Conformité totale au RGPD avec délégué à la protection des données.</li>
-                  <li>Accès restreint aux données personnelles aux seuls employés habilités.</li>
-                  <li>Possibilité de demander l'effacement ou la portabilité de vos données via notre support.</li>
-                </ul>
-              </div>
-            </article>
-
-            <article className="bg-white border border-gray-200 rounded-2xl shadow-sm p-8">
-              <header className="flex items-center gap-3 mb-6">
-                <Globe className="text-blue-600" size={32} />
-                <div>
-                  <h3 className="text-2xl font-semibold">4. Responsabilités & Limites</h3>
-                  <p className="text-gray-500 text-sm">Engagements de Jongleur Maersk et obligations du client</p>
-                </div>
-              </header>
-              <div className="space-y-4 text-gray-600 leading-relaxed">
-                <p>
-                  Jongleur Maersk s'engage à mettre en œuvre tous les moyens nécessaires pour le bon acheminement des marchandises. Notre responsabilité est limitée conformément aux conventions internationales en vigueur.
-                </p>
-                <ul className="list-disc pl-6 space-y-2">
-                  <li>Le client doit fournir des informations exactes sur la nature, le poids et la valeur des marchandises.</li>
-                  <li>En cas de litige, les parties privilégient la résolution amiable avant toute action judiciaire.</li>
-                  <li>Les tribunaux compétents sont ceux du siège social de Jongleur Maersk.</li>
-                </ul>
-              </div>
-            </article>
+              </article>
+            ))}
           </section>
 
-          <section className="mt-16 bg-gray-50 border border-gray-200 rounded-2xl p-8">
-            <h3 className="text-2xl font-semibold mb-4">Contact & Support</h3>
-            <p className="text-gray-600 mb-6 leading-relaxed">
-              Pour toute question relative à ces conditions ou pour exercer vos droits, notre équipe est à votre disposition. Nous répondons généralement sous 24 heures ouvrées.
+          {/* Contact Support */}
+          <section className="mt-24 bg-white p-12 border border-gray-100 shadow-2xl rounded-3xl animate-reveal">
+            <h3 className="text-2xl font-bold text-gray-900 mb-6" style={{ fontFamily: 'Orbitron, sans-serif' }}>Contact & Support Juridique</h3>
+            <p className="text-gray-500 mb-10 leading-relaxed text-lg">
+              Pour toute question relative à ces conditions ou pour exercer vos droits, notre équipe juridique est à votre disposition.
             </p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="flex items-center gap-3 bg-white border border-gray-200 rounded-xl p-4 shadow-sm">
-                <Phone className="text-blue-600" size={28} />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="flex items-center gap-5 bg-gray-50 p-6 border border-gray-100 rounded-2xl hover:border-red-600 transition-all group">
+                <div className="w-12 h-12 bg-red-50 flex items-center justify-center border border-red-100 rounded-xl group-hover:bg-red-600 group-hover:text-white transition-all">
+                  <Phone size={20} className="text-red-600 group-hover:text-white" />
+                </div>
                 <div>
-                  <div className="text-sm text-gray-500">Service Client</div>
-                  <a href="tel:+85252089745" className="text-lg font-semibold text-gray-900 hover:text-blue-600 transition">
-                    +85 252 089 745
+                  <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Service Client</div>
+                  <a href="tel:+33100000000" className="text-lg font-bold text-gray-900 hover:text-red-600 transition-all font-orbit">
+                    +33 1 XX XX XX XX
                   </a>
                 </div>
               </div>
-              <div className="flex items-center gap-3 bg-white border border-gray-200 rounded-xl p-4 shadow-sm">
-                <Mail className="text-blue-600" size={28} />
+              <div className="flex items-center gap-5 bg-gray-50 p-6 border border-gray-100 rounded-2xl hover:border-red-600 transition-all group">
+                <div className="w-12 h-12 bg-red-50 flex items-center justify-center border border-red-100 rounded-xl group-hover:bg-red-600 group-hover:text-white transition-all">
+                  <Mail size={20} className="text-red-600 group-hover:text-white" />
+                </div>
                 <div>
-                  <div className="text-sm text-gray-500">Assistance Email</div>
-                  <a href="mailto:info@jongleurmaersk.com" className="text-lg font-semibold text-gray-900 hover:text-blue-600 transition">
-                    info@jongleurmaersk.com
+                  <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Assistance Email</div>
+                  <a href="mailto:contact@chinadx.fr" className="text-lg font-bold text-gray-900 hover:text-red-600 transition-all font-orbit">
+                    contact@chinadx.fr
                   </a>
                 </div>
               </div>
@@ -191,3 +179,4 @@ export default function TermsAndConditions() {
     </div>
   );
 }
+

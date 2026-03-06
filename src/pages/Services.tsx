@@ -9,145 +9,131 @@ export default function Services() {
   const siteName = getSiteName();
 
   return (
-    <div className="min-h-screen bg-gray-50 font-sans text-brand-dark">
-      <SEO title={`Our Services - ${siteName}`} description="Explore our comprehensive logistics solutions including Sea Freight, Air Freight, and custom courier services." />
+    <div className="min-h-screen" style={{ background: 'var(--dark)', color: 'var(--text)' }}>
+      <SEO title={`Nos Services - ${siteName}`} description="Découvrez nos solutions logistiques complètes : Fret Maritime, Fret Aérien, et services de courrier personnalisés." />
       <Header />
 
-      {/* Hero Section */}
-      <section className="relative bg-brand-dark text-white py-32 overflow-hidden">
-        <div className="absolute inset-0 bg-brand-secondary/20" />
-        <div className="absolute top-0 right-0 w-3/4 h-full bg-gradient-to-l from-brand-secondary/30 to-transparent skew-x-12 translate-x-1/4 pointer-events-none" />
+      {/* HERO SECTION - SUBPAGE STYLE */}
+      <section className="hero" style={{ minHeight: '60vh' }}>
+        <div className="hero-img-bg" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1566576721346-d4a3b4eaeb55?q=80&w=2065')" }}></div>
+        <div className="hero-overlay"></div>
+        <div className="hero-overlay2"></div>
         
-        {/* Background Image with Overlay */}
-        <div className="absolute inset-0 z-0 opacity-20">
-           <img 
-             src="https://images.unsplash.com/photo-1566576721346-d4a3b4eaeb55?q=80&w=2065" 
-             alt="Services Background" 
-             className="w-full h-full object-cover"
-           />
-           <div className="absolute inset-0 bg-gradient-to-r from-brand-dark via-brand-dark/95 to-brand-dark/50" />
-        </div>
-        
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-4xl">
-            <div className="inline-block bg-brand-accent/20 border border-brand-accent/30 text-brand-accent px-4 py-1.5 rounded-full text-sm font-semibold mb-6">
-               Comprehensive Logistics
-            </div>
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
-              Our <span className="text-brand-accent">Services</span>
-            </h1>
-            <p className="text-xl text-gray-300 mb-8 max-w-2xl leading-relaxed">
-              Tailored logistics solutions designed to move your business forward. 
-              From ocean freight to last-mile delivery, we handle it all with precision.
-            </p>
-             <div className="flex items-center gap-3 text-sm font-medium text-gray-400">
-              <Link to="/" className="hover:text-white transition-colors">Home</Link>
-              <ArrowRight size={14} />
-              <span className="text-brand-accent">Services</span>
-            </div>
+        <div className="hero-content">
+          <div className="hero-badge">Expertise Logistique</div>
+          <h1 className="animate-fade-in-up">
+            Nos <em>Services</em>
+          </h1>
+          <p className="hero-sub animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+            Des solutions logistiques sur mesure conçues pour faire progresser votre entreprise. 
+            Du fret maritime à la livraison du dernier kilomètre, nous gérons tout avec précision.
+          </p>
+          
+          <div className="flex items-center gap-3 text-sm font-medium text-gray-500 mt-8">
+            <Link to="/" className="hover:text-red-600 transition-colors font-semibold">Accueil</Link>
+            <ArrowRight size={14} />
+            <span className="text-red-500 font-semibold">Services</span>
           </div>
         </div>
       </section>
 
-      {/* Services Grid */}
-      <section className="py-24 bg-white relative">
-        <div className="absolute top-0 left-0 w-full h-32 bg-gray-50 skew-y-2 -translate-y-16 -z-10" />
-        
+      {/* SERVICES GRID */}
+      <section className="how py-24" style={{ background: 'var(--darker)' }}>
         <div className="container mx-auto px-4">
-          <div className="text-center max-w-3xl mx-auto mb-20">
-            <h2 className="text-brand-accent font-bold tracking-widest uppercase mb-3 text-sm">Our Expertise</h2>
-            <h3 className="text-4xl font-bold text-brand-dark mb-6">World-Class Logistics Solutions</h3>
+          <div className="text-center max-w-3xl mx-auto mb-20 animate-reveal">
+            <div className="section-tag">Notre Expertise</div>
+            <h2 className="text-gray-900 mb-6">Solutions Logistiques de Classe Mondiale</h2>
             <p className="text-gray-600 text-lg">
-              We offer a complete suite of shipping and logistics services. 
-              Whether you need speed, cost-efficiency, or specialized handling, we have the right solution.
+              Nous offrons une suite complète de services d'expédition et de logistique. 
+              Que vous ayez besoin de rapidité, de rentabilité ou d'une manipulation spécialisée, nous avons la solution.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
               {
-                title: "Sea Freight",
-                icon: <Ship size={48} />,
-                desc: "Cost-effective transportation for large quantities of goods internationally via cargo ships.",
-                features: ["FCL & LCL shipments", "Door-to-door service", "Customs clearance"]
+                title: "Fret Maritime",
+                icon: <Ship size={40} />,
+                desc: "Transport rentable pour de grandes quantités de marchandises à l'échelle internationale via des navires de charge.",
+                features: ["Expéditions FCL & LCL", "Service porte-à-porte", "Dédouanement"]
               },
               {
-                title: "Air Freight",
-                icon: <Plane size={48} />,
-                desc: "The fastest method for international shipping, ideal for time-sensitive and high-value cargo.",
-                features: ["Express & standard options", "Real-time tracking", "Priority handling"]
+                title: "Fret Aérien",
+                icon: <Plane size={40} />,
+                desc: "La méthode la plus rapide pour l'expédition internationale, idéale pour les cargaisons urgentes et de haute valeur.",
+                features: ["Options Express & Standard", "Suivi en temps réel", "Traitement prioritaire"]
               },
               {
-                title: "Courier Services",
-                icon: <PackageCheck size={48} />,
-                desc: "Fast and reliable delivery of packages and documents for businesses and individuals.",
-                features: ["Same-day delivery", "Document shipping", "Express pickup"]
+                title: "Services de Courrier",
+                icon: <PackageCheck size={40} />,
+                desc: "Livraison rapide et fiable de colis et documents pour les entreprises et les particuliers.",
+                features: ["Livraison le jour même", "Expédition de documents", "Ramassage express"]
               },
               {
-                title: "Storage Services",
-                icon: <Warehouse size={48} />,
-                desc: "Secure temporary and long-term storage solutions with climate-controlled facilities.",
-                features: ["Climate control", "24/7 security", "Inventory management"]
+                title: "Services d'Entreposage",
+                icon: <Warehouse size={40} />,
+                desc: "Solutions de stockage temporaires et à long terme sécurisées avec des installations climatisées.",
+                features: ["Contrôle climatique", "Sécurité 24/7", "Gestion d'inventaire"]
               },
               {
-                title: "Fast Freight",
-                icon: <Zap size={48} />,
-                desc: "Expedited delivery services for urgent shipments requiring swift transit.",
-                features: ["Guaranteed delivery times", "Priority customs", "Dedicated support"]
+                title: "Fret Rapide",
+                icon: <Zap size={40} />,
+                desc: "Services de livraison accélérés pour les expéditions urgentes nécessitant un transit rapide.",
+                features: ["Délais de livraison garantis", "Douane prioritaire", "Support dédié"]
               },
               {
-                title: "Cargo Tracking",
-                icon: <MapPin size={48} />,
-                desc: "Advanced real-time shipment monitoring system to manage your logistics operations.",
-                features: ["Real-time updates", "SMS notifications", "Detailed reporting"]
+                title: "Suivi de Cargaison",
+                icon: <MapPin size={40} />,
+                desc: "Système de surveillance des expéditions en temps réel pour gérer vos opérations logistiques.",
+                features: ["Mises à jour en direct", "Notifications SMS", "Rapports détaillés"]
               }
             ].map((service, index) => (
-              <div key={index} className="group bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 hover:border-brand-accent/30 relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-brand-light rounded-bl-full -mr-16 -mt-16 opacity-50 group-hover:bg-brand-accent/10 transition-colors" />
-                
-                <div className="text-brand-accent mb-6 group-hover:scale-110 transition-transform duration-300 inline-block">
-                  {service.icon}
+              <div key={index} className="bg-white border border-gray-100 shadow-xl rounded-2xl group transition-all hover:-translate-y-2 overflow-hidden">
+                <div className="p-10">
+                   <div className="text-6xl font-black text-red-600/5 mb-4 select-none">0{index + 1}</div>
+                   <div className="text-red-600 mb-6 group-hover:scale-110 transition-transform duration-500 inline-block bg-red-50 p-4 rounded-2xl">
+                     {service.icon}
+                   </div>
+                   <h3 className="text-2xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'Orbitron, sans-serif' }}>{service.title}</h3>
+                   <p className="text-gray-500 mb-6 leading-relaxed">
+                     {service.desc}
+                   </p>
+                   
+                   <ul className="space-y-3 mb-8">
+                     {service.features.map((feature, i) => (
+                       <li key={i} className="flex items-center text-sm text-gray-400 font-semibold">
+                         <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-3" />
+                         {feature}
+                       </li>
+                     ))}
+                   </ul>
+                   
+                   <Link to="/contact" className="btn-secondary w-full text-center flex items-center justify-center gap-2 transform group-hover:bg-red-600 group-hover:text-white group-hover:border-red-600 transition-all duration-300">
+                      Demander un devis <ArrowRight size={18} />
+                   </Link>
                 </div>
-                
-                <h3 className="text-2xl font-bold text-brand-dark mb-4 group-hover:text-brand-accent transition-colors">{service.title}</h3>
-                <p className="text-gray-600 mb-6 leading-relaxed line-clamp-3">
-                  {service.desc}
-                </p>
-                
-                <ul className="space-y-3 mb-8">
-                  {service.features.map((feature, i) => (
-                    <li key={i} className="flex items-center text-sm text-gray-500">
-                      <span className="w-1.5 h-1.5 bg-brand-accent rounded-full mr-3" />
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-                
-                <Link to="/contact" className="w-full py-3 px-6 rounded-lg font-semibold bg-gray-50 text-brand-dark hover:bg-brand-accent hover:text-white transition-all duration-300 flex items-center justify-center gap-2 group-hover:shadow-md">
-                   Get Quote <ArrowRight size={18} />
-                </Link>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Value Proposition */}
-      <section className="py-24 bg-gray-50">
+      {/* VALUE PROPOSITION */}
+      <section className="partners py-24" style={{ background: 'var(--dark)' }}>
         <div className="container mx-auto px-4">
              <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
                  {[
-                     { icon: <ShieldCheck size={32} />, title: "Secure Handling", desc: "Your cargo is insured and handled with the utmost care throughout the entire journey." },
-                     { icon: <Clock size={32} />, title: "On-Time Delivery", desc: "We value your time. Our optimized routes ensure punctual storage and delivery." },
-                     { icon: <Globe size={32} />, title: "Global Network", desc: "With partners in over 200 countries, we connect you to every corner of the world." }
+                     { icon: <ShieldCheck size={32} />, title: "Manipulation Sécurisée", desc: "Votre cargaison est assurée et manipulée avec le plus grand soin tout au long du voyage." },
+                     { icon: <Clock size={32} />, title: "Livraison à Temps", desc: "Nous valorisons votre temps. Nos itinéraires optimisés garantissent le respect des délais." },
+                     { icon: <Globe size={32} />, title: "Réseau Global", desc: "Avec des partenaires dans plus de 207 pays, nous vous connectons à chaque coin du monde." }
                  ].map((item, i) => (
-                     <div key={i} className="flex gap-6 items-start">
-                         <div className="w-14 h-14 rounded-xl bg-brand-dark flex items-center justify-center text-brand-accent shrink-0 shadow-lg">
+                     <div key={i} className="flex gap-6 items-start animate-reveal" style={{ animationDelay: `${i * 0.1}s` }}>
+                         <div className="w-14 h-14 rounded-2xl bg-white flex items-center justify-center text-red-600 shrink-0 shadow-2xl border border-gray-100">
                              {item.icon}
                          </div>
                          <div>
-                             <h4 className="text-xl font-bold text-brand-dark mb-2">{item.title}</h4>
-                             <p className="text-gray-600 leading-relaxed">{item.desc}</p>
+                             <h4 className="text-xl font-bold text-gray-900 mb-2" style={{ fontFamily: 'Rajdhani, sans-serif' }}>{item.title}</h4>
+                             <p className="text-gray-500 leading-relaxed text-sm font-medium">{item.desc}</p>
                          </div>
                      </div>
                  ))}
@@ -155,17 +141,19 @@ export default function Services() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-24 bg-brand-dark relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5" />
-        <div className="container mx-auto px-4 relative z-10 text-center">
-            <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">Need a Custom Solution?</h2>
-            <p className="text-xl text-gray-300 mb-10 max-w-2xl mx-auto">
-              Every business has unique logistics needs. Our team is ready to design a
-              tailored shipping solution that fits your specific requirements and budget.
-            </p>
-            <Link to="/contact" className="inline-block bg-brand-accent hover:bg-brand-light hover:text-brand-dark text-white px-10 py-4 rounded-lg text-lg font-bold transition-all shadow-lg hover:shadow-brand-accent/20 transform hover:-translate-y-1">
-              Contact Our Team
+      {/* CTA SECTION - REDESIGNED */}
+      <section className="cta-section">
+        <div className="cta-bg-img" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?w=1600&q=70')" }}></div>
+        <div className="cta-bg-overlay"></div>
+        <div className="cta-inner">
+            <div className="corner-tl"></div>
+            <div className="corner-br"></div>
+            <div>
+                <h2 className="cta-title">Besoin d'une Solution Personnalisée ?</h2>
+                <p className="cta-sub">Chaque entreprise a des besoins logistiques uniques. Notre équipe est prête à concevoir une solution d'expédition sur mesure qui répond à vos exigences et à votre budget.</p>
+            </div>
+            <Link to="/contact" className="btn-primary">
+              Contacter notre équipe
             </Link>
         </div>
       </section>
@@ -174,3 +162,4 @@ export default function Services() {
     </div>
   );
 }
+

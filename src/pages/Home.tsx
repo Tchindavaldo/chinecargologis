@@ -1,365 +1,469 @@
-import { useState, FormEvent } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import { 
-  Shield, 
-  Clock, 
-  Plane, 
-  Ship, 
-  Truck, 
-  Box, 
-  Globe, 
-  ArrowRight, 
-  CheckCircle2,
-  Search
-} from 'lucide-react';
-import OrganizationSchema from '../components/OrganizationSchema';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import CounterAnimation from '../components/CounterAnimation';
 import SEO from '../components/SEO';
-import { getSiteName } from '../utils/siteConfig';
+import OrganizationSchema from '../components/OrganizationSchema';
+import CounterAnimation from '../components/CounterAnimation';
 
 export default function Home() {
   const [trackingNumber, setTrackingNumber] = useState('');
   const navigate = useNavigate();
-  const siteName = getSiteName();
 
-  const handleTrack = (e: FormEvent) => {
+  const handleTrackSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (trackingNumber.trim()) {
-      navigate(`/track?tracking=${trackingNumber.trim()}`);
+      navigate(`/track?tracking=${encodeURIComponent(trackingNumber.trim())}`);
     }
   };
 
+  useEffect(() => {
+    // Scroll reveal
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          (e.target as HTMLElement).style.opacity = '1'; 
+          (e.target as HTMLElement).style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.1 });
+    
+    const revealElements = document.querySelectorAll('.stat-item, .service-card, .zone-card, .testi-card, .tarif-card, .how-step, .faq-item, .partner-logo');
+    revealElements.forEach((el, i) => {
+      const htmlEl = el as HTMLElement;
+      htmlEl.style.opacity = '0'; 
+      htmlEl.style.transform = 'translateY(22px)';
+      htmlEl.style.transition = `opacity .55s ${i * 0.07}s ease, transform .55s ${i * 0.07}s ease, background .4s, border-color .3s`;
+      obs.observe(el);
+    });
+
+    return () => {
+      obs.disconnect();
+    };
+  }, []);
+
+  const toggleFaq = (e: React.MouseEvent<HTMLDivElement>) => {
+    const item = e.currentTarget.parentElement;
+    if (!item) return;
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  };
+
   return (
-    <div className="min-h-screen bg-brand-light font-sans text-brand-primary">
-      <SEO 
-        title={`${siteName} - Global Logistics & Shipping Solutions`}
-        description="Premium international logistics services. Ocean, Air, and Road freight solutions connecting China to the world."
-        keywords="global shipping, logistics, freight forwarder, maersk, china shipping, tracking"
-        canonical="https://www.maerskaircargo.com"
-      />
+    <div style={{ background: 'var(--dark)', color: 'var(--text)' }}>
+      <SEO />
       <OrganizationSchema />
       <Header />
 
+      {/* Hero */}
+      <section className="hero">
+        <div className="hero-img-bg"></div>
+        <div className="hero-overlay"></div>
+        <div className="hero-overlay2"></div>
+        <div className="hero-overlay3"></div>
 
-      {/* Hero Section */}
-      <section className="relative bg-brand-dark overflow-hidden min-h-[85vh] flex items-center">
-        {/* Abstract Background Elements */}
-        <div className="absolute top-0 right-0 w-2/3 h-full bg-brand-secondary/10 -skew-x-12 translate-x-1/4 pointer-events-none" />
-        <div className="absolute bottom-0 left-0 w-1/3 h-full bg-brand-accent/5 skew-x-12 -translate-x-1/4 pointer-events-none" />
-        
-        {/* Background Image with Overlay */}
-        <div className="absolute inset-0 z-0 opacity-40">
-           <img 
-             src="https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80" 
-             alt="Global Logistics Background" 
-             className="w-full h-full object-cover"
-           />
-           <div className="absolute inset-0 bg-gradient-to-r from-brand-dark via-brand-dark/90 to-brand-dark/40" />
-        </div>
+        <div className="node node-1">📦 Shanghai → Paris · 48h</div>
+        <div className="node node-2">✈ En transit · Dubai Hub</div>
+        <div className="node node-3">🟢 Livré · Lyon · 09:42</div>
+        <div className="node node-4">📡 CDX-9482 · En route</div>
 
-        <div className="container mx-auto px-4 relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          <div className="animate-fade-in-up">
-            <div className="inline-block px-4 py-1.5 rounded-full bg-brand-accent/20 text-brand-accent font-semibold text-sm mb-6 border border-brand-accent/30">
-              Global Logistics Partner
-            </div>
-            <h1 className="text-5xl lg:text-7xl font-bold text-white mb-6 leading-tight">
-              Shipping the <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-accent to-white">
-                Future Today
-              </span>
-            </h1>
-            <p className="text-xl text-gray-300 mb-10 max-w-xl leading-relaxed">
-              {siteName} delivers world-class logistics solutions. From Shanghai to the world, we ensure your cargo arrives safely and on time.
-            </p>
-            
-            <div className="bg-white/10 backdrop-blur-md p-2 rounded-xl border border-white/20 max-w-lg shadow-2xl">
-              <form onSubmit={handleTrack} className="flex flex-col sm:flex-row gap-2">
-                <div className="relative flex-1">
-                  <input
-                    type="text"
-                    value={trackingNumber}
-                    onChange={(e) => setTrackingNumber(e.target.value)}
-                    placeholder="Enter Tracking Number..."
-                    className="w-full px-6 py-4 rounded-lg bg-white/95 text-brand-primary placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-accent shadow-inner font-medium"
-                  />
-                  <Search className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
-                </div>
-                <button
-                  type="submit"
-                  className="px-8 py-4 bg-brand-accent hover:bg-brand-secondary text-white font-bold rounded-lg transition-all duration-300 shadow-lg hover:shadow-brand-accent/50 whitespace-nowrap"
-                >
-                  TRACK CARGO
-                </button>
-              </form>
-            </div>
+        <div className="hero-content">
+          <div className="hero-badge">🚀 Réseau logistique Chine → Monde</div>
+          <h1>Livraison<br/><em>Ultra-Rapide</em><br/>Chine → Monde</h1>
+          <p className="hero-sub">Expéditions depuis la Chine en 24h à 72h, suivi temps réel, dédouanement intégré. Connectez votre business aux marchés mondiaux.</p>
+
+          <div className="hero-track-box">
+            <div className="hero-track-label">🔍 Suivre mon colis</div>
+            <form className="hero-track-form" onSubmit={handleTrackSubmit}>
+              <input 
+                className="hero-track-input" 
+                type="text" 
+                placeholder="Entrez votre numéro de tracking · Ex: CDX-948200-SH"
+                value={trackingNumber}
+                onChange={(e) => setTrackingNumber(e.target.value)}
+              />
+              <button className="hero-track-btn" type="submit">
+                <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="22" y2="22"/></svg>
+                TRACK
+              </button>
+            </form>
           </div>
-          
-          <div className="hidden lg:block relative">
-            {/* Floating Cards Graphic */}
-            <div className="relative z-10 transform hover:scale-105 transition duration-700">
-               <img 
-                 src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                 alt="Container Ship" 
-                 className="rounded-2xl shadow-2xl border-4 border-white/10 w-full max-w-md ml-auto"
-               />
-               <div className="absolute -bottom-10 -left-10 bg-white p-6 rounded-xl shadow-xl max-w-xs animate-bounce-slow">
-                 <div className="flex items-center gap-4 mb-3">
-                   <div className="p-3 bg-green-100 rounded-full text-green-600">
-                     <CheckCircle2 size={24} />
-                   </div>
-                   <div>
-                     <p className="text-xs text-gray-500 font-semibold uppercase">Status</p>
-                     <p className="font-bold text-brand-dark">Shipment Delivered</p>
-                   </div>
-                 </div>
-                 <div className="h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
-                   <div className="h-full bg-green-500 w-full" />
-                 </div>
-               </div>
-            </div>
+
+          <div className="hero-actions">
+            <a href="#tarifs" className="btn-primary">Calculer un tarif</a>
+            <a href="#services" className="btn-secondary">Nos services</a>
+          </div>
+          <div className="hero-trust">
+            <div className="trust-item"><span>★★★★★</span> 4.9/5 · 12 000+ avis</div>
+            <div className="trust-item"><span>✓</span> Paiement sécurisé</div>
+            <div className="trust-item"><span>✓</span> Remboursement garanti</div>
           </div>
         </div>
+
+        <div className="scroll-cue"><div className="scroll-line"></div>Découvrir</div>
       </section>
 
-      {/* Stats Ribbon */}
-      <div className="bg-brand-primary text-white py-10 relative z-20 -mt-8 shadow-xl mx-4 lg:mx-20 rounded-xl">
-        <div className="container mx-auto px-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 divide-x divide-white/10">
-            {[
-              { label: "Countries Served", val: 200, suffix: "+" },
-              { label: "Annual Shipments", val: 50, suffix: "k+" },
-              { label: "Business Clients", val: 1200, suffix: "+" },
-              { label: "Team Experts", val: 450, suffix: "" }
-            ].map((stat, i) => (
-              <div key={i} className="text-center px-4">
-                <h3 className="text-3xl lg:text-4xl font-bold text-brand-accent mb-1">
-                  <CounterAnimation end={stat.val} suffix={stat.suffix} />
-                </h3>
-                <p className="text-xs lg:text-sm text-gray-300 uppercase tracking-wider font-medium">{stat.label}</p>
-              </div>
-            ))}
+      {/* Stats */}
+      <div className="stats-bar bg-white border-y border-gray-100 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="stat-item">
+          <div className="stat-value">
+            <CounterAnimation end={2.4} duration={2500} suffix="M+" decimals={1} />
           </div>
+          <div className="stat-label">Colis livrés</div>
+        </div>
+        <div className="stat-item">
+          <div className="stat-value">
+            <CounterAnimation end={98} duration={2500} suffix="%" />
+          </div>
+          <div className="stat-label">Satisfaction client</div>
+        </div>
+        <div className="stat-item">
+          <div className="stat-value">
+            <CounterAnimation end={48} duration={2500} suffix="h" />
+          </div>
+          <div className="stat-label">Délai Express moyen</div>
+        </div>
+        <div className="stat-item">
+          <div className="stat-value">
+            <CounterAnimation end={180} duration={2500} suffix="+" />
+          </div>
+          <div className="stat-label">Pays desservis</div>
         </div>
       </div>
 
-      {/* Services Section */}
-      <section className="py-24 bg-brand-light">
-        <div className="container mx-auto px-4">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-             <h2 className="text-brand-accent font-bold tracking-widest uppercase mb-3 text-sm">Our Expertise</h2>
-             <h3 className="text-4xl font-bold text-brand-dark mb-6">Comprehensive Shipping Solutions</h3>
-             <p className="text-gray-600 text-lg">We provide end-to-end logistics tailored to your specific needs, ensuring efficiency and reliability at every step.</p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              {
-                icon: <Ship size={40} />,
-                title: "Ocean Freight",
-                desc: "Cost-effective maritime transport for large volumes. FCL and LCL options available worldwide.",
-                img: "https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?auto=format&fit=crop&w=800&q=80"
-              },
-              {
-                icon: <Plane size={40} />,
-                title: "Air Freight",
-                desc: "Rapid air cargo services for time-sensitive shipments. Door-to-door delivery within days.",
-                img: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=800&q=80"
-              },
-              {
-                icon: <Truck size={40} />,
-                title: "Land Transport",
-                desc: "Flexible road and rail networks connecting ports to inland destinations efficiently.",
-                img: "https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?auto=format&fit=crop&w=800&q=80"
-              }
-            ].map((service, idx) => (
-              <div key={idx} className="group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 top-0 hover:-top-2">
-                <div className="h-48 overflow-hidden relative">
-                   <div className="absolute inset-0 bg-brand-dark/20 group-hover:bg-brand-dark/0 transition-colors z-10" />
-                   <img src={service.img} alt={service.title} className="w-full h-full object-cover transform group-hover:scale-110 transition duration-700" />
-                </div>
-                <div className="p-8 relative">
-                   <div className="absolute -top-10 right-8 bg-brand-accent p-4 rounded-xl text-white shadow-lg">
-                     {service.icon}
-                   </div>
-                   <h4 className="text-2xl font-bold text-brand-dark mb-3">{service.title}</h4>
-                   <p className="text-gray-600 mb-6 leading-relaxed">{service.desc}</p>
-                   <a href="#" className="inline-flex items-center text-brand-accent font-bold hover:text-brand-dark transition-colors">
-                     Learn More <ArrowRight size={18} className="ml-2" />
-                   </a>
-                </div>
-              </div>
-            ))}
+      {/* How it works */}
+      <section className="how" id="how">
+        <div className="how-bg-img"></div>
+        <div style={{ position: 'relative', zIndex: 2 }}>
+          <div className="section-tag">// Processus simplifié</div>
+          <h2>Expédier en <em style={{ color: 'var(--red)', fontStyle: 'normal' }}>5 étapes</em> simples</h2>
+          <div className="how-steps">
+            <div className="how-step"><div className="step-num">01</div><span className="step-icon-lg">📋</span><div className="step-h">Créez votre envoi</div><p className="step-p">Formulaire en ligne en 2 minutes depuis votre espace client sécurisé.</p></div>
+            <div className="how-step"><div className="step-num">02</div><span className="step-icon-lg">🏭</span><div className="step-h">Collecte en Chine</div><p className="step-p">Récupération chez votre fournisseur, vérification qualité incluse.</p></div>
+            <div className="how-step"><div className="step-num">03</div><span className="step-icon-lg">✈️</span><div className="step-h">Expédition Express</div><p className="step-p">Traitement à Shanghai ou Shenzhen, départ sur le prochain vol.</p></div>
+            <div className="how-step"><div className="step-num">04</div><span className="step-icon-lg">🛃</span><div className="step-h">Dédouanement auto</div><p className="step-p">Nos experts gèrent toute la documentation. Aucune surprise.</p></div>
+            <div className="how-step"><div className="step-num">05</div><span className="step-icon-lg">🏠</span><div className="step-h">Livraison chez vous</div><p className="step-p">À domicile, point relais ou entrepôt. Signature électronique.</p></div>
           </div>
         </div>
       </section>
 
-      {/* Why Choose Us - Split */}
-      <section className="py-24 bg-white overflow-hidden">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col lg:flex-row items-center gap-16">
-            <div className="lg:w-1/2 relative">
-               <div className="absolute -left-10 -top-10 w-64 h-64 bg-brand-accent/10 rounded-full blur-3xl" />
-               <div className="relative rounded-2xl overflow-hidden shadow-2xl border-8 border-gray-50">
-                  <img 
-                    src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" 
-                    alt="Why Choose Us" 
-                    className="w-full object-cover"
-                  />
-                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-8">
-                     <p className="text-white font-medium italic">"Excellence is not an act, but a habit."</p>
-                  </div>
-               </div>
+      {/* Services */}
+      <section className="services" id="services">
+        <div className="section-tag">// Nos solutions</div>
+        <h2>Services de livraison <em style={{ color: 'var(--red)', fontStyle: 'normal' }}>premium</em></h2>
+        <div className="services-grid">
+          <div className="service-card">
+            <img className="service-img" src="https://images.unsplash.com/photo-1556742502-ec7c0e9f34b1?w=600&q=75" alt="Express delivery" loading="lazy" />
+            <div className="service-body">
+              <div className="service-number">01 — EXPRESS</div>
+              <div className="service-title">Livraison Express 24–48h</div>
+              <p className="service-desc">Expédition prioritaire depuis nos entrepôts en Chine. Traitement immédiat, vol direct, livraison garantie en 24 à 48 heures.</p>
             </div>
-            
-            <div className="lg:w-1/2">
-              <h2 className="text-brand-accent font-bold tracking-widest uppercase mb-3 text-sm">Why Choose {siteName}</h2>
-              <h3 className="text-4xl font-bold text-brand-dark mb-8">We Go Beyond Logistics</h3>
-              
-              <div className="space-y-8">
-                {[
-                  {
-                    icon: <Shield className="text-brand-accent" size={24} />,
-                    title: "Secure & Insured",
-                    text: "Your cargo's safety is our priority. Comprehensive insurance coverage included."
-                  },
-                  {
-                    icon: <Globe className="text-brand-accent" size={24} />,
-                    title: "Global Network",
-                    text: "Partnerships in over 120 countries ensuring borders are never barriers."
-                  },
-                  {
-                    icon: <Clock className="text-brand-accent" size={24} />,
-                    title: "On-Time Delivery",
-                    text: "We value your time. Our optimized routes guarantee punctual arrivals."
-                  }
-                ].map((feature, i) => (
-                  <div key={i} className="flex gap-5">
-                     <div className="flex-shrink-0 w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center border border-blue-100">
-                        {feature.icon}
-                     </div>
-                     <div>
-                        <h4 className="text-xl font-bold text-brand-dark mb-2">{feature.title}</h4>
-                        <p className="text-gray-600 leading-relaxed">{feature.text}</p>
-                     </div>
-                  </div>
-                ))}
+            <div className="service-arrow">→</div>
+          </div>
+          <div className="service-card">
+            <img className="service-img" src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=600&q=75" alt="Freight" loading="lazy" />
+            <div className="service-body">
+              <div className="service-number">02 — FRET</div>
+              <div className="service-title">Fret Maritime & Aérien</div>
+              <p className="service-desc">Solutions optimisées pour gros volumes. Conteneurs FCL ou groupage LCL — logistique adaptée à vos volumes et budgets.</p>
+            </div>
+            <div className="service-arrow">→</div>
+          </div>
+          <div className="service-card">
+            <img className="service-img" src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?w=600&q=75" alt="Track" loading="lazy" />
+            <div className="service-body">
+              <div className="service-number">03 — TRACK</div>
+              <div className="service-title">Tracking Temps Réel</div>
+              <p className="service-desc">Visibilité totale à chaque étape. Notifications SMS et email automatiques, alertes proactives, tableau de bord 24h/7j.</p>
+            </div>
+            <div className="service-arrow">→</div>
+          </div>
+          <div className="service-card">
+            <img className="service-img" src="https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=600&q=75" alt="Customs" loading="lazy" />
+            <div className="service-body">
+              <div className="service-number">04 — CUSTOMS</div>
+              <div className="service-title">Dédouanement Intégré</div>
+              <p className="service-desc">Nos experts gèrent toute la documentation. Import, export, conformité réglementaire — livraison DDP ou DAP.</p>
+            </div>
+            <div className="service-arrow">→</div>
+          </div>
+          <div className="service-card">
+            <img className="service-img" src="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=600&q=75" alt="Ecommerce" loading="lazy" />
+            <div className="service-body">
+              <div className="service-number">05 — ECOM</div>
+              <div className="service-title">Solutions E-commerce</div>
+              <p className="service-desc">Intégration Shopify, Amazon, WooCommerce. Fulfillment automatisé, gestion des retours, étiquetage personnalisé.</p>
+            </div>
+            <div className="service-arrow">→</div>
+          </div>
+          <div className="service-card">
+            <img className="service-img" src="https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?w=600&q=75" alt="Secure" loading="lazy" />
+            <div className="service-body">
+              <div className="service-number">06 — SECURE</div>
+              <div className="service-title">Assurance & Sécurité</div>
+              <p className="service-desc">Assurance tous risques, emballage renforcé et responsabilité contractuelle totale de la collecte à la livraison.</p>
+            </div>
+            <div className="service-arrow">→</div>
+          </div>
+        </div>
+      </section>
+
+      {/* Split Section */}
+      <div className="split-section">
+        <div className="split-img">
+          <img src="https://images.unsplash.com/photo-1555685812-4b943f1cb0eb?w=900&q=80" alt="Ship" loading="lazy" />
+          <div className="split-img-overlay"></div>
+        </div>
+        <div className="split-content ">
+          <div className="section-tag">// Fret maritime mondial</div>
+          <h2>Des navires qui<br/>ne s'arrêtent <em style={{ color: 'var(--red)', fontStyle: 'normal' }}>jamais</em></h2>
+          <p>Notre flotte partenaire opère 24h/24 sur les routes maritimes Shanghai–Europe, Shanghai–USA, Shanghai–Moyen-Orient. Chaque semaine, des centaines de conteneurs chargés en Chine arrivent à destination grâce à notre réseau.</p>
+          <a href="#tarifs" className="btn-primary">Voir nos offres fret</a>
+        </div>
+      </div>
+
+      <div className="img-band">
+        <div className="img-band-item">
+          <img src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?w=700&q=75" alt="Port" loading="lazy" />
+          <div className="img-band-label">Port de Shanghai</div>
+        </div>
+        <div className="img-band-item">
+          <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=700&q=75" alt="Ship" loading="lazy" />
+          <div className="img-band-label">Ligne Asie–Europe</div>
+        </div>
+        <div className="img-band-item">
+          <img src="https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?w=700&q=75" alt="Warehouse" loading="lazy" />
+          <div className="img-band-label">Entrepôt Shenzhen</div>
+        </div>
+      </div>
+
+      {/* Tracking */}
+      <section className="tracking-section" id="tracking">
+        <div>
+          <div className="section-tag">// Suivi en direct</div>
+          <h2>Où est votre<br/>livraison ?</h2>
+          <p style={{ color: 'var(--muted)', marginTop: '14px', lineHeight: 1.78, fontSize: '.88rem' }}>Localisez votre colis en temps réel. Mises à jour toutes les 15 minutes depuis notre réseau de 180+ partenaires mondiaux.</p>
+          <form className="tracking-input-group" onSubmit={handleTrackSubmit}>
+            <input 
+              type="text" 
+              className="tracking-input" 
+              placeholder="Ex: CDX-948200-SH" 
+              value={trackingNumber}
+              onChange={(e) => setTrackingNumber(e.target.value)}
+            />
+            <button className="tracking-btn" type="submit">Suivre →</button>
+          </form>
+          <p style={{ fontSize: '.74rem', color: 'var(--muted)', marginTop: '10px', fontFamily: "'Rajdhani', sans-serif", letterSpacing: '1px' }}>Suivi SMS · Envoyez votre N° au <span style={{ color: 'var(--red)' }}>+33 6 XX XX XX XX</span></p>
+        </div>
+        <div>
+          <div className="section-tag">// Statut · CDX-948200-SH</div>
+          <div className="track-steps">
+            <div className="track-step"><div className="step-dot done">✓</div><div className="step-info"><div className="step-title">Prise en charge — Shanghai</div><div className="step-detail">14 Jan · 08:32 CST · Entrepôt Pudong</div></div></div>
+            <div className="track-step"><div className="step-dot done">✓</div><div className="step-info"><div className="step-title">Départ vol Pudong → CDG</div><div className="step-detail">14 Jan · 23:10 CST · Vol AF293</div></div></div>
+            <div className="track-step"><div className="step-dot done">✓</div><div className="step-info"><div className="step-title">Arrivée Paris CDG — Dédouané ✓</div><div className="step-detail">15 Jan · 07:20 CET</div></div></div>
+            <div className="track-step"><div className="step-dot active">▶</div><div className="step-info"><div className="step-title" style={{ color: 'var(--red)' }}>En cours de livraison — Lyon</div><div className="step-detail">15 Jan · 11:45 CET · Livreur en route</div></div></div>
+            <div className="track-step"><div className="step-dot pending">5</div><div className="step-info"><div className="step-title" style={{ color: 'var(--muted)' }}>Livraison finale</div><div className="step-detail">Estimé aujourd'hui 14h–16h</div></div></div>
+          </div>
+        </div>
+      </section>
+
+      {/* Split Air */}
+      <div className="split-section">
+        <div className="split-content">
+          <div className="section-tag">// Livraison aérienne express</div>
+          <h2>Dans les airs en<br/><em style={{ color: 'var(--red)', fontStyle: 'normal' }}>moins de 24h</em></h2>
+          <p>Vols directs depuis Shanghai Pudong et Shenzhen Baoan vers Paris CDG, Frankfurt, Dubai, New York. Nos accords préférentiels avec les compagnies aériennes garantissent une capacité fret même en haute saison.</p>
+          <a href="#tarifs" className="btn-primary">Voir l'offre Express</a>
+        </div>
+        <div className="split-img">
+          <img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=900&q=80" alt="Plane" loading="lazy" />
+          <div className="split-img-overlay" style={{ background: 'linear-gradient(to left, transparent, rgba(232,0,29, 0.05))' }}></div>
+        </div>
+      </div>
+
+      {/* Tarifs */}
+      <section className="tarifs" id="tarifs">
+        <div className="tarifs-bg"></div>
+        <div style={{ position: 'relative', zIndex: 2 }}>
+          <div className="section-tag">// Nos offres</div>
+          <h2>Des tarifs clairs,<br/>sans <em style={{ color: 'var(--red)', fontStyle: 'normal' }}>surprise</em></h2>
+          <div className="tarifs-grid">
+            <div className="tarif-card">
+              <div className="tarif-name">Standard</div>
+              <div className="tarif-from">À partir de</div>
+              <div className="tarif-price">9<sup>€</sup></div>
+              <div className="tarif-unit">par kg · délai 5–10 jours</div>
+              <ul className="tarif-feats">
+                <li>Livraison économique aérienne</li>
+                <li>Suivi en ligne inclus</li>
+                <li>Dédouanement simplifié</li>
+                <li>Assurance de base</li>
+                <li className="off">Priorité d'expédition</li>
+                <li className="off">Support dédié 24h</li>
+              </ul>
+              <div style={{ padding: '0 20px' }}>
+                <a href="#" className="btn-secondary" style={{ width: '100%', textAlign: 'center', display: 'block' }}>Commencer</a>
               </div>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* How It Works */}
-      <section className="py-24 bg-brand-light relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-1/3 h-full bg-gray-50 skew-x-12 translate-x-1/2" />
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="text-center max-w-3xl mx-auto mb-20">
-             <h2 className="text-brand-accent font-bold tracking-widest uppercase mb-3 text-sm">Simple Process</h2>
-             <h3 className="text-4xl font-bold text-brand-dark mb-6">How We Deliver Excellence</h3>
-             <p className="text-gray-600 text-lg">From booking to final delivery, our process is streamlined for transparency and speed.</p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 relative">
-            {/* Connecting Line (Desktop) */}
-            <div className="hidden md:block absolute top-12 left-0 w-full h-0.5 bg-gray-200 -z-10" />
-            
-            {[
-              { step: "01", title: "Book Shipment", desc: "Request a quote and schedule your pickup online or via phone.", icon: <Box size={24} /> },
-              { step: "02", title: "Pack & Collect", desc: "We professionally pack and collect your cargo from any location.", icon: <Truck size={24} /> },
-              { step: "03", title: "Global Transit", desc: "Your goods travel via our optimized air or ocean freight networks.", icon: <Globe size={24} /> },
-              { step: "04", title: "Secure Delivery", desc: "Final mile delivery to the receiver's doorstep with proof of receipt.", icon: <CheckCircle2 size={24} /> }
-            ].map((item, i) => (
-              <div key={i} className="group relative bg-white p-8 rounded-xl shadow-lg border border-gray-100 hover:-translate-y-2 transition-transform duration-300">
-                 <div className="w-16 h-16 bg-brand-dark text-white rounded-full flex items-center justify-center text-xl font-bold mb-6 mx-auto group-hover:bg-brand-accent transition-colors shadow-lg border-4 border-white">
-                   {item.icon}
-                 </div>
-                 <div className="text-center">
-                   <span className="block text-6xl font-black text-gray-50 absolute top-4 right-4 -z-10 select-none group-hover:text-blue-50 transition-colors">{item.step}</span>
-                   <h4 className="text-xl font-bold text-brand-dark mb-3">{item.title}</h4>
-                   <p className="text-gray-500 text-sm leading-relaxed">{item.desc}</p>
-                 </div>
+            <div className="tarif-card featured">
+              <div className="tarif-name">Express Pro</div>
+              <div className="tarif-from">À partir de</div>
+              <div className="tarif-price">19<sup>€</sup></div>
+              <div className="tarif-unit">par kg · délai 48–72h</div>
+              <ul className="tarif-feats">
+                <li>Livraison express aérienne</li>
+                <li>Suivi temps réel + alertes SMS</li>
+                <li>Dédouanement DDP intégral</li>
+                <li>Assurance tous risques</li>
+                <li>Priorité d'expédition</li>
+                <li>Support dédié 24h/7j</li>
+              </ul>
+              <div style={{ padding: '0 20px' }}>
+                <a href="#" className="btn-primary" style={{ width: '100%', textAlign: 'center', display: 'block' }}>Expédier maintenant</a>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* FAQ Section */}
-      <section className="py-24 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col lg:flex-row gap-16">
-             <div className="lg:w-1/3">
-               <h2 className="text-brand-accent font-bold tracking-widest uppercase mb-3 text-sm">Common Questions</h2>
-               <h3 className="text-4xl font-bold text-brand-dark mb-6">Frequently Asked Questions</h3>
-               <p className="text-gray-600 text-lg mb-8">Can't find what you're looking for? Contact our support team for immediate assistance.</p>
-               <Link to="/contact" className="inline-flex items-center gap-2 text-brand-dark font-bold hover:text-brand-accent transition-colors">
-                 Contact Support <ArrowRight size={20} />
-               </Link>
-             </div>
-             
-             <div className="lg:w-2/3 space-y-6">
-               {[
-                 { q: "How do I track my shipment?", a: "You can track your shipment using the unique tracking ID provided at booking. Simply enter it in the tracking field on our homepage or tracking page for real-time updates." },
-                 { q: "What documents are required for international shipping?", a: "Typically, you'll need a Commercial Invoice, Packing List, and Bill of Lading. Our customs experts will guide you through the specific requirements for your destination." },
-                 { q: "Do you offer insurance for cargo?", a: "Yes, we provide comprehensive cargo insurance options to protect your goods against loss or damage during transit. Ask for insurance details when booking." },
-                 { q: "What are your shipping rates?", a: "Rates vary based on weight, dimensions, destination, and service type (Air/Sea). Use our 'Get a Quote' feature for an accurate estimate tailored to your shipment." }
-               ].map((faq, i) => (
-                 <div key={i} className="bg-gray-50 rounded-xl p-6 hover:bg-white hover:shadow-md transition-all border border-transparent hover:border-gray-100 cursor-pointer group">
-                    <h4 className="text-lg font-bold text-brand-dark mb-2 flex justify-between items-center group-hover:text-brand-accent transition-colors">
-                      {faq.q}
-                      <span className="text-2xl text-gray-300 font-light">+</span>
-                    </h4>
-                    <p className="text-gray-600 leading-relaxed text-sm">{faq.a}</p>
-                 </div>
-               ))}
-             </div>
+            </div>
+            <div className="tarif-card">
+              <div className="tarif-name">Business</div>
+              <div className="tarif-from">Volume · Fret dédié</div>
+              <div className="tarif-price" style={{ fontSize: '1.9rem', paddingTop: '10px' }}>Sur devis</div>
+              <div className="tarif-unit">tarifs dégressifs · contrat</div>
+              <ul className="tarif-feats">
+                <li>Fret aérien ou maritime dédié</li>
+                <li>Dashboard entreprise avancé</li>
+                <li>Dédouanement expert multi-pays</li>
+                <li>Assurance marchandises premium</li>
+                <li>Account manager dédié</li>
+                <li>Intégration API & ERP</li>
+              </ul>
+              <div style={{ padding: '0 20px' }}>
+                <a href="#contact" className="btn-secondary" style={{ width: '100%', textAlign: 'center', display: 'block' }}>Nous contacter</a>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Testimonials */}
-      <section className="py-24 bg-brand-dark/5">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-brand-dark">Trusted by Industry Leaders</h2>
+      <section className="testimonials" id="avis">
+        <div className="section-tag">// Ce que disent nos clients</div>
+        <h2>Ils nous font <em style={{ color: 'var(--red)', fontStyle: 'normal' }}>confiance</em></h2>
+        <div className="testi-grid">
+          <div className="testi-card">
+            <div className="testi-quote">"</div>
+            <div className="testi-stars">★★★★★</div>
+            <p className="testi-text">Incroyable ! Mon colis est parti de Shenzhen un lundi matin et était livré à Paris le mercredi soir. Le tracking en temps réel m'a permis de tout suivre sans stress.</p>
+            <div className="testi-author"><div className="testi-avatar">ML</div><div><div className="testi-name">Marie L.</div><div className="testi-role">Gérante boutique e-commerce · Paris</div></div></div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              { name: "Sarah Jenkins", role: "Import Director", text: `${siteName} transformed our supply chain. The visibility and reliability are unmatched.` },
-              { name: "Michael Chen", role: "Factory Owner", text: "Shipping to Africa used to be a headache. Now it's the easiest part of my business." },
-              { name: "Robert Fox", role: "Logistics Manager", text: "Their customer support is incredible. Always available and proactive with updates." }
-            ].map((t, i) => (
-              <div key={i} className="bg-white p-8 rounded-xl shadow-lg border border-gray-100 relative">
-                <div className="text-brand-accent mb-4">★★★★★</div>
-                <p className="text-gray-600 mb-6 italic">"{t.text}"</p>
-                <div className="flex items-center gap-3">
-                   <div className="w-10 h-10 bg-brand-primary rounded-full flex items-center justify-center text-white font-bold">
-                     {t.name[0]}
-                   </div>
-                   <div>
-                     <div className="font-bold text-brand-dark">{t.name}</div>
-                     <div className="text-xs text-gray-500 uppercase">{t.role}</div>
-                   </div>
-                </div>
-              </div>
-            ))}
+          <div className="testi-card">
+            <div className="testi-quote">"</div>
+            <div className="testi-stars">★★★★★</div>
+            <p className="testi-text">Nous importons en volume depuis Guangzhou. Chine CargoLogis gère tout : collecte, dédouanement, livraison. Zéro paperasse, résultats impeccables.</p>
+            <div className="testi-author"><div className="testi-avatar">TC</div><div><div className="testi-name">Thomas C.</div><div className="testi-role">Directeur achats · Lyon</div></div></div>
+          </div>
+          <div className="testi-card">
+            <div className="testi-quote">"</div>
+            <div className="testi-stars">★★★★★</div>
+            <p className="testi-text">J'ai testé 4 concurrents — Chine CargoLogis est le seul à tenir ses délais 100% du temps, même en haute saison. Incontournable.</p>
+            <div className="testi-author"><div className="testi-avatar">SB</div><div><div className="testi-name">Sofia B.</div><div className="testi-role">E-commerçante Shopify · Bordeaux</div></div></div>
           </div>
         </div>
       </section>
 
-      {/* CTA Footer Wrapper */}
-      <section className="bg-brand-primary py-20 text-center relative overflow-hidden">
-         <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/world-map.png')]"></div>
-         <div className="container mx-auto px-4 relative z-10">
-           <h2 className="text-4xl text-white font-bold mb-6">Ready to Ship with Confidence?</h2>
-           <p className="text-blue-200 text-xl mb-10 max-w-2xl mx-auto">Join thousands of businesses who trust {siteName} for their logistics needs.</p>
-           <button className="bg-brand-accent hover:bg-white hover:text-brand-dark text-white px-10 py-4 rounded-full font-bold text-lg transition-all duration-300 shadow-2xl transform hover:-translate-y-1">
-             Get a Free Quote Today
-           </button>
-         </div>
+      {/* Partners */}
+      <div className="partners">
+        <div className="partners-label">Partenaires logistiques & transporteurs de confiance</div>
+        <div className="partners-logos">
+          <div className="partner-logo">DHL EXPRESS</div>
+          <div className="partner-logo">FEDEX</div>
+          <div className="partner-logo">AIR FRANCE CARGO</div>
+          <div className="partner-logo">SF EXPRESS</div>
+          <div className="partner-logo">CAINIAO</div>
+          <div className="partner-logo">COSCO SHIPPING</div>
+          <div className="partner-logo">UPS</div>
+        </div>
+      </div>
+
+      {/* Zones */}
+      <section className="zones" id="zones">
+        <div className="section-tag">// Couverture mondiale</div>
+        <h2>Nos principales <em style={{ color: 'var(--red)', fontStyle: 'normal' }}>destinations</em></h2>
+        <div className="zones-grid">
+          <div className="zone-card"><span className="zone-flag">🇫🇷</span><div className="zone-name">France</div><div className="zone-time">24 — 48h Express</div></div>
+          <div className="zone-card"><span className="zone-flag">🇩🇪</span><div className="zone-name">Allemagne</div><div className="zone-time">24 — 72h Express</div></div>
+          <div className="zone-card"><span className="zone-flag">🇺🇸</span><div className="zone-name">États-Unis</div><div className="zone-time">48 — 72h Express</div></div>
+          <div className="zone-card"><span className="zone-flag">🇬🇧</span><div className="zone-name">Royaume-Uni</div><div className="zone-time">24 — 48h Express</div></div>
+          <div className="zone-card"><span className="zone-flag">🇯🇵</span><div className="zone-name">Japon</div><div className="zone-time">12 — 24h Express</div></div>
+          <div className="zone-card"><span className="zone-flag">🇦🇪</span><div className="zone-name">Émirats Arabes</div><div className="zone-time">24 — 48h Express</div></div>
+          <div className="zone-card"><span className="zone-flag">🇨🇦</span><div className="zone-name">Canada</div><div className="zone-time">48 — 96h Express</div></div>
+          <div className="zone-card"><span className="zone-flag">🇦🇺</span><div className="zone-name">Australie</div><div className="zone-time">48 — 96h Express</div></div>
+          <div className="zone-card"><span className="zone-flag">🇧🇷</span><div className="zone-name">Brésil</div><div className="zone-time">72 — 96h Express</div></div>
+          <div className="zone-card"><span className="zone-flag">🇸🇬</span><div className="zone-name">Singapour</div><div className="zone-time">24 — 48h Express</div></div>
+          <div className="zone-card"><span className="zone-flag">🇿🇦</span><div className="zone-name">Afrique du Sud</div><div className="zone-time">72 — 120h Express</div></div>
+          <div className="zone-card" style={{ background: 'rgba(232,0,29,.05)', borderColor: 'rgba(232,0,29,.2)' }}><span className="zone-flag">🌐</span><div className="zone-name">+170 Pays</div><div className="zone-time" style={{ color: 'var(--red)' }}>Voir toutes zones →</div></div>
+        </div>
       </section>
+
+      {/* FAQ */}
+      <section className="faq" id="faq">
+        <div className="faq-bg"></div>
+        <div style={{ position: 'relative', zIndex: 2 }}>
+          <div className="section-tag">// Questions fréquentes</div>
+          <h2>Tout ce que vous devez <em style={{ color: 'var(--red)', fontStyle: 'normal' }}>savoir</em></h2>
+          <div className="faq-grid">
+            <div className="faq-item">
+              <div className="faq-q" onClick={toggleFaq}>Comment calculer le poids volumétrique ? <div className="faq-icon">+</div></div>
+              <div className="faq-a">Le poids volumétrique se calcule ainsi : (L × l × H en cm) ÷ 5000. Si ce poids est supérieur au poids réel, c'est lui qui est retenu. Notre calculateur en ligne le fait automatiquement.</div>
+            </div>
+            <div className="faq-item">
+              <div className="faq-q" onClick={toggleFaq}>Quels types de marchandises acceptez-vous ? <div className="faq-icon">+</div></div>
+              <div className="faq-a">Nous acceptons la majorité des marchandises commerciales : électronique, textile, accessoires, pièces industrielles... Certains produits réglementés nécessitent une déclaration spéciale. Contactez-nous.</div>
+            </div>
+            <div className="faq-item">
+              <div className="faq-q" onClick={toggleFaq}>Que se passe-t-il si mon colis est perdu ou endommagé ? <div className="faq-icon">+</div></div>
+              <div className="faq-a">Notre assurance tous risques couvre la valeur déclarée. En cas de sinistre, notre service client traite votre réclamation sous 48h et le remboursement est effectué sous 5 jours ouvrés.</div>
+            </div>
+            <div className="faq-item">
+              <div className="faq-q" onClick={toggleFaq}>Prenez-vous en charge le dédouanement à l'arrivée ? <div className="faq-icon">+</div></div>
+              <div className="faq-a">Oui. Avec l'offre DDP (Delivered Duty Paid), taxes et droits de douane sont inclus dans votre tarif. Zéro surprise à la réception.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Newsletter */}
+      <section className="newsletter">
+        <div className="newsletter-inner">
+          <div className="section-tag" style={{ textAlign: 'center' }}>// Restez informé</div>
+          <h2>Offres exclusives &<br/>actualités logistiques</h2>
+          <p>Recevez nos meilleures offres, les mises à jour tarifaires et nos conseils pour optimiser vos imports depuis la Chine.</p>
+          <div className="newsletter-form">
+            <input type="email" className="newsletter-input" placeholder="votre@email.com" />
+            <button className="newsletter-btn">S'abonner →</button>
+          </div>
+          <p style={{ fontSize: '.72rem', color: 'rgba(100,116,139,0.5)', marginTop: '12px', fontFamily: "'Rajdhani', sans-serif", letterSpacing: '1px' }}>Désabonnement possible à tout moment · Politique de confidentialité</p>
+        </div>
+      </section>
+
+      {/* CTA Final */}
+      <div className="cta-section" id="contact">
+        <div className="cta-bg-img"></div>
+        <div className="cta-bg-overlay"></div>
+        <div className="corner-tl"></div>
+        <div className="corner-br"></div>
+        <div className="cta-inner">
+          <div>
+            <div className="section-tag">// Commencer maintenant</div>
+            <div className="cta-title">Prêt à expédier<br/>depuis la <em style={{ fontStyle: 'normal', color: 'var(--red)' }}>Chine</em> ?</div>
+            <p className="cta-sub">Obtenez un devis personnalisé en 2 minutes. Nos experts logistiques vous accompagnent à chaque étape — de Shanghai jusqu'à votre porte.</p>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', flexShrink: 0 }}>
+            <a href="#" className="btn-primary" style={{ textAlign: 'center' }}>Obtenir un devis gratuit →</a>
+            <a href="#" className="btn-secondary" style={{ textAlign: 'center' }}>📞 Parler à un expert</a>
+          </div>
+        </div>
+      </div>
 
       <Footer />
     </div>

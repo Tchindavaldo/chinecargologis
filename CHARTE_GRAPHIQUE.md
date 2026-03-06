@@ -13,7 +13,7 @@
   - Headers et titres importants
   - Boutons primaires
 
-#### Maersk Light Blue (Brand Accent)
+#### Chine Cargo Light Blue (Brand Accent)
 - **HEX**: `#42B0D5`
 - **RGB**: `rgb(66, 176, 213)`
 - **Usage**:

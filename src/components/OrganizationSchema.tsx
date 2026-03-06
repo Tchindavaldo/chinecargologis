@@ -16,18 +16,18 @@ export default function OrganizationSchema() {
     const organizationData = {
       "@context": "https://schema.org",
       "@type": "Organization",
-      "name": "Jongleur Maersk",
-      "alternateName": "Chine Logistique",
-      "url": "https://jongleurmaersk.com",
+      "name": "Chine Cargo Logis",
+      "alternateName": "Chine Cargo Logis",
+      "url": "https://www.chinecargologis.com",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://jongleurmaersk.com/logo512x512.png",
+        "url": "https://www.chinecargologis.com/logo512x512.png",
         "width": 512,
         "height": 512
       },
-      "image": "https://jongleurmaersk.com/logo512x512.png",
-      "description": "Jongleur Maersk est votre partenaire de confiance pour le transport et la logistique internationale depuis la Chine. Solutions de fret maritime, aérien, routier et ferroviaire avec suivi en temps réel.",
-      "email": "info@jongleurmaersk.com",
+      "image": "https://www.chinecargologis.com/logo512x512.png",
+      "description": "Chine Cargo Logis est votre partenaire de confiance pour le transport et la logistique internationale depuis la Chine. Solutions de fret maritime, aérien, routier et ferroviaire avec suivi en temps réel.",
+      "email": "contact@chinecargologis.com",
       "telephone": "+85252089745",
       "address": {
         "@type": "PostalAddress",
@@ -38,10 +38,10 @@ export default function OrganizationSchema() {
         "addressCountry": "CN"
       },
       "sameAs": [
-        "https://www.facebook.com/jongleurmaersk",
-        "https://www.twitter.com/jongleurmaersk",
-        "https://www.linkedin.com/company/jongleurmaersk",
-        "https://www.instagram.com/jongleurmaersk"
+        "https://www.facebook.com/chinecargologis",
+        "https://www.twitter.com/chinecargologis",
+        "https://www.linkedin.com/company/chinecargologis",
+        "https://www.instagram.com/chinecargologis"
       ],
       "contactPoint": [
         {
@@ -54,8 +54,8 @@ export default function OrganizationSchema() {
       ],
       "aggregateRating": {
         "@type": "AggregateRating",
-        "ratingValue": "4.8",
-        "reviewCount": "1250"
+        "ratingValue": "4.9",
+        "reviewCount": "12000"
       },
       "foundingDate": "1963",
       "slogan": "Votre Partenaire Logistique de Confiance"

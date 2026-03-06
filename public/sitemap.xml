@@ -6,48 +6,64 @@
 
   <!-- Homepage -->
   <url>
-    <loc>https://www.chinelogistique.com/</loc>
-    <lastmod>2025-11-08T13:25:00+00:00</lastmod>
+    <loc>https://www.chinecargologis.com/</loc>
+    <lastmod>2026-03-06T13:25:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
 
   <!-- About Page -->
   <url>
-    <loc>https://www.chinelogistique.com/about</loc>
-    <lastmod>2025-11-08T13:25:00+00:00</lastmod>
+    <loc>https://www.chinecargologis.com/about</loc>
+    <lastmod>2026-03-06T13:25:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <!-- Services Page -->
   <url>
-    <loc>https://www.chinelogistique.com/services</loc>
-    <lastmod>2025-11-08T13:25:00+00:00</lastmod>
+    <loc>https://www.chinecargologis.com/services</loc>
+    <lastmod>2026-03-06T13:25:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <!-- Contact Page -->
   <url>
-    <loc>https://www.chinelogistique.com/contact</loc>
-    <lastmod>2025-11-08T13:25:00+00:00</lastmod>
+    <loc>https://www.chinecargologis.com/contact</loc>
+    <lastmod>2026-03-06T13:25:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <!-- Track Page -->
   <url>
-    <loc>https://www.chinelogistique.com/track</loc>
-    <lastmod>2025-11-08T13:25:00+00:00</lastmod>
+    <loc>https://www.chinecargologis.com/track</loc>
+    <lastmod>2026-03-06T13:25:00+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
 
+  <!-- Blog Page -->
+  <url>
+    <loc>https://www.chinecargologis.com/blog</loc>
+    <lastmod>2026-03-06T15:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Network Page -->
+  <url>
+    <loc>https://www.chinecargologis.com/network</loc>
+    <lastmod>2026-03-06T15:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
   <!-- Terms and Conditions Page -->
   <url>
-    <loc>https://www.chinelogistique.com/terms-and-conditions</loc>
-    <lastmod>2025-11-13T10:57:00+00:00</lastmod>
+    <loc>https://www.chinecargologis.com/terms-and-conditions</loc>
+    <lastmod>2026-03-06T15:00:00+00:00</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>

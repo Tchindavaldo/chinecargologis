@@ -1,143 +1,164 @@
-import { Globe, Map, Users, Building, ArrowRight } from 'lucide-react';
+import { ChevronRight, MapPin, Target, Send } from 'lucide-react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import CounterAnimation from '../components/CounterAnimation';
+import SEO from '../components/SEO';
 import { Link } from 'react-router-dom';
 
 export default function Network() {
   return (
-    <div className="min-h-screen bg-gray-50 font-sans text-brand-dark">
+    <div className="min-h-screen" style={{ background: 'var(--dark)', color: 'var(--text)' }}>
+      <SEO 
+        title="Notre Réseau - Chine Cargo Logis | Présence Mondiale"
+        description="Explorez le réseau logistique mondial de Chine Cargo Logis. Plus de 200 pays desservis par nos hubs stratégiques de Shanghai à Rotterdam."
+        keywords="réseau logistique, hubs mondiaux, transport international chine, logistique globale"
+        canonical="https://chinecargologis.com/network"
+      />
       <Header />
 
-      {/* Hero Section */}
-      <section className="relative bg-brand-dark text-white py-32 overflow-hidden">
-        <div className="absolute top-0 left-0 w-2/3 h-full bg-brand-secondary/10 skew-x-12 -translate-x-1/4 pointer-events-none" />
-        <div className="absolute bottom-0 right-0 w-1/3 h-full bg-brand-accent/5 -skew-x-12 translate-x-1/4 pointer-events-none" />
+      {/* HERO SECTION - SUBPAGE STYLE */}
+      <section className="hero" style={{ minHeight: '60vh' }}>
+        <div className="hero-img-bg" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072')" }}></div>
+        <div className="hero-overlay"></div>
+        <div className="hero-overlay2"></div>
         
-        {/* Background Image with Overlay */}
-        <div className="absolute inset-0 z-0 opacity-20">
-           <img 
-             src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072" 
-             alt="Global Network" 
-             className="w-full h-full object-cover"
-           />
-           <div className="absolute inset-0 bg-gradient-to-r from-brand-dark via-brand-dark/95 to-brand-dark/50" />
-        </div>
-        
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-4xl text-center mx-auto">
-            <div className="inline-flex items-center gap-2 bg-white/5 backdrop-blur-md px-4 py-2 rounded-full mb-6 border border-white/10">
-              <Globe size={16} className="text-brand-accent" />
-              <p className="text-sm font-medium text-brand-light">Connecting 5 Continents</p>
-            </div>
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
-              Our <span className="text-brand-accent">Global</span> Presence
-            </h1>
-            <p className="text-xl text-gray-300 mb-8 leading-relaxed">
-              Spanning over 200 countries, our logistics network ensures your cargo reaches 
-              any destination with speed and security.
-            </p>
-            <div className="flex justify-center items-center gap-3 text-sm font-medium text-gray-400">
-              <Link to="/" className="hover:text-white transition-colors">Home</Link>
-              <ArrowRight size={14} />
-              <span className="text-brand-accent">Network</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Stats Section with Animation */}
-      <section className="py-16 bg-white relative -mt-10 z-20 container mx-auto px-4">
-        <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12 border border-gray-100 grid grid-cols-2 md:grid-cols-4 gap-8">
-            {[
-              { icon: <Globe className="text-brand-accent" size={32} />, value: 207, label: "Countries Served", suffix: "+" },
-              { icon: <Building className="text-brand-accent" size={32} />, value: 450, label: "Global Offices", suffix: "" },
-              { icon: <Users className="text-brand-accent" size={32} />, value: 2500, label: "Professionals", suffix: "+" },
-              { icon: <Map className="text-brand-accent" size={32} />, value: 98, label: "Satisfaction", suffix: "%" }
-            ].map((stat, i) => (
-              <div key={i} className="text-center group">
-                 <div className="bg-brand-light w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-brand-accent group-hover:text-white transition-colors duration-300">
-                   {stat.icon}
-                 </div>
-                 <div className="text-4xl font-bold text-brand-dark mb-1 flex justify-center">
-                   <CounterAnimation end={stat.value} duration={2000} suffix={stat.suffix} />
-                 </div>
-                 <p className="text-gray-500 font-medium">{stat.label}</p>
-              </div>
-            ))}
-        </div>
-      </section>
-
-      {/* Regional Coverage */}
-      <section className="py-24 bg-gray-50 relative">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-24">
-             <div>
-               <h2 className="text-brand-accent font-bold tracking-widest uppercase mb-3 text-sm">Global Reach</h2>
-               <h3 className="text-4xl font-bold text-brand-dark mb-6">Operations Across Continents</h3>
-               <p className="text-gray-600 text-lg mb-6 leading-relaxed">
-                 We have established strategic hubs in key global markets to facilitate seamless trade.
-                 Our local expertise combined with global standards ensures your business is compliant and efficient everywhere.
-               </p>
-               <ul className="space-y-4">
-                 {['North & South America', 'Europe & Middle East', 'Asia Pacific', 'Africa'].map((region, i) => (
-                   <li key={i} className="flex items-center gap-3">
-                     <span className="w-8 h-8 rounded-full bg-brand-accent text-white flex items-center justify-center font-bold text-sm">{i + 1}</span>
-                     <span className="text-lg font-medium text-brand-dark">{region}</span>
-                   </li>
-                 ))}
-               </ul>
-             </div>
-             <div className="relative">
-                <div className="absolute inset-0 bg-brand-accent/10 rounded-full blur-3xl transform scale-75" />
-                <img 
-                  src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?q=80&w=2050" 
-                  alt="World Map Connection" 
-                  className="relative z-10 w-full rounded-xl shadow-2xl hover:scale-[1.02] transition-transform duration-500" 
-                />
-             </div>
-          </div>
+        <div className="hero-content">
+          <div className="hero-badge">🌐 Réseau Mondial</div>
+          <h1 className="animate-fade-in-up">
+            Présence <em>Globale</em>
+          </h1>
+          <p className="hero-sub animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+            Couvrant plus de 200 pays, notre réseau logistique garantit que votre cargaison atteint n'importe quelle destination avec rapidité et sécurité.
+          </p>
           
-          {/* Office Locations */}
-          <div>
-            <div className="text-center mb-16">
-               <h3 className="text-3xl font-bold text-brand-dark mb-4">Key Strategic Hubs</h3>
-               <p className="text-gray-500 max-w-2xl mx-auto">Our major operational centers are located to optimize transit times and connectivity.</p>
+          <div className="flex items-center gap-3 text-sm font-medium text-gray-500 mt-8">
+            <Link to="/" className="hover:text-red-600 transition-colors font-semibold">Accueil</Link>
+            <ChevronRight size={14} />
+            <span className="text-red-500 font-semibold">Réseau</span>
+          </div>
+        </div>
+      </section>
+
+      {/* STATS SECTION */}
+      <div className="stats-bar">
+        {[
+          { label: "Pays Desservis", value: 207, suffix: "+" },
+          { label: "Bureaux Mondiaux", value: 450, suffix: "" },
+          { label: "Professionnels", value: 2500, suffix: "+" },
+          { label: "Satisfaction", value: 98, suffix: "%" }
+        ].map((stat, i) => (
+          <div key={i} className="stat-item">
+            <div className="stat-value">
+              <CounterAnimation end={stat.value} duration={2000} suffix={stat.suffix} />
             </div>
+            <div className="stat-label">{stat.label}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* REGIONAL COVERAGE */}
+      <section className="how py-24" style={{ background: 'var(--darker)' }}>
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+             <div className="animate-reveal">
+               <div className="section-tag">// Portée Mondiale</div>
+               <h2 className="text-gray-900 mb-6">Des Opérations à Travers <em style={{ color: 'var(--red)', fontStyle: 'normal' }}>les Continents</em></h2>
+               <p className="text-gray-600 text-lg leading-relaxed mb-8">
+                 Nous avons établi des hubs stratégiques sur les principaux marchés mondiaux pour faciliter un commerce fluide. 
+                 Notre expertise locale combinée aux normes mondiales garantit l'efficacité partout.
+               </p>
+               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                 {[
+                   'Amérique du Nord & Sud',
+                   'Europe & Moyen-Orient',
+                   'Asie-Pacifique',
+                   'Afrique'
+                 ].map((region, i) => (
+                   <div key={i} className="flex items-center gap-4 p-4 rounded-xl bg-white border border-gray-100 shadow-sm">
+                     <span className="w-8 h-8 rounded-full bg-red-600 text-white flex items-center justify-center font-bold text-sm">{i + 1}</span>
+                     <span className="text-gray-900 font-semibold">{region}</span>
+                   </div>
+                 ))}
+               </div>
+             </div>
+             <div className="relative animate-reveal" style={{ animationDelay: '0.3s' }}>
+                <div className="absolute inset-0 bg-red-600/5 rounded-full blur-3xl transform scale-75" />
+                <div className="bg-white p-2 rounded-2xl shadow-2xl border border-gray-100">
+                  <img 
+                    src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?q=80&w=2050" 
+                    alt="World Map Connection" 
+                    className="w-full rounded-xl transition-all duration-700" 
+                  />
+                </div>
+             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* STRATEGIC HUBS GRID */}
+      <section className="services py-24" style={{ background: 'var(--dark)' }}>
+        <div className="container mx-auto px-4 text-center">
+            <div className="section-tag">// Hubs Stratégiques</div>
+            <h2 className="text-gray-900 mb-16">Nos Principaux <em style={{ color: 'var(--red)', fontStyle: 'normal' }}>Centres Opérationnels</em></h2>
             
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {[
-                { city: "Shanghai, China", address: "2588 Pudong Ave, Pudong", phone: "+86 21 6888 8888" },
-                { city: "Rotterdam, Netherlands", address: "Maasvlakte 2, 3011 Rotterdam", phone: "+31 10 123 4567" },
-                { city: "Los Angeles, USA", address: "1000 W Seaside Ave, Long Beach", phone: "+1 562 123 4567" },
-                { city: "Dubai, UAE", address: "Jebel Ali Free Zone", phone: "+971 4 123 4567" },
-                { city: "Singapore", address: "10 Pasir Panjang Rd", phone: "+65 6123 4567" },
-                { city: "Hamburg, Germany", address: "HafenCity, 20457 Hamburg", phone: "+49 40 1234 5678" }
+                { city: "Shanghai, Chine", address: "2588 Pudong Ave, Pudong", phone: "+86 21 6888 8888", type: "Hub Asie" },
+                { city: "Rotterdam, Pays-Bas", address: "Maasvlakte 2, 3011 Rotterdam", phone: "+31 10 123 4567", type: "Hub Europe" },
+                { city: "Los Angeles, USA", address: "1000 W Seaside Ave, Long Beach", phone: "+1 562 123 4567", type: "Hub Amérique" },
+                { city: "Dubai, EAU", address: "Jebel Ali Free Zone", phone: "+971 4 123 4567", type: "Hub Moyen-Orient" },
+                { city: "Singapour", address: "10 Pasir Panjang Rd", phone: "+65 6123 4567", type: "Hub ASEAN" },
+                { city: "Hambourg, Allemagne", address: "HafenCity, 20457 Hambourg", phone: "+49 40 1234 5678", type: "Hub Logistique" }
               ].map((office, i) => (
-                <div key={i} className="bg-white p-8 rounded-xl shadow-sm border border-gray-100 hover:shadow-lg hover:border-brand-accent/50 transition-all duration-300 group">
-                  <div className="flex items-start justify-between mb-4">
-                    <h4 className="text-xl font-bold text-brand-dark group-hover:text-brand-accent transition-colors">{office.city}</h4>
-                    <MapPinIcon />
+                <div key={i} className="bg-white border border-gray-100 shadow-lg rounded-2xl group transition-all hover:-translate-y-2 text-left">
+                  <div className="p-8">
+                    <div className="flex items-start justify-between mb-6">
+                      <div>
+                        <div className="stat-label text-red-600 mb-1" style={{ textAlign: 'left' }}>{office.type}</div>
+                        <h4 className="text-2xl font-bold text-gray-900 group-hover:text-red-600 transition-colors" style={{ fontFamily: 'Orbitron, sans-serif' }}>{office.city}</h4>
+                      </div>
+                      <div className="w-12 h-12 bg-red-50 rounded-xl flex items-center justify-center border border-red-100">
+                        <MapPin className="text-red-600" size={24} />
+                      </div>
+                    </div>
+                    <div className="space-y-4">
+                      <div className="flex items-start gap-3">
+                         <Target size={16} className="text-gray-400 mt-1" />
+                         <p className="text-gray-500 text-sm">{office.address}</p>
+                      </div>
+                      <div className="flex items-center gap-3">
+                         <Send size={16} className="text-gray-400" />
+                         <p className="text-gray-900 font-bold">{office.phone}</p>
+                      </div>
+                    </div>
                   </div>
-                  <p className="text-gray-500 mb-2 text-sm">{office.address}</p>
-                  <p className="text-brand-dark font-medium">{office.phone}</p>
                 </div>
               ))}
             </div>
-          </div>
         </div>
       </section>
+
+      {/* FINAL CTA */}
+      <div className="cta-section">
+        <div className="cta-bg-img" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1578575437130-527eed3abbec?w=1600&q=70')" }}></div>
+        <div className="cta-bg-overlay"></div>
+        <div className="corner-tl"></div>
+        <div className="corner-br"></div>
+        <div className="cta-inner">
+          <div className="animate-reveal">
+            <div className="section-tag">// Rejoignez notre réseau</div>
+            <div className="cta-title">Étendez votre <em style={{ fontStyle: 'normal', color: 'var(--red)' }}>Business</em> mondialement</div>
+            <p className="cta-sub">Bénéficiez de notre expertise et de nos infrastructures pour optimiser vos flux logistiques internationaux.</p>
+          </div>
+          <div className="flex flex-col gap-4 animate-reveal" style={{ animationDelay: '0.2s' }}>
+            <Link to="/contact" className="btn-primary">Parlons de votre projet</Link>
+            <Link to="/services" className="btn-secondary">Voir nos solutions</Link>
+          </div>
+        </div>
+      </div>
 
       <Footer />
     </div>
   );
 }
 
-function MapPinIcon() {
-  return (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-gray-300">
-      <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
-      <circle cx="12" cy="10" r="3" />
-    </svg>
-  )
-}

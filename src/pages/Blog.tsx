@@ -1,12 +1,13 @@
-import { Calendar, Clock, User, ArrowRight, TrendingUp } from 'lucide-react';
+import { Calendar, Clock, User, ArrowRight, TrendingUp, Search, ChevronRight, Bookmark } from 'lucide-react';
 import SEO from '../components/SEO';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import { Link } from 'react-router-dom';
 
 export default function Blog() {
   const featuredPost = {
-    title: 'Guide Complet 2024 : Tout Savoir sur l\'Import-Export Chine-Afrique',
-    excerpt: 'Découvrez les meilleures pratiques, les réglementations douanières et les conseils d\'experts pour réussir vos importations depuis la Chine vers l\'Afrique.',
+    title: 'Guide Complet 2024 : Tout Savoir sur l\'Import-Export Chine-Monde',
+    excerpt: 'Découvrez les meilleures pratiques, les réglementations douanières et les conseils d\'experts pour réussir vos importations depuis la Chine vers le reste du monde.',
     image: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=1200',
     category: 'Guides',
     date: '15 Janvier 2024',
@@ -52,7 +53,7 @@ export default function Blog() {
       author: 'Aminata Touré',
     },
     {
-      title: 'Tendances du Marché Africain 2024',
+      title: 'Tendances du Marché Mondial 2024',
       excerpt: 'Analyse des secteurs porteurs et opportunités d\'import-export pour cette année.',
       image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=800',
       category: 'Marché',
@@ -81,93 +82,82 @@ export default function Blog() {
   ];
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen" style={{ background: 'var(--dark)', color: 'var(--text)' }}>
       <SEO 
-        title="Blog & Actualités - Jongleur Maersk | Conseils Import-Export"
-        description="Restez informé des dernières actualités logistiques, conseils d'experts, guides pratiques et tendances du marché import-export Chine-Afrique."
-        keywords="blog logistique, actualités import-export, conseils transport chine, guides douane, tendances marché africain, e-commerce chine"
-        canonical="https://jongleurmaersk.com/blog"
+        title="Blog & Actualités - Chine Cargo Logis | Conseils Logistiques"
+        description="Restez informé des dernières actualités logistiques, conseils d'experts et guides pratiques pour réussir vos expéditions internationales."
+        keywords="blog logistique, conseils import-export, transport chine, douane, e-commerce"
+        canonical="https://chinecargologis.com/blog"
       />
       <Header />
 
-      <section className="relative bg-blue-600 text-white py-24 overflow-hidden">
-        {/* Background Image */}
-        <div 
-          className="absolute inset-0 bg-cover bg-center"
-          style={{
-            backgroundImage: 'url(https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=2070)',
-          }}
-        >
-          <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-black/40 to-black/30"></div>
-        </div>
+      {/* HERO SECTION */}
+      <section className="hero" style={{ minHeight: '55vh' }}>
+        <div className="hero-img-bg" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=2070')" }}></div>
+        <div className="hero-overlay"></div>
+        <div className="hero-overlay2"></div>
         
-        {/* Content */}
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-4xl">
-            <div className="inline-block bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full mb-4">
-              <p className="text-sm font-medium">📰 Restez Informé</p>
-            </div>
-            <h1 className="text-6xl font-bold mb-4 leading-tight">
-              Blog & Actualités
-            </h1>
-            <p className="text-2xl text-blue-50 mb-6">Guides, conseils et tendances de la logistique internationale</p>
-            <div className="flex items-center gap-2 text-blue-100">
-              <span className="font-medium">Home</span>
-              <span>/</span>
-              <span className="text-white font-semibold">Blog</span>
-            </div>
+        <div className="hero-content">
+          <div className="hero-badge">📰 Actualités & Insights</div>
+          <h1 className="animate-fade-in-up">
+            Blog <em>Logistique</em>
+          </h1>
+          <p className="hero-sub animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+            Guides, conseils et tendances de la logistique internationale pour optimiser vos flux mondiaux.
+          </p>
+          
+          <div className="flex items-center gap-3 text-sm font-medium text-gray-500 mt-8">
+            <Link to="/" className="hover:text-red-600 transition-colors font-semibold">Accueil</Link>
+            <ChevronRight size={14} />
+            <span className="text-red-500 font-semibold">Blog</span>
           </div>
         </div>
-        
-        {/* Decorative Elements */}
-        <div className="absolute -bottom-10 -right-10 w-64 h-64 bg-white/5 rounded-full blur-3xl"></div>
-        <div className="absolute top-20 -left-10 w-48 h-48 bg-white/5 rounded-full blur-3xl"></div>
       </section>
 
-      {/* Featured Post */}
-      <section className="py-20 bg-gradient-to-br from-blue-50 to-white">
+      {/* FEATURED POST */}
+      <section className="py-24" style={{ background: 'var(--darker)' }}>
         <div className="container mx-auto px-4">
-          <div className="max-w-6xl mx-auto">
-            <div className="inline-block bg-blue-100 text-blue-600 px-4 py-2 rounded-full text-sm font-semibold mb-8">
-              ARTICLE VEDETTE
-            </div>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 bg-white rounded-2xl shadow-2xl overflow-hidden">
-              <div className="relative h-96 lg:h-auto">
+          <div className="section-tag animate-reveal text-center mb-4">// À la une</div>
+          <h2 className="text-gray-900 text-center mb-16 animate-reveal">Article <em style={{ color: 'var(--red)', fontStyle: 'normal' }}>Vedette</em></h2>
+          
+          <div className="max-w-6xl mx-auto animate-reveal">
+            <div className="grid grid-cols-1 lg:grid-cols-2 bg-white border border-gray-100 shadow-2xl overflow-hidden group rounded-2xl">
+              <div className="relative h-80 lg:h-auto overflow-hidden">
                 <img 
                   src={featuredPost.image} 
                   alt={featuredPost.title}
-                  className="absolute inset-0 w-full h-full object-cover"
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
-                <div className="absolute top-4 left-4">
-                  <span className="bg-blue-600 text-white px-4 py-2 rounded-full text-sm font-semibold">
+                <div className="absolute top-6 left-6">
+                  <span className="bg-red-600 text-white px-4 py-1 font-bold text-xs tracking-widest uppercase">
                     {featuredPost.category}
                   </span>
                 </div>
               </div>
-              <div className="p-8 lg:p-12 flex flex-col justify-center">
-                <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900 leading-tight">
+              <div className="p-8 lg:p-14 flex flex-col justify-center">
+                <h3 className="text-3xl font-bold mb-6 text-gray-900 leading-tight" style={{ fontFamily: 'Orbitron, sans-serif' }}>
                   {featuredPost.title}
-                </h2>
-                <p className="text-gray-600 mb-6 leading-relaxed text-lg">
+                </h3>
+                <p className="text-gray-500 mb-8 leading-relaxed text-lg">
                   {featuredPost.excerpt}
                 </p>
-                <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500 mb-6">
+                <div className="flex flex-wrap items-center gap-6 text-sm text-gray-400 mb-8 font-medium" style={{ fontFamily: 'Rajdhani, sans-serif' }}>
                   <div className="flex items-center gap-2">
-                    <User size={16} />
-                    <span>{featuredPost.author}</span>
+                    <User size={16} className="text-red-600" />
+                    <span className="text-gray-500">{featuredPost.author}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Calendar size={16} />
-                    <span>{featuredPost.date}</span>
+                    <Calendar size={16} className="text-red-600" />
+                    <span className="text-gray-500">{featuredPost.date}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Clock size={16} />
-                    <span>{featuredPost.readTime} de lecture</span>
+                    <Clock size={16} className="text-red-600" />
+                    <span className="text-gray-500">{featuredPost.readTime}</span>
                   </div>
                 </div>
-                <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition flex items-center gap-2 w-fit">
-                  Lire l'Article
-                  <ArrowRight size={20} />
+                <button className="btn-primary flex items-center gap-2 w-fit">
+                  LIRE L'ARTICLE
+                  <ArrowRight size={18} />
                 </button>
               </div>
             </div>
@@ -175,163 +165,159 @@ export default function Blog() {
         </div>
       </section>
 
-      {/* Blog Posts Grid */}
-      <section className="py-20 bg-white">
+      {/* BLOG GRID & SIDEBAR */}
+      <section className="py-24" style={{ background: 'var(--dark)' }}>
         <div className="container mx-auto px-4">
-          <div className="max-w-7xl mx-auto">
-            <div className="flex flex-col lg:flex-row gap-12">
-              {/* Sidebar */}
-              <div className="lg:w-1/4">
-                <div className="bg-gray-50 rounded-2xl p-6 sticky top-8">
-                  <h3 className="text-xl font-bold mb-4 text-gray-900">Catégories</h3>
+          <div className="flex flex-col lg:flex-row gap-12">
+            {/* Sidebar */}
+            <div className="lg:w-1/4">
+              <div className="sticky top-24 space-y-8 animate-reveal">
+                {/* Search */}
+                <div className="bg-white p-6 border border-gray-100 shadow-lg rounded-xl">
+                  <h4 className="stat-label text-gray-900 mb-4" style={{ textAlign: 'left' }}>Recherche</h4>
+                  <div className="relative">
+                    <input 
+                      type="text" 
+                      placeholder="Rechercher..." 
+                      className="w-full bg-gray-50 border border-gray-100 px-4 py-3 text-gray-900 text-sm focus:border-red-600 outline-none transition-all font-medium rounded-lg"
+                    />
+                    <Search size={16} className="absolute right-4 top-1/2 -translate-y-1/2 text-red-600" />
+                  </div>
+                </div>
+
+                {/* Categories */}
+                <div className="bg-white p-6 border border-gray-100 shadow-lg rounded-xl">
+                  <h4 className="stat-label text-gray-900 mb-4" style={{ textAlign: 'left' }}>Catégories</h4>
                   <div className="space-y-2">
                     {categories.map((category, index) => (
                       <button
                         key={index}
-                        className="w-full text-left px-4 py-3 rounded-lg hover:bg-white hover:shadow-md transition flex items-center justify-between group"
+                        className="w-full text-left px-4 py-3 bg-gray-50 border border-transparent hover:border-red-600/20 hover:bg-red-50 transition-all flex items-center justify-between group rounded-lg"
                       >
-                        <span className="font-medium text-gray-700 group-hover:text-blue-600">
+                        <span className="font-semibold text-gray-500 group-hover:text-red-600 transition-colors" style={{ fontFamily: 'Rajdhani, sans-serif' }}>
                           {category.name}
                         </span>
-                        <span className="text-sm text-gray-500 bg-gray-200 px-2 py-1 rounded-full">
+                        <span className="text-xs text-red-600 font-bold bg-red-600/10 px-2 py-1 rounded">
                           {category.count}
                         </span>
                       </button>
                     ))}
                   </div>
+                </div>
 
-                  <div className="mt-8 pt-8 border-t border-gray-200">
-                    <h3 className="text-xl font-bold mb-4 text-gray-900 flex items-center gap-2">
-                      <TrendingUp size={20} className="text-blue-600" />
-                      Articles Populaires
-                    </h3>
-                    <div className="space-y-4">
-                      <div className="text-sm">
-                        <p className="font-semibold text-gray-900 mb-1 hover:text-blue-600 cursor-pointer">
-                          Guide des Incoterms 2024
+                {/* Trending */}
+                <div className="bg-white p-6 border border-gray-100 shadow-lg rounded-xl">
+                  <h4 className="stat-label text-gray-900 mb-4" style={{ textAlign: 'left' }}>Tendance</h4>
+                  <div className="space-y-6">
+                    {[
+                      { title: 'Guide des Incoterms 2024', views: '12k' },
+                      { title: 'Calculer les frais de douane', views: '9.5k' },
+                      { title: 'Choisir son transporteur', views: '8k' }
+                    ].map((item, i) => (
+                      <div key={i} className="group cursor-default">
+                        <p className="font-bold text-gray-900 mb-1 group-hover:text-red-600 transition-colors text-sm" style={{ fontFamily: 'Rajdhani, sans-serif' }}>
+                          {item.title}
                         </p>
-                        <p className="text-gray-500 text-xs">12 000 vues</p>
+                        <div className="flex items-center gap-2 text-[10px] text-gray-400 font-bold tracking-widest uppercase">
+                          <TrendingUp size={10} className="text-red-600" />
+                          <span>{item.views} vues</span>
+                        </div>
                       </div>
-                      <div className="text-sm">
-                        <p className="font-semibold text-gray-900 mb-1 hover:text-blue-600 cursor-pointer">
-                          Calculer les frais de douane
-                        </p>
-                        <p className="text-gray-500 text-xs">9 500 vues</p>
-                      </div>
-                      <div className="text-sm">
-                        <p className="font-semibold text-gray-900 mb-1 hover:text-blue-600 cursor-pointer">
-                          Choisir son transporteur
-                        </p>
-                        <p className="text-gray-500 text-xs">8 200 vues</p>
-                      </div>
-                    </div>
+                    ))}
                   </div>
                 </div>
               </div>
+            </div>
 
-              {/* Posts Grid */}
-              <div className="lg:w-3/4">
-                <div className="flex items-center justify-between mb-8">
-                  <h2 className="text-3xl font-bold text-gray-900">Derniers Articles</h2>
-                  <select className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
-                    <option>Plus récents</option>
-                    <option>Plus populaires</option>
-                    <option>Plus commentés</option>
+            {/* Posts Grid */}
+            <div className="lg:w-3/4">
+              <div className="flex items-center justify-between mb-12 animate-reveal">
+                <h2 className="text-gray-900 text-2xl">Derniers <em style={{ color: 'var(--red)', fontStyle: 'normal' }}>Articles</em></h2>
+                <div className="flex items-center gap-2 text-xs font-bold text-gray-400 uppercase tracking-widest" style={{ fontFamily: 'Rajdhani, sans-serif' }}>
+                  Trier par: 
+                  <select className="bg-transparent border-none text-red-600 focus:outline-none cursor-pointer">
+                    <option className="bg-white">Plus récents</option>
+                    <option className="bg-white">Populaires</option>
                   </select>
                 </div>
+              </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  {posts.map((post, index) => (
-                    <article 
-                      key={index}
-                      className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 group"
-                    >
-                      <div className="relative h-48 overflow-hidden">
-                        <img 
-                          src={post.image} 
-                          alt={post.title}
-                          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-                        />
-                        <div className="absolute top-4 left-4">
-                          <span className="bg-white/90 backdrop-blur-sm text-blue-600 px-3 py-1 rounded-full text-xs font-semibold">
-                            {post.category}
-                          </span>
-                        </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                {posts.map((post, index) => (
+                  <article 
+                    key={index}
+                    className="bg-white border border-gray-100 shadow-xl rounded-2xl group animate-reveal overflow-hidden"
+                    style={{ animationDelay: `${index * 0.1}s` }}
+                  >
+                    <div className="relative h-56 overflow-hidden">
+                      <img 
+                        src={post.image} 
+                        alt={post.title}
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                      />
+                      <div className="absolute top-4 left-4">
+                        <span className="bg-white/90 backdrop-blur-md text-red-600 px-3 py-1 text-[10px] font-bold tracking-widest uppercase border border-gray-100 rounded">
+                          {post.category}
+                        </span>
                       </div>
-                      <div className="p-6">
-                        <h3 className="text-xl font-bold mb-3 text-gray-900 line-clamp-2 group-hover:text-blue-600 transition">
-                          {post.title}
-                        </h3>
-                        <p className="text-gray-600 mb-4 text-sm leading-relaxed line-clamp-3">
-                          {post.excerpt}
-                        </p>
-                        <div className="flex items-center justify-between text-xs text-gray-500 mb-4">
-                          <div className="flex items-center gap-2">
-                            <User size={14} />
-                            <span>{post.author}</span>
-                          </div>
-                          <div className="flex items-center gap-3">
-                            <div className="flex items-center gap-1">
-                              <Calendar size={14} />
-                              <span>{post.date}</span>
-                            </div>
-                            <div className="flex items-center gap-1">
-                              <Clock size={14} />
-                              <span>{post.readTime}</span>
-                            </div>
-                          </div>
-                        </div>
-                        <button className="text-blue-600 font-semibold text-sm flex items-center gap-2 hover:gap-3 transition-all">
-                          Lire la suite
-                          <ArrowRight size={16} />
+                      <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <button className="w-8 h-8 bg-white/90 backdrop-blur-md flex items-center justify-center text-gray-900 border border-gray-100 hover:bg-red-600 hover:text-white transition-all rounded shadow-lg">
+                          <Bookmark size={14} />
                         </button>
                       </div>
-                    </article>
-                  ))}
-                </div>
+                    </div>
+                    <div className="p-8">
+                      <h3 className="text-xl font-bold mb-4 text-gray-900 line-clamp-2 group-hover:text-red-600 transition-colors" style={{ fontFamily: 'Orbitron, sans-serif' }}>
+                        {post.title}
+                      </h3>
+                      <p className="text-gray-500 mb-6 text-sm leading-relaxed line-clamp-3">
+                        {post.excerpt}
+                      </p>
+                      <div className="flex items-center justify-between text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-6" style={{ fontFamily: 'Rajdhani, sans-serif' }}>
+                        <div className="flex items-center gap-2">
+                          <User size={12} className="text-red-600" />
+                          <span className="text-gray-500">{post.author}</span>
+                        </div>
+                        <div className="flex items-center gap-4">
+                          <div className="flex items-center gap-1">
+                            <Calendar size={12} className="text-red-600" />
+                            <span className="text-gray-500">{post.date}</span>
+                          </div>
+                        </div>
+                      </div>
+                      <button className="text-red-600 font-bold text-xs tracking-widest uppercase flex items-center gap-2 group-hover:gap-4 transition-all">
+                        LIRE LA SUITE
+                        <ArrowRight size={14} />
+                      </button>
+                    </div>
+                  </article>
+                ))}
+              </div>
 
-                {/* Pagination */}
-                <div className="flex justify-center gap-2 mt-12">
-                  <button className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition">
-                    Précédent
-                  </button>
-                  <button className="px-4 py-2 bg-blue-600 text-white rounded-lg">1</button>
-                  <button className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition">2</button>
-                  <button className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition">3</button>
-                  <button className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition">
-                    Suivant
-                  </button>
-                </div>
+              {/* Pagination */}
+              <div className="flex justify-center gap-2 mt-16 animate-reveal">
+                <button className="w-10 h-10 border border-gray-100 flex items-center justify-center text-gray-400 hover:border-red-600 hover:text-red-600 transition-all font-bold bg-white rounded shadow-sm">1</button>
+                <button className="w-10 h-10 border border-gray-100 flex items-center justify-center text-gray-400 hover:border-red-600 hover:text-red-600 transition-all font-bold bg-white rounded shadow-sm">2</button>
+                <button className="w-10 h-10 border border-gray-100 flex items-center justify-center text-gray-400 hover:border-red-600 hover:text-red-600 transition-all font-bold bg-white rounded shadow-sm">3</button>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Newsletter CTA */}
-      <section className="py-16 bg-gradient-to-r from-blue-600 to-blue-700">
-        <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto text-center text-white">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Restez Informé des Dernières Actualités
-            </h2>
-            <p className="text-xl text-blue-100 mb-8">
-              Recevez nos guides, conseils et analyses directement dans votre boîte mail
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 max-w-xl mx-auto">
-              <input
-                type="email"
-                placeholder="Votre adresse email"
-                className="flex-1 px-6 py-4 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-white"
-              />
-              <button className="bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition whitespace-nowrap">
-                S'abonner
-              </button>
-            </div>
-            <p className="text-sm text-blue-100 mt-4">
-              ✓ Articles exclusifs • ✓ Guides pratiques • ✓ Pas de spam
-            </p>
+      {/* NEWSLETTER */}
+      <section className="newsletter py-24" style={{ background: 'var(--surface)' }}>
+        <div className="newsletter-inner">
+          <div className="section-tag animate-reveal">// Newsletter</div>
+          <h2 className="animate-reveal text-gray-900">Restez <em style={{ color: 'var(--red)', fontStyle: 'normal' }}>Informé</em></h2>
+          <p className="animate-reveal text-gray-600">Recevez nos guides, conseils et analyses directement dans votre boîte mail pour optimiser vos flux mondiaux.</p>
+          <div className="newsletter-form animate-reveal">
+            <input type="email" className="newsletter-input bg-white border-gray-100 text-gray-900" placeholder="votre@email.com" />
+            <button className="newsletter-btn">S'ABONNER</button>
           </div>
+          <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-8 animate-reveal">
+            Articles exclusifs • Guides pratiques • Pas de spam
+          </p>
         </div>
       </section>
 
@@ -339,3 +325,4 @@ export default function Blog() {
     </div>
   );
 }
+

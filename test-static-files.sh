@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # Script pour tester l'accessibilité des fichiers statiques
-echo "🔍 Test d'accessibilité des fichiers statiques pour chinelogistique.com"
+echo "🔍 Test d'accessibilité des fichiers statiques pour chinecargologis.com"
 echo "=================================================================="
 
-BASE_URL="https://chinelogistique.com"
+BASE_URL="https://chinecargologis.com"
 
 # Liste des fichiers à tester
 files=(

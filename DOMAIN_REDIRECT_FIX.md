@@ -5,14 +5,14 @@
 Votre site a un problème de **redirection de domaine** :
 
 ```
-https://chinelogistique.com → 308 Redirect → https://www.chinelogistique.com
-https://www.chinelogistique.com → 200 OK (fonctionne)
+https://chinecargologis.com → 308 Redirect → https://www.chinecargologis.com
+https://www.chinecargologis.com → 200 OK (fonctionne)
 ```
 
 ### Conséquences :
 
 - ❌ **Google est confus** : Il ne sait pas quelle version indexer (avec ou sans www)
-- ❌ **Favicon non détecté** : Les outils testent `chinelogistique.com` mais sont redirigés
+- ❌ **Favicon non détecté** : Les outils testent `chinecargologis.com` mais sont redirigés
 - ❌ **SEO affecté** : Les backlinks peuvent pointer vers les deux versions
 - ❌ **Expérience utilisateur** : Redirection inutile = temps de chargement plus long
 
@@ -22,7 +22,7 @@ https://www.chinelogistique.com → 200 OK (fonctionne)
 
 **Choisir UNE SEULE version** comme domaine principal. Je recommande **sans www** :
 
-- ✅ Plus court et moderne : `chinelogistique.com`
+- ✅ Plus court et moderne : `chinecargologis.com`
 - ✅ Plus facile à mémorise
 - ✅ Tendance actuelle du web
 
@@ -33,7 +33,7 @@ https://www.chinelogistique.com → 200 OK (fonctionne)
 ### A. Accéder aux Paramètres de Domaine
 
 1. **Allez sur Vercel Dashboard** : https://vercel.com/dashboard
-2. **Sélectionnez votre projet** : `chinelogistique` ou le nom de votre projet
+2. **Sélectionnez votre projet** : `chinecargologis` ou le nom de votre projet
 3. **Cliquez sur "Settings"** (Paramètres) dans le menu du haut
 4. **Cliquez sur "Domains"** dans le menu de gauche
 
@@ -42,45 +42,45 @@ https://www.chinelogistique.com → 200 OK (fonctionne)
 Vous devriez voir quelque chose comme :
 
 ```
-chinelogistique.com
-www.chinelogistique.com
+chinecargologis.com
+www.chinecargologis.com
 ```
 
 ### C. Configurer le Domaine Principal (Sans WWW)
 
 #### Option 1 : Interface Vercel (Recommandé)
 
-1. **Pour `chinelogistique.com`** :
+1. **Pour `chinecargologis.com`** :
 
    - Cliquez sur les **3 points** (⋮) à droite
    - Si vous voyez **"Set as Primary"**, cliquez dessus
    - Sinon, il est déjà principal ✅
 
-2. **Pour `www.chinelogistique.com`** :
+2. **Pour `www.chinecargologis.com`** :
    - Cliquez sur les **3 points** (⋮) à droite
    - Cliquez sur **"Edit"**
-   - Assurez-vous que **"Redirect to chinelogistique.com"** est activé
+   - Assurez-vous que **"Redirect to chinecargologis.com"** est activé
    - Ou vérifiez qu'il est marqué comme **"Redirect"** et non **"Primary"**
 
 #### Option 2 : Supprimer et Re-ajouter (Si nécessaire)
 
 Si l'option ci-dessus ne fonctionne pas :
 
-1. **Supprimez `www.chinelogistique.com`** :
+1. **Supprimez `www.chinecargologis.com`** :
 
    - Cliquez sur les 3 points → **"Remove"**
 
 2. **Re-ajoutez-le comme redirect** :
    - Cliquez sur **"Add Domain"**
-   - Entrez : `www.chinelogistique.com`
-   - Vercel devrait automatiquement le configurer comme redirect vers `chinelogistique.com`
+   - Entrez : `www.chinecargologis.com`
+   - Vercel devrait automatiquement le configurer comme redirect vers `chinecargologis.com`
 
 ### D. Configuration DNS sur Namecheap
 
 Vérifiez que vos enregistrements DNS sur Namecheap sont corrects :
 
 1. **Allez sur Namecheap** : https://www.namecheap.com/
-2. **Dashboard** → **Domain List** → Cliquez sur **"Manage"** pour `chinelogistique.com`
+2. **Dashboard** → **Domain List** → Cliquez sur **"Manage"** pour `chinecargologis.com`
 3. **Advanced DNS** → Vérifiez les enregistrements :
 
 ```
@@ -106,7 +106,7 @@ Supprimer les liens avec `www` et utiliser uniquement les chemins relatifs :
 <link
   rel="icon"
   type="image/x-icon"
-  href="https://www.chinelogistique.com/favicon.ico"
+  href="https://www.chinecargologis.com/favicon.ico"
 />
 
 <!-- APRÈS (sans www, chemin relatif) -->
@@ -115,11 +115,11 @@ Supprimer les liens avec `www` et utiliser uniquement les chemins relatifs :
 
 ### B. Mettre à Jour sitemap.xml
 
-Vérifier que toutes les URLs utilisent `https://chinelogistique.com` (sans www).
+Vérifier que toutes les URLs utilisent `https://chinecargologis.com` (sans www).
 
 ### C. Mettre à Jour robots.txt
 
-Vérifier que le sitemap pointe vers `https://chinelogistique.com/sitemap.xml`.
+Vérifier que le sitemap pointe vers `https://chinecargologis.com/sitemap.xml`.
 
 ---
 
@@ -129,23 +129,23 @@ Vérifier que le sitemap pointe vers `https://chinelogistique.com/sitemap.xml`.
 
 1. **Allez sur Google Search Console** : https://search.google.com/search-console
 2. **Vérifiez quelles propriétés vous avez** :
-   - `https://chinelogistique.com` ?
-   - `https://www.chinelogistique.com` ?
+   - `https://chinecargologis.com` ?
+   - `https://www.chinecargologis.com` ?
    - Les deux ?
 
 ### B. Propriété Recommandée
 
-Vous devriez avoir **UNE SEULE propriété** : `https://chinelogistique.com` (sans www)
+Vous devriez avoir **UNE SEULE propriété** : `https://chinecargologis.com` (sans www)
 
 ### C. Si vous avez les deux propriétés :
 
-1. **Gardez `https://chinelogistique.com`** comme propriété principale
-2. **Optionnel** : Vous pouvez garder `https://www.chinelogistique.com` pour monitorer les redirections
-3. **Important** : Soumettez le sitemap uniquement sur la propriété principale (`chinelogistique.com`)
+1. **Gardez `https://chinecargologis.com`** comme propriété principale
+2. **Optionnel** : Vous pouvez garder `https://www.chinecargologis.com` pour monitorer les redirections
+3. **Important** : Soumettez le sitemap uniquement sur la propriété principale (`chinecargologis.com`)
 
 ### D. Changement d'Adresse (Si nécessaire)
 
-Si Google a principalement indexé `www.chinelogistique.com` et que vous voulez changer vers `chinelogistique.com` :
+Si Google a principalement indexé `www.chinecargologis.com` et que vous voulez changer vers `chinecargologis.com` :
 
 1. Dans Search Console, allez dans **Paramètres** (Settings)
 2. Cherchez **"Change of Address"** (Changement d'adresse)
@@ -161,28 +161,28 @@ Si Google a principalement indexé `www.chinelogistique.com` et que vous voulez 
 
 ```bash
 # Test sans www (devrait retourner 200 OK directement)
-curl -I https://chinelogistique.com
+curl -I https://chinecargologis.com
 
 # Test avec www (devrait rediriger vers sans www)
-curl -I https://www.chinelogistique.com
+curl -I https://www.chinecargologis.com
 ```
 
 **Résultat attendu** :
 
-- `chinelogistique.com` → **200 OK** ✅
-- `www.chinelogistique.com` → **301 ou 308 Redirect** vers `chinelogistique.com` ✅
+- `chinecargologis.com` → **200 OK** ✅
+- `www.chinecargologis.com` → **301 ou 308 Redirect** vers `chinecargologis.com` ✅
 
 ### Test 2 : Vérifier le Favicon
 
 ```bash
 # Devrait retourner 200 OK et le fichier ICO
-curl -I https://chinelogistique.com/favicon.ico
+curl -I https://chinecargologis.com/favicon.ico
 ```
 
 ### Test 3 : Tester avec realfavicongenerator.net
 
 1. Allez sur : https://realfavicongenerator.net/favicon_checker
-2. Entrez : `https://chinelogistique.com` (sans www)
+2. Entrez : `https://chinecargologis.com` (sans www)
 3. Vérifiez que **"There is an ICO favicon"** ✅
 
 ---
@@ -192,29 +192,29 @@ curl -I https://chinelogistique.com/favicon.ico
 ### Configuration Vercel
 
 - [ ] Accéder à Vercel Dashboard → Settings → Domains
-- [ ] Configurer `chinelogistique.com` comme domaine principal
-- [ ] Configurer `www.chinelogistique.com` pour rediriger vers `chinelogistique.com`
+- [ ] Configurer `chinecargologis.com` comme domaine principal
+- [ ] Configurer `www.chinecargologis.com` pour rediriger vers `chinecargologis.com`
 - [ ] Vérifier que les DNS sur Namecheap pointent vers Vercel
 
 ### Code
 
 - [ ] Supprimer les URLs avec `www` dans `index.html`
-- [ ] Vérifier que `sitemap.xml` utilise `https://chinelogistique.com`
-- [ ] Vérifier que `robots.txt` utilise `https://chinelogistique.com/sitemap.xml`
+- [ ] Vérifier que `sitemap.xml` utilise `https://chinecargologis.com`
+- [ ] Vérifier que `robots.txt` utilise `https://chinecargologis.com/sitemap.xml`
 - [ ] Déployer les changements
 
 ### Google Search Console
 
 - [ ] Vérifier quelle propriété est configurée
-- [ ] Garder uniquement `https://chinelogistique.com` (sans www)
+- [ ] Garder uniquement `https://chinecargologis.com` (sans www)
 - [ ] Soumettre le sitemap sur la propriété principale
 - [ ] (Optionnel) Utiliser "Change of Address" si nécessaire
 
 ### Tests
 
-- [ ] Tester `https://chinelogistique.com` → 200 OK
-- [ ] Tester `https://www.chinelogistique.com` → Redirect vers sans www
-- [ ] Tester `https://chinelogistique.com/favicon.ico` → 200 OK
+- [ ] Tester `https://chinecargologis.com` → 200 OK
+- [ ] Tester `https://www.chinecargologis.com` → Redirect vers sans www
+- [ ] Tester `https://chinecargologis.com/favicon.ico` → 200 OK
 - [ ] Tester avec realfavicongenerator.net
 - [ ] Vérifier l'affichage du site dans un navigateur
 
@@ -225,11 +225,11 @@ curl -I https://chinelogistique.com/favicon.ico
 Après avoir suivi toutes ces étapes :
 
 ```
-✅ https://chinelogistique.com → 200 OK (domaine principal)
-↪️ https://www.chinelogistique.com → 301/308 → https://chinelogistique.com
-✅ https://chinelogistique.com/favicon.ico → 200 OK
+✅ https://chinecargologis.com → 200 OK (domaine principal)
+↪️ https://www.chinecargologis.com → 301/308 → https://chinecargologis.com
+✅ https://chinecargologis.com/favicon.ico → 200 OK
 ✅ Favicon détecté par tous les outils
-✅ Google indexe uniquement https://chinelogistique.com
+✅ Google indexe uniquement https://chinecargologis.com
 ✅ Pas de contenu dupliqué
 ✅ SEO optimisé
 ```
@@ -262,8 +262,8 @@ Pendant que Google réindexe votre site, vous pourriez voir :
 
 **Solution** : Supprimez tous les domaines et re-ajoutez-les dans l'ordre :
 
-1. Ajoutez `chinelogistique.com` en premier (sera automatiquement principal)
-2. Ajoutez `www.chinelogistique.com` ensuite (sera automatiquement un redirect)
+1. Ajoutez `chinecargologis.com` en premier (sera automatiquement principal)
+2. Ajoutez `www.chinecargologis.com` ensuite (sera automatiquement un redirect)
 
 ### Problème : Les redirections ne fonctionnent pas
 

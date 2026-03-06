@@ -46,7 +46,7 @@
     - Image URLs are stored for shipment photos
 */
 
-CREATE TABLE IF NOT EXISTS jongleur_maersk_shipments (
+CREATE TABLE IF NOT EXISTS jongleur_chinecargologis_shipments (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   tracking_number text UNIQUE NOT NULL,
   status text DEFAULT '',
@@ -80,27 +80,27 @@ CREATE TABLE IF NOT EXISTS jongleur_maersk_shipments (
   updated_at timestamptz DEFAULT now()
 );
 
-ALTER TABLE jongleur_maersk_shipments ENABLE ROW LEVEL SECURITY;
+ALTER TABLE jongleur_chinecargologis_shipments ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY "Anyone can view shipments by tracking number"
-  ON jongleur_maersk_shipments FOR SELECT
+  ON jongleur_chinecargologis_shipments FOR SELECT
   TO anon, authenticated
   USING (true);
 
 CREATE POLICY "Authenticated users can insert shipments"
-  ON jongleur_maersk_shipments FOR INSERT
+  ON jongleur_chinecargologis_shipments FOR INSERT
   TO authenticated
   WITH CHECK (true);
 
 CREATE POLICY "Authenticated users can update shipments"
-  ON jongleur_maersk_shipments FOR UPDATE
+  ON jongleur_chinecargologis_shipments FOR UPDATE
   TO authenticated
   USING (true)
   WITH CHECK (true);
 
 CREATE POLICY "Authenticated users can delete shipments"
-  ON jongleur_maersk_shipments FOR DELETE
+  ON jongleur_chinecargologis_shipments FOR DELETE
   TO authenticated
   USING (true);
 
-CREATE INDEX IF NOT EXISTS idx_jongleur_maersk_shipments_tracking_number ON jongleur_maersk_shipments(tracking_number);
+CREATE INDEX IF NOT EXISTS idx_jongleur_chinecargologis_shipments_tracking_number ON jongleur_chinecargologis_shipments(tracking_number);

@@ -1,13 +1,13 @@
 // Utility to get site configuration from environment variables
 export const getSiteName = (): string => {
-    return import.meta.env.VITE_SITE_NAME || 'MAERSKAIRCARGO';
+    return import.meta.env.VITE_SITE_NAME || 'CHINE CARGO LOGIS';
 };
 
 export const getSiteConfig = () => {
     return {
         name: getSiteName(),
-        email: import.meta.env.VITE_SITE_EMAIL || 'contact@maerskaircargo.com',
-        supportEmail: import.meta.env.VITE_SUPPORT_EMAIL || 'support@maerskaircargo.com',
+        email: import.meta.env.VITE_SITE_EMAIL || 'contact@chinecargologis.com',
+        supportEmail: import.meta.env.VITE_SUPPORT_EMAIL || 'support@chinecargologis.com',
     };
 };
 

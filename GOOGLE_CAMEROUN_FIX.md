@@ -3,7 +3,7 @@
 ## 📊 Problème Identifié
 
 Votre site **ChineLogistique.com** :
-- ✅ Est indexé par Google (visible avec `site:chinelogistique.com`)
+- ✅ Est indexé par Google (visible avec `site:chinecargologis.com`)
 - ✅ Apparaît dans les résultats Google depuis d'autres pays
 - ❌ N'apparaît PAS dans les résultats Google depuis le Cameroun
 
@@ -35,7 +35,7 @@ Votre site est en français, ce qui peut affecter le ranking dans différentes r
 #### Étape 1.1 : Accéder à Google Search Console
 1. Allez sur : https://search.google.com/search-console
 2. Connectez-vous avec votre compte Google
-3. Sélectionnez votre propriété `chinelogistique.com`
+3. Sélectionnez votre propriété `chinecargologis.com`
 
 #### Étape 1.2 : Vérifier le ciblage géographique
 1. Dans le menu de gauche, cliquez sur **Paramètres** (Settings)
@@ -51,13 +51,13 @@ Votre site est en français, ce qui peut affecter le ranking dans différentes r
 
 #### Étape 1.4 : Forcer une réindexation
 1. Allez dans **Inspection d'URL** (URL Inspection)
-2. Entrez : `https://chinelogistique.com`
+2. Entrez : `https://chinecargologis.com`
 3. Cliquez sur **Demander une indexation** (Request Indexing)
 4. Répétez pour vos pages principales :
-   - `https://chinelogistique.com/about`
-   - `https://chinelogistique.com/services`
-   - `https://chinelogistique.com/contact`
-   - `https://chinelogistique.com/track`
+   - `https://chinecargologis.com/about`
+   - `https://chinecargologis.com/services`
+   - `https://chinecargologis.com/contact`
+   - `https://chinecargologis.com/track`
 
 ---
 
@@ -149,7 +149,7 @@ Assurez-vous que le sitemap inclut toutes les pages avec la bonne priorité.
 Dans Google Search Console :
 1. Allez dans **Sitemaps**
 2. Supprimez l'ancien sitemap (si présent)
-3. Ajoutez : `https://chinelogistique.com/sitemap.xml`
+3. Ajoutez : `https://chinecargologis.com/sitemap.xml`
 4. Cliquez sur **Soumettre**
 
 ---

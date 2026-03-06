@@ -22,9 +22,9 @@ export default function Toast({ message, type, onClose, duration = 3000 }: Toast
       case 'success':
         return <CheckCircle className="w-6 h-6 text-green-500" />;
       case 'error':
-        return <XCircle className="w-6 h-6 text-blue-500" />;
+        return <XCircle className="w-6 h-6 text-red-600" />;
       case 'info':
-        return <AlertCircle className="w-6 h-6 text-blue-500" />;
+        return <AlertCircle className="w-6 h-6 text-red-600" />;
     }
   };
 
@@ -33,14 +33,14 @@ export default function Toast({ message, type, onClose, duration = 3000 }: Toast
       case 'success':
         return 'bg-green-50 border-green-200';
       case 'error':
-        return 'bg-blue-50 border-blue-200';
+        return 'bg-red-50 border-red-200';
       case 'info':
-        return 'bg-blue-50 border-blue-200';
+        return 'bg-red-50 border-red-200';
     }
   };
 
   return (
-    <div className="fixed top-4 right-4 z-50 animate-slide-in">
+    <div className="fixed top-24 right-4 z-[999] animate-slide-in"> {/* Increased z-index */}
       <div className={`flex items-center gap-3 px-4 py-3 rounded-lg border-2 shadow-lg ${getBackgroundColor()} min-w-[300px] max-w-md`}>
         {getIcon()}
         <p className="flex-1 text-sm font-medium text-gray-800">{message}</p>
