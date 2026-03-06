@@ -19,10 +19,16 @@ export default function Header() {
     <header className="fixed top-0 left-0 right-0 z-[100]">
       {!scrolled && <TopBar />}
       <nav id="navbar" className={`site-nav ${scrolled ? 'scrolled' : ''} ${isMenuOpen ? 'menu-open' : ''}`} style={{ position: 'relative' }}>
-      <Link to="/" className="logo flex-shrink-0">
-        <div className="logo-icon text-xs">✦</div>
-        <span className="hidden sm:inline">CHINE</span>CARGO<span className="hidden sm:inline text-red-600">LOGIS</span>
-        <span className="sm:hidden text-red-600 font-black ml-1">CCL</span>
+      <Link to="/" className="logo flex items-center gap-4">
+        <img 
+          src="/logo.png" 
+          alt="Chine Cargo Logis" 
+          className="h-14 w-auto object-contain"
+        />
+        <div className="flex flex-col leading-tight">
+          <span className="text-white font-black tracking-tight text-xl">CHINE CARGO</span>
+          <span className="text-red-600 font-bold tracking-[0.2em] text-[12px]">LOGISTICS SOLUTIONS</span>
+        </div>
       </Link>
 
       <div className={`nav-links-wrapper ${isMenuOpen ? 'active' : ''}`}>

@@ -1,7 +1,7 @@
 {
-  "name": "CHINE CARGO LOGIS - Global Logistics Solutions",
+  "name": "CHINE CARGO LOGIS - Solutions Logistiques Globales",
   "short_name": "CHINE CARGO LOGIS",
-  "description": "Global logistics and shipping solutions - Maritime, Air, Road and Rail transport",
+  "description": "Solutions de logistique et d'expédition mondiales - Transport maritime, aérien, routier et ferroviaire",
   "icons": [
     {
       "src": "/logo32x32.png",
@@ -40,8 +40,8 @@
       "purpose": "any maskable"
     }
   ],
-  "theme_color": "#42B0D5",
-  "background_color": "#0B132B",
+  "theme_color": "#E8001D",
+  "background_color": "#FFFFFF",
   "display": "standalone",
   "start_url": "/",
   "scope": "/",
@@ -51,5 +51,5 @@
     "shipping",
     "transport"
   ],
-  "lang": "en"
+  "lang": "fr"
 }
