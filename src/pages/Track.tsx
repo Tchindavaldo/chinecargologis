@@ -396,7 +396,7 @@ export default function Track() {
                         { label: 'Réf Transporteur', val: shipment.carrier_reference },
                         { label: 'Quantité', val: shipment.quantity },
                         { label: 'Mode de Paiement', val: shipment.payment_mode },
-                        { label: 'Total Freight', val: shipment.total_freight },
+                        { label: 'Transporteur Total', val: shipment.total_freight },
                         { label: 'Date Livraison Prévue', val: formatDate(shipment.expected_delivery_date) },
                         { label: 'Date de Départ', val: formatDate(shipment.departure_date) },
                         { label: 'Heure de Départ', val: shipment.departure_time },

@@ -79,7 +79,7 @@ export default function Home() {
               <input 
                 className="hero-track-input" 
                 type="text" 
-                placeholder="Entrez votre numéro de tracking · Ex: CDX-948200-SH"
+                placeholder="Entrez votre numéro de suivi · Ex: CDX-948200-SH"
                 value={trackingNumber}
                 onChange={(e) => setTrackingNumber(e.target.value)}
               />
@@ -175,7 +175,7 @@ export default function Home() {
             <img className="service-img" src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?w=600&q=75" alt="Track" loading="lazy" />
             <div className="service-body">
               <div className="service-number">03 — TRACK</div>
-              <div className="service-title">Tracking Temps Réel</div>
+              <div className="service-title">Suivi en Temps Réel</div>
               <p className="service-desc">Visibilité totale à chaque étape. Notifications SMS et email automatiques, alertes proactives, tableau de bord 24h/7j.</p>
             </div>
             <div className="service-arrow">→</div>
@@ -353,7 +353,7 @@ export default function Home() {
           <div className="testi-card">
             <div className="testi-quote">"</div>
             <div className="testi-stars">★★★★★</div>
-            <p className="testi-text">Incroyable ! Mon colis est parti de Shenzhen un lundi matin et était livré à Paris le mercredi soir. Le tracking en temps réel m'a permis de tout suivre sans stress.</p>
+            <p className="testi-text">Incroyable ! Mon colis est parti de Shenzhen un lundi matin et était livré à Paris le mercredi soir. Le suivi en temps réel m'a permis de tout suivre sans stress.</p>
             <div className="testi-author"><div className="testi-avatar">ML</div><div><div className="testi-name">Marie L.</div><div className="testi-role">Gérante boutique e-commerce · Paris</div></div></div>
           </div>
           <div className="testi-card">

@@ -235,10 +235,10 @@ export default function Admin() {
           setSiteSettings({ ...siteSettings, id: data.id });
         }
       }
-      setToast({ message: 'Site settings saved successfully!', type: 'success' });
+      setToast({ message: 'Paramètres du site enregistrés avec succès !', type: 'success' });
     } catch (err) {
       console.error('Error saving site settings:', err);
-      setToast({ message: 'Error saving site settings. Please try again.', type: 'error' });
+      setToast({ message: "Erreur lors de l'enregistrement des paramètres du site. Veuillez réessayer.", type: 'error' });
     } finally {
       setSavingSettings(false);
     }
@@ -264,12 +264,12 @@ export default function Admin() {
     if (!file) return;
 
     if (!file.type.startsWith('image/')) {
-      setToast({ message: 'Please select an image file', type: 'error' });
+      setToast({ message: 'Veuillez sélectionner un fichier image', type: 'error' });
       return;
     }
 
     if (file.size > 5 * 1024 * 1024) {
-      setToast({ message: 'Image size must be less than 5MB', type: 'error' });
+      setToast({ message: "La taille de l'image doit être inférieure à 5 Mo", type: 'error' });
       return;
     }
 
@@ -288,7 +288,7 @@ export default function Admin() {
         });
 
       if (uploadError) {
-        setToast({ message: 'Error uploading image: ' + uploadError.message, type: 'error' });
+        setToast({ message: "Erreur lors du téléchargement de l'image : " + uploadError.message, type: 'error' });
         return;
       }
 
@@ -300,7 +300,7 @@ export default function Admin() {
       setImagePreview(publicUrl);
     } catch (err: unknown) {
       const errorMessage = err instanceof Error ? err.message : 'Unknown error occurred';
-      setToast({ message: 'Error uploading image: ' + errorMessage, type: 'error' });
+      setToast({ message: "Erreur lors du téléchargement de l'image : " + errorMessage, type: 'error' });
     } finally {
       setUploadingImage(false);
     }
@@ -684,7 +684,7 @@ export default function Admin() {
         {activeTab === 'shipments' && (
           <>
             <div className="mb-6 flex items-center justify-between">
-              <h2 className="text-3xl font-bold text-gray-800">Shipments</h2>
+              <h2 className="text-3xl font-bold text-gray-800">Expéditions</h2>
               <button
                 onClick={() => {
                   resetForm();
@@ -692,10 +692,10 @@ export default function Admin() {
                   setShowForm(true);
                 }}
                 className="flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg font-semibold transition"
-                title="Add New Shipment"
+                title="Ajouter une Expédition"
               >
                 <Plus size={20} />
-                <span className="hidden md:inline">Add New Shipment</span>
+                <span className="hidden md:inline">Ajouter une Expédition</span>
               </button>
             </div>
 
@@ -710,22 +710,22 @@ export default function Admin() {
                 <thead className="bg-gray-50 border-b border-gray-200">
                   <tr>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Tracking Number
+                      Numéro de Suivi
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Status
+                      Statut
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Origin
+                      Origine
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Destination
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Shipper
+                      Expéditeur
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Receiver
+                      Destinataire
                     </th>
                     <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Actions
@@ -787,7 +787,7 @@ export default function Admin() {
           <div className="bg-white rounded-lg shadow-xl max-w-4xl w-full my-8">
             <div className="flex items-center justify-between p-6 border-b border-gray-200">
               <h3 className="text-2xl font-bold text-gray-900">
-                {editingId ? 'Edit Shipment' : 'Add New Shipment'}
+                {editingId ? 'Modifier l\'Expédition' : 'Ajouter une Expédition'}
               </h3>
               <button
                 onClick={() => {
@@ -805,7 +805,7 @@ export default function Admin() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Tracking Number *
+                    Numéro de Suivi *
                   </label>
                   <input
                     type="text"
@@ -818,7 +818,7 @@ export default function Admin() {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Status
+                    Statut
                   </label>
                   <input
                     type="text"
@@ -830,7 +830,7 @@ export default function Admin() {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Origin *
+                    Origine *
                   </label>
                   <input
                     type="text"
@@ -868,7 +868,7 @@ export default function Admin() {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Carrier *
+                    Transporteur *
                   </label>
                   <input
                     type="text"
@@ -887,7 +887,7 @@ export default function Admin() {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Carrier Reference
+                    Référence Transporteur
                   </label>
                   <input
                     type="text"
@@ -899,7 +899,7 @@ export default function Admin() {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Product
+                    Produit
                   </label>
                   <input
                     type="text"
@@ -911,7 +911,7 @@ export default function Admin() {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Type of Shipment
+                    Type d'Envoi
                   </label>
                   <input
                     type="text"
@@ -923,7 +923,7 @@ export default function Admin() {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Quantity
+                    Quantité
                   </label>
                   <input
                     type="number"
@@ -935,7 +935,7 @@ export default function Admin() {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Weight
+                    Poids
                   </label>
                   <input
                     type="text"
@@ -947,7 +947,7 @@ export default function Admin() {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Payment Mode
+                    Mode de Paiement
                   </label>
                   <input
                     type="text"
@@ -959,7 +959,7 @@ export default function Admin() {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Shipment Mode
+                    Mode d'Expédition
                   </label>
                   <input
                     type="text"
@@ -971,7 +971,7 @@ export default function Admin() {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Total Freight
+                    Total Fret
                   </label>
                   <input
                     type="text"
@@ -983,7 +983,7 @@ export default function Admin() {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Expected Delivery Date *
+                    Date de Livraison Prévue *
                   </label>
                   <input
                     type="date"
@@ -1002,7 +1002,7 @@ export default function Admin() {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Departure Date *
+                    Date de Départ *
                   </label>
                   <input
                     type="date"
@@ -1021,37 +1021,37 @@ export default function Admin() {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Departure Time
+                    Heure de Départ
                   </label>
                   <input
                     type="text"
                     value={formData.departure_time}
                     onChange={(e) => setFormData({ ...formData, departure_time: e.target.value })}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
-                    placeholder="e.g., 13:30 AT"
+                    placeholder="ex: 13:30"
                   />
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Delivery Time
+                    Heure de Livraison
                   </label>
                   <input
                     type="text"
                     value={formData.delivery_time}
                     onChange={(e) => setFormData({ ...formData, delivery_time: e.target.value })}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
-                    placeholder="e.g., 15:00"
+                    placeholder="ex: 15:00"
                   />
                 </div>
               </div>
 
               <div className="border-t border-gray-200 pt-6">
-                <h4 className="text-lg font-semibold text-gray-900 mb-4">Shipper Information</h4>
+                <h4 className="text-lg font-semibold text-gray-900 mb-4">Informations Expéditeur</h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Shipper Name *
+                      Nom Expéditeur *
                     </label>
                     <input
                       type="text"
@@ -1072,7 +1072,7 @@ export default function Admin() {
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Shipper Phone
+                      Téléphone Expéditeur
                     </label>
                     <input
                       type="tel"
@@ -1094,7 +1094,7 @@ export default function Admin() {
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Shipper Email
+                      Email Expéditeur
                     </label>
                     <input
                       type="email"
@@ -1105,7 +1105,7 @@ export default function Admin() {
                           ? 'border-red-500 focus:ring-red-600' 
                           : 'border-gray-300 focus:ring-red-600'
                       }`}
-                      placeholder="example@email.com"
+                      placeholder="exemple@email.com"
                       required
                     />
                     {formErrors.shipper_email && (
@@ -1115,7 +1115,7 @@ export default function Admin() {
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Shipper Address
+                      Adresse Expéditeur
                     </label>
                     <input
                       type="text"
@@ -1128,11 +1128,11 @@ export default function Admin() {
               </div>
 
               <div className="border-t border-gray-200 pt-6">
-                <h4 className="text-lg font-semibold text-gray-900 mb-4">Receiver Information</h4>
+                <h4 className="text-lg font-semibold text-gray-900 mb-4">Informations Destinataire</h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Receiver Name *
+                      Nom Destinataire *
                     </label>
                     <input
                       type="text"
@@ -1153,7 +1153,7 @@ export default function Admin() {
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Receiver Phone
+                      Téléphone Destinataire
                     </label>
                     <input
                       type="tel"
@@ -1175,7 +1175,7 @@ export default function Admin() {
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Receiver Email
+                      Email Destinataire
                     </label>
                     <input
                       type="email"
@@ -1186,7 +1186,7 @@ export default function Admin() {
                           ? 'border-red-500 focus:ring-red-600' 
                           : 'border-gray-300 focus:ring-red-600'
                       }`}
-                      placeholder="example@email.com"
+                      placeholder="exemple@email.com"
                       required
                     />
                     {formErrors.receiver_email && (
@@ -1196,7 +1196,7 @@ export default function Admin() {
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Receiver Address
+                      Adresse Destinataire
                     </label>
                     <input
                       type="text"
@@ -1212,7 +1212,7 @@ export default function Admin() {
                 <div className="space-y-6">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Comment / Additional Information
+                      Commentaire / Information Supplémentaire
                     </label>
                     <textarea
                       value={formData.comment}
@@ -1226,7 +1226,7 @@ export default function Admin() {
                   <div className="grid grid-cols-2 gap-6">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Status Date *
+                        Date Statut *
                       </label>
                       <input
                         type="date"
@@ -1244,7 +1244,7 @@ export default function Admin() {
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Status Time *
+                        Heure Statut *
                       </label>
                       <input
                         type="time"
@@ -1265,24 +1265,24 @@ export default function Admin() {
                   {/* Tracking Progress */}
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Tracking Stage
+                      Étape de Suivi
                     </label>
                     <select
                       value={formData.tracking_stage}
                       onChange={(e) => setFormData({ ...formData, tracking_stage: e.target.value })}
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
                     >
-                      <option value="picked_up">Picked Up</option>
-                      <option value="in_transit">In Transit</option>
-                      <option value="customs">In Customs</option>
-                      <option value="out_for_delivery">Out for Delivery</option>
-                      <option value="delivered">Delivered</option>
+                      <option value="picked_up">Collecté</option>
+                      <option value="in_transit">En Transit</option>
+                      <option value="customs">Douane</option>
+                      <option value="out_for_delivery">En Livraison</option>
+                      <option value="delivered">Livré</option>
                     </select>
                   </div>
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Tracking Progress (0-100%)
+                      Progression (0-100%)
                     </label>
                     <input
                       type="number"
@@ -1297,7 +1297,7 @@ export default function Admin() {
                   {/* Insurances */}
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Insurances
+                      Assurances
                     </label>
                     <div className="space-y-4">
                       {formData.insurances.map((insurance, index) => (
@@ -1305,7 +1305,7 @@ export default function Admin() {
                           <div className="flex-1">
                             <input
                               type="text"
-                              placeholder="Insurance name"
+                              placeholder="Nom de l'assurance"
                               value={insurance.name}
                               onChange={(e) => {
                                 const newInsurances = [...formData.insurances];
@@ -1316,7 +1316,7 @@ export default function Admin() {
                             />
                             <input
                               type="text"
-                              placeholder="Amount (e.g., 135000 CFA)"
+                              placeholder="Montant (ex: 135000 CFA)"
                               value={insurance.amount}
                               onChange={(e) => {
                                 const newInsurances = [...formData.insurances];
@@ -1336,7 +1336,7 @@ export default function Admin() {
                                 }}
                                 className="rounded border-gray-300 text-red-600 focus:ring-red-600"
                               />
-                              <span className="text-sm text-gray-700">Paid</span>
+                              <span className="text-sm text-gray-700">Payé</span>
                             </label>
                           </div>
                           <button
@@ -1361,7 +1361,7 @@ export default function Admin() {
                         }}
                         className="w-full px-4 py-2 border-2 border-dashed border-gray-300 rounded-lg text-gray-600 hover:border-red-600 hover:text-red-600 transition"
                       >
-                        + Add Insurance
+                        + Ajouter Assurance
                       </button>
                     </div>
                   </div>
@@ -1369,12 +1369,12 @@ export default function Admin() {
                   {/* Import Tax */}
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Import Tax
+                      Taxe d'Importation
                     </label>
                     <div className="space-y-4">
                       <input
                         type="text"
-                        placeholder="e.g., 150000 CFA"
+                        placeholder="ex: 150000 CFA"
                         value={formData.import_tax}
                         onChange={(e) => setFormData({ ...formData, import_tax: e.target.value })}
                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
@@ -1386,20 +1386,20 @@ export default function Admin() {
                           onChange={(e) => setFormData({ ...formData, import_tax_paid: e.target.checked })}
                           className="rounded border-gray-300 text-red-600 focus:ring-red-600"
                         />
-                        <span className="text-sm text-gray-700">Import Tax Paid</span>
+                        <span className="text-sm text-gray-700">Taxe Payée</span>
                       </label>
                     </div>
                   </div>
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Shipment Image
+                      Image de l'expédition
                     </label>
                     <div className="space-y-4">
                       <div className="flex items-center gap-4">
                         <label className="flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg cursor-pointer hover:bg-red-700 transition">
                           <Upload size={20} />
-                          {uploadingImage ? 'Uploading...' : 'Upload Image'}
+                          {uploadingImage ? 'Téléchargement...' : 'Choisir une image'}
                           <input
                             type="file"
                             accept="image/*"
@@ -1414,7 +1414,7 @@ export default function Admin() {
                               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                             </svg>
-                            Uploading image...
+                            Téléchargement...
                           </div>
                         )}
                       </div>
@@ -1440,7 +1440,7 @@ export default function Admin() {
                       )}
 
                       <p className="text-xs text-gray-500">
-                        Upload an image of the shipment (max 5MB). Supported formats: JPG, PNG, WebP, GIF
+                        Téléchargez une image de l'expédition (max 5MB). Formats: JPG, PNG, WebP, GIF
                       </p>
                     </div>
                   </div>
@@ -1458,7 +1458,7 @@ export default function Admin() {
                   disabled={saving}
                   className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Cancel
+                  Annuler
                 </button>
                 <button
                   type="submit"
@@ -1471,10 +1471,10 @@ export default function Admin() {
                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                       </svg>
-                      Saving...
+                      Sauvegarde...
                     </>
                   ) : (
-                    editingId ? 'Update Shipment' : 'Create Shipment'
+                    editingId ? 'Mettre à jour' : 'Créer l\'Expédition'
                   )}
                 </button>
               </div>
@@ -1488,14 +1488,14 @@ export default function Admin() {
         {/* Site Settings Tab */}
         {activeTab === 'settings' && (
           <div className="bg-white rounded-lg shadow-md p-8">
-            <h2 className="text-3xl font-bold text-gray-800 mb-6">Site Settings</h2>
-            <p className="text-gray-600 mb-8">Manage your site information and contact details displayed on the website.</p>
+            <h2 className="text-3xl font-bold text-gray-800 mb-6">Paramètres du Site</h2>
+            <p className="text-gray-600 mb-8">Gérez les informations de votre site et les coordonnées affichées sur le site web.</p>
             
             <div className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Company Name
+                    Nom de l'Entreprise
                   </label>
                   <input
                     type="text"
@@ -1508,7 +1508,7 @@ export default function Admin() {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Site Email
+                    Email du Site
                   </label>
                   <input
                     type="email"
@@ -1521,7 +1521,7 @@ export default function Admin() {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Support Email
+                    Email Support
                   </label>
                   <input
                     type="email"
@@ -1534,7 +1534,7 @@ export default function Admin() {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Phone Number
+                    Numéro de Téléphone
                   </label>
                   <input
                     type="tel"
@@ -1547,7 +1547,7 @@ export default function Admin() {
 
                 <div className="md:col-span-2">
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Address
+                    Adresse
                   </label>
                   <input
                     type="text"
@@ -1560,14 +1560,14 @@ export default function Admin() {
 
                 <div className="md:col-span-2">
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Company Description
+                    Description de l'Entreprise
                   </label>
                   <textarea
                     value={siteSettings.company_description}
                     onChange={(e) => setSiteSettings({ ...siteSettings, company_description: e.target.value })}
                     rows={4}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
-                    placeholder="Brief description of your company..."
+                    placeholder="Brève description de votre entreprise..."
                   />
                 </div>
               </div>
@@ -1584,10 +1584,10 @@ export default function Admin() {
                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                       </svg>
-                      Saving...
+                      Sauvegarde...
                     </>
                   ) : (
-                    'Save Settings'
+                    'Enregistrer'
                   )}
                 </button>
               </div>
@@ -1606,33 +1606,33 @@ export default function Admin() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
                 </svg>
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">Shipment Created!</h3>
-              <p className="text-gray-600 mb-6">Your shipment has been successfully created.</p>
+              <h3 className="text-2xl font-bold text-gray-900 mb-2">Expédition Créée !</h3>
+              <p className="text-gray-600 mb-6">Votre expédition a été créée avec succès.</p>
               
               <div className="bg-red-50 border-2 border-red-200 rounded-lg p-4 mb-6">
-                <p className="text-sm font-medium text-gray-700 mb-2">Tracking Number:</p>
+                <p className="text-sm font-medium text-gray-700 mb-2">Numéro de Suivi :</p>
                 <p className="text-2xl font-bold text-red-600 select-all">{newTrackingNumber}</p>
               </div>
 
               <p className="text-sm text-gray-500 mb-6">
-                Share this tracking number with your customer to track the shipment.
+                Partagez ce numéro de suivi avec votre client pour suivre l'expédition.
               </p>
 
               <div className="flex gap-3">
                 <button
                   onClick={() => {
                     navigator.clipboard.writeText(newTrackingNumber);
-                    setToast({ message: 'Tracking number copied to clipboard!', type: 'success' });
+                    setToast({ message: 'Numéro de suivi copié dans le presse-papiers !', type: 'success' });
                   }}
                   className="flex-1 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition font-medium"
                 >
-                  Copy Code
+                  Copier Code
                 </button>
                 <button
                   onClick={() => setShowSuccessModal(false)}
                   className="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition font-medium"
                 >
-                  Close
+                  Fermer
                 </button>
               </div>
             </div>
