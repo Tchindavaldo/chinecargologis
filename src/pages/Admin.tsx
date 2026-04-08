@@ -1,8 +1,17 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, Edit, Trash2, LogOut, Package, Upload, X, Settings, MessageCircle, AlertTriangle } from 'lucide-react';
+import { Plus, Edit, Trash2, LogOut, Package, Upload, X, Settings, MessageCircle, AlertTriangle, Users } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import Toast from '../components/Toast';
+import { useAuth } from '../hooks/useAuth';
+
+interface AuthUser {
+  id: string;
+  email: string;
+  role: string;
+  active: boolean;
+  created_at: string;
+}
 
 interface Shipment {
   id: string;
@@ -81,7 +90,8 @@ export default function Admin() {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [newTrackingNumber, setNewTrackingNumber] = useState('');
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
-  const [activeTab, setActiveTab] = useState<'shipments' | 'settings'>('shipments');
+  const [activeTab, setActiveTab] = useState<'shipments' | 'settings' | 'users'>('shipments');
+  const [usersList, setUsersList] = useState<AuthUser[]>([]);
   const [siteSettings, setSiteSettings] = useState<SiteSettings>({
     site_email: '',
     site_phone: '',
@@ -137,21 +147,29 @@ export default function Admin() {
     tracking_stage: 'picked_up',
   });
   const navigate = useNavigate();
+  const { signOut } = useAuth();
 
   useEffect(() => {
     const initializeAdmin = async () => {
-      await checkAuth();
       await fetchShipments();
       await fetchSiteSettings();
+      await fetchUsers();
     };
     initializeAdmin();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const checkAuth = async () => {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) {
-      navigate('/login');
+  const fetchUsers = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('tolito_chinecargologis_authorized_users')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+      setUsersList(data || []);
+    } catch (err) {
+      console.error('Error fetching users:', err);
     }
   };
 
@@ -249,9 +267,9 @@ export default function Admin() {
   const handleLogout = async () => {
     setLoggingOut(true);
     try {
-      await new Promise(resolve => setTimeout(resolve, 800)); // Smooth transition
-      await supabase.auth.signOut();
-      navigate('/login');
+      await new Promise(resolve => setTimeout(resolve, 500));
+      await signOut();
+      navigate('/');
     } catch (err) {
       console.error('Logout error:', err);
     } finally {
@@ -674,6 +692,20 @@ export default function Admin() {
                 <div className="flex items-center gap-2">
                   <Settings size={18} />
                   <span>Paramètres du site</span>
+                </div>
+              </button>
+              <button
+                onClick={() => setActiveTab('users')}
+                className={`py-4 px-1 border-b-2 font-bold text-xs uppercase tracking-widest transition-all duration-300 ${
+                  activeTab === 'users'
+                    ? 'border-red-600 text-red-600'
+                    : 'border-transparent text-gray-500 hover:text-red-600 hover:border-red-600/30'
+                }`}
+                style={{ fontFamily: 'Rajdhani, sans-serif' }}
+              >
+                <div className="flex items-center gap-2">
+                  <Users size={18} />
+                  <span>Utilisateurs</span>
                 </div>
               </button>
             </nav>
@@ -1591,6 +1623,75 @@ export default function Admin() {
                   )}
                 </button>
               </div>
+            </div>
+          </div>
+        )}
+
+
+        {/* Users Tab */}
+        {activeTab === 'users' && (
+          <div className="bg-white rounded-lg shadow-md overflow-hidden">
+            <div className="p-6 border-b border-gray-200">
+              <h2 className="text-2xl font-bold text-gray-800">Gestion des Utilisateurs</h2>
+              <p className="text-gray-500 text-sm mt-1">Liste des comptes clients et administrateurs enregistrés.</p>
+            </div>
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead className="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Email
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Date d'inscription
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Rôle
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Statut d'accès
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                  {usersList.length === 0 ? (
+                    <tr>
+                      <td colSpan={4} className="px-6 py-12 text-center text-gray-500">
+                        Aucun utilisateur trouvé ou chargement en cours...
+                      </td>
+                    </tr>
+                  ) : (
+                    usersList.map((user) => (
+                      <tr key={user.id} className="hover:bg-gray-50">
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-bold text-gray-900">
+                          {user.email}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                          {new Date(user.created_at).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm">
+                          <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider ${
+                            user.role === 'admin' ? 'bg-red-100 text-red-800' : 'bg-blue-100 text-blue-800'
+                          }`}>
+                            {user.role}
+                          </span>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm">
+                          {user.active ? (
+                            <span className="inline-flex items-center gap-1.5 text-green-600 font-medium">
+                              <span className="w-2 h-2 rounded-full bg-green-500"></span> Actif
+                            </span>
+                          ) : (
+                            <span className="inline-flex items-center gap-1.5 text-gray-500 font-medium">
+                              <span className="w-2 h-2 rounded-full bg-gray-400"></span> Désactivé
+                            </span>
+                          )}
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
             </div>
           </div>
         )}
