@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { supabase } from '../lib/supabase';
+import { useAuth } from '../hooks/useAuth';
 
 /**
  * Page intermédiaire /auth/callback
@@ -9,58 +9,26 @@ import { supabase } from '../lib/supabase';
  */
 export default function AuthCallback() {
   const navigate = useNavigate();
+  const { user, role, loading } = useAuth();
 
   useEffect(() => {
-    const handleCallback = async () => {
-      // Laisse Supabase traiter les hash params (#access_token=...)
-      const { data: { session }, error } = await supabase.auth.getSession();
-
-      if (error || !session) {
+    if (!loading) {
+      if (!user) {
         navigate('/login', { replace: true });
         return;
       }
 
-      const user = session.user;
-
-      // Tente de lier le user_id si non encore fait
-      await supabase
-        .from('tolito_chinecargologis_authorized_users')
-        .update({ user_id: user.id, updated_at: new Date().toISOString() })
-        .eq('email', user.email || '')
-        .is('user_id', null);
-
-      // Récupère le rôle
-      const { data: authUser } = await supabase
-        .from('tolito_chinecargologis_authorized_users')
-        .select('role, active')
-        .eq('email', user.email || '')
-        .eq('active', true)
-        .maybeSingle();
-
-      if (!authUser) {
-        // AUTO RECOUVREMENT : Vieux compte Google ou trigger défaillant
-        await supabase
-          .from('tolito_chinecargologis_authorized_users')
-          .insert({
-              user_id: user.id,
-              email: user.email || '',
-              role: 'client', // role par défaut
-              active: true
-          });
-
-        navigate('/dashboard', { replace: true });
-        return;
-      }
-
-      if (authUser.role === 'admin') {
+      // Redirection basée sur le rôle récupéré par useAuth
+      if (role === 'admin') {
         navigate('/admin', { replace: true });
-      } else {
+      } else if (role === 'client') {
         navigate('/dashboard', { replace: true });
+      } else {
+        // Si vraiment aucun rôle n'est trouvé malgré l'auto-recouvrement
+        navigate('/', { replace: true });
       }
-    };
-
-    handleCallback();
-  }, [navigate]);
+    }
+  }, [loading, user, role, navigate]);
 
   return (
     <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--darker)' }}>

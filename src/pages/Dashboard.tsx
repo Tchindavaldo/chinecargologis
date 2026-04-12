@@ -75,40 +75,40 @@ export default function Dashboard() {
       {/* HEADER */}
       <header className="bg-gray-900/80 backdrop-blur-sm border-b border-red-600/20 sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <Link to="/" className="flex items-center gap-3">
-              <img src="/logo.png?v=5" alt="Chine Cargo Logis" className="h-10 w-auto object-contain" />
-              <div className="hidden sm:block">
-                <span className="text-white font-black tracking-tight text-base leading-none block">CHINE CARGO</span>
-                <span className="text-red-600 font-bold tracking-[0.2em] text-[10px]">LOGISTICS SOLUTIONS</span>
+          <div className="flex items-center gap-2 sm:gap-4 overflow-hidden">
+            <Link to="/" className="flex items-center gap-2 sm:gap-3 shrink-0">
+              <img src="/logo.png?v=5" alt="Chine Cargo Logis" className="h-8 sm:h-10 w-auto object-contain" />
+              <div className="hidden xs:block">
+                <span className="text-white font-black tracking-tight text-xs sm:text-base leading-none block">CHINE CARGO</span>
+                <span className="text-red-600 font-bold tracking-[0.2em] text-[8px] sm:text-[10px]">LOGISTICS</span>
               </div>
             </Link>
-            <div className="h-6 w-px bg-white/10 mx-2 hidden sm:block"></div>
-            <div className="hidden sm:flex items-center gap-2 text-gray-400 text-sm">
-              <User size={14} className="text-red-500" />
-              <span className="font-semibold">{displayName}</span>
+            <div className="h-6 w-px bg-white/10 mx-1 sm:mx-2 shrink-0"></div>
+            <div className="flex items-center gap-1.5 sm:gap-2 text-gray-400 text-[10px] sm:text-sm overflow-hidden">
+              <User size={12} className="text-red-500 shrink-0" />
+              <span className="font-semibold truncate max-w-[70px] xs:max-w-[100px] sm:max-w-none">{displayName}</span>
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
             <Link
               to="/"
-              className="text-gray-400 hover:text-white text-xs font-bold tracking-widest uppercase transition-colors hidden sm:block"
+              className="text-gray-400 hover:text-white text-[9px] sm:text-xs font-bold tracking-widest uppercase transition-colors"
             >
               Site Vitrine
             </Link>
             <button
               onClick={handleLogout}
               disabled={loggingOut}
-              className="flex items-center gap-2 bg-white/5 hover:bg-red-600 px-4 py-2 rounded-lg transition-all duration-300 font-bold text-xs border border-white/10 hover:border-red-600 text-white disabled:opacity-50"
+              className="flex items-center gap-2 bg-white/5 hover:bg-red-600 px-2 sm:px-4 py-1.5 sm:py-2 rounded-lg transition-all duration-300 font-bold text-[10px] sm:text-xs border border-white/10 hover:border-red-600 text-white disabled:opacity-50"
               style={{ fontFamily: 'Rajdhani, sans-serif' }}
             >
               {loggingOut ? (
-                <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                <div className="w-3 h-3 sm:w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
               ) : (
-                <LogOut size={15} className="text-red-400" />
+                <LogOut size={14} className="text-red-400" />
               )}
-              <span className="hidden sm:inline">{loggingOut ? 'DÉCONNEXION...' : 'DÉCONNEXION'}</span>
+              <span className="hidden xs:inline">{loggingOut ? 'DÉCONNEXION...' : 'DÉCONNEXION'}</span>
             </button>
           </div>
         </div>
@@ -123,7 +123,7 @@ export default function Dashboard() {
             <div>
               <p className="text-red-500 font-bold text-xs tracking-[3px] uppercase mb-2">Tableau de Bord Client</p>
               <h1 className="text-2xl sm:text-3xl font-black text-white" style={{ fontFamily: 'Orbitron, sans-serif' }}>
-                Bonjour, <span className="text-red-500">{displayName}</span>
+                Bonjour
               </h1>
               <p className="text-gray-400 text-sm mt-2">
                 Vous avez <span className="text-white font-bold">{shipments.length}</span> expédition{shipments.length !== 1 ? 's' : ''} associée{shipments.length !== 1 ? 's' : ''} à votre compte.
