@@ -156,12 +156,13 @@
 
 <body>
   <script>
-    // Nettoyer local et session storage uniquement à la première ouverture de l'onglet
-    // Cela permet de préserver la session pendant la navigation et d'éviter de casser l'Auth Google
-    if (!sessionStorage.getItem('chinecargo_initialized')) {
+    // Nettoyage SYSTÉMATIQUE à chaque chargement/actualisation
+    // On n'exclut que le flux d'authentification pour ne pas casser la connexion Google
+    if (!window.location.pathname.includes('/auth/callback') &&
+      !window.location.hash.includes('access_token=') &&
+      !window.location.search.includes('code=')) {
       localStorage.clear();
       sessionStorage.clear();
-      sessionStorage.setItem('chinecargo_initialized', 'true');
     }
   </script>
   <div id="root"></div>
