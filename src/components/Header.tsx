@@ -32,22 +32,23 @@ export default function Header() {
 
   const handleLogout = async () => {
     setLoggingOut(true);
-    setIsMenuOpen(false);
     try {
       await signOut();
+      // Purge explicite du stockage pour garantir un état propre sans rechargement
+      localStorage.clear();
+      sessionStorage.clear();
+      
+      setIsMenuOpen(false);
+      setUserMenuOpen(false);
+      
+      if (window.location.pathname !== '/') {
+        window.location.href = '/'; // On redirige vers l'accueil pour un état vraiment propre
+      } else {
+        window.location.reload(); // Si déjà sur l'accueil, on reload pour vider tout via index.html
+      }
     } catch (error) {
       console.error('Logout error:', error);
-    } finally {
-      // Purge absolue pour éviter que le navigateur ne garde un état corrompu
-      Object.keys(localStorage).forEach(key => {
-        if (key.startsWith('sb-')) localStorage.removeItem(key);
-      });
-      // RAFRAICHISSEMENT HARD
-      if (window.location.pathname === '/') {
-        window.location.reload();
-      } else {
-        window.location.href = '/';
-      }
+      setLoggingOut(false);
     }
   };
 
@@ -96,11 +97,16 @@ export default function Header() {
                   {role === 'admin' ? 'Dashboard Admin' : 'Mes Expéditions'}
                 </Link>
                 <button
-                  onClick={() => { setIsMenuOpen(false); handleLogout(); }}
-                  className="flex items-center gap-2 text-red-400 hover:text-red-300 font-bold text-sm py-2"
+                  onClick={handleLogout}
+                  disabled={loggingOut}
+                  className="flex items-center gap-2 text-red-400 hover:text-red-300 font-bold text-sm py-2 disabled:opacity-50"
                 >
-                  <LogOut size={15} />
-                  Déconnexion
+                  {loggingOut ? (
+                    <div className="w-3.5 h-3.5 border-2 border-red-400/20 border-t-red-400 rounded-full animate-spin"></div>
+                  ) : (
+                    <LogOut size={15} />
+                  )}
+                  {loggingOut ? 'Déconnexion...' : 'Déconnexion'}
                 </button>
               </div>
             ) : (
