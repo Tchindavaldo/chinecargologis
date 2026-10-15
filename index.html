@@ -158,7 +158,9 @@
   <script>
     // Nettoyage SYSTÉMATIQUE à chaque chargement/actualisation
     // On n'exclut que le flux d'authentification pour ne pas casser la connexion Google
-    if (!window.location.pathname.includes('/auth/callback') &&
+    // Demo build keeps its in-browser data and session across refreshes.
+    if ('%VITE_DEMO%' !== '1' &&
+      !window.location.pathname.includes('/auth/callback') &&
       !window.location.hash.includes('access_token=') &&
       !window.location.search.includes('code=')) {
       localStorage.clear();
