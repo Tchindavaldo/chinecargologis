@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { Lock, Mail, ChevronRight, AlertCircle, Chrome, UserPlus, LogIn, Eye, EyeOff } from 'lucide-react';
-import { supabase } from '../lib/supabase';
+import { supabase, IS_DEMO } from '../lib/supabase';
+import { DEMO_ADMIN } from '../lib/demo/fixtures';
 import SEO from '../components/SEO';
 import { getSiteName } from '../utils/siteConfig';
 import { useAuth } from '../hooks/useAuth';
@@ -10,14 +11,14 @@ type AuthMode = 'login' | 'signup' | 'forgot';
 
 export default function Login() {
   const [mode, setMode] = useState<AuthMode>('login');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState(IS_DEMO ? DEMO_ADMIN.email : '');
+  const [password, setPassword] = useState(IS_DEMO ? DEMO_ADMIN.password : '');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
   const [error, setError] = useState('');
-  const [info, setInfo] = useState('');
+  const [info, setInfo] = useState(IS_DEMO ? 'Demo mode: fictitious data, stored only in this browser. Click Sign in.' : '');
   const [signupDone, setSignupDone] = useState(false); // Écran confirmation email
   const [signupEmail, setSignupEmail] = useState(''); // Email utilisé pour l'inscription
   const navigate = useNavigate();
