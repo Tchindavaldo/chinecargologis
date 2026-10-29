@@ -59,7 +59,7 @@ export default function Footer() {
       </div>
       <div className="footer-bottom">
         <div className="footer-copy">
-          © {new Date().getFullYear()} {settings?.company_name} · Tous droits réservés
+          © {new Date().getFullYear()} {settings?.company_name} · Tous droits réservés · Site réalisé par <a href="https://rauval.com" target="_blank" rel="noopener" style={{ color: 'inherit', textDecoration: 'underline' }}>Rauval</a>
         </div>
         <ul className="footer-bottom-links">
           <li><Link to="/legals">Mentions légales</Link></li>
