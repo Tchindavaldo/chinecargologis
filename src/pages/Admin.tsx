@@ -80,6 +80,18 @@ interface ShipmentForm {
   tracking_stage: string;
 }
 
+// Mobile : le clic ouvre le partage natif (image jointe), l'utilisateur choisit l'appli.
+// Ordinateur : on copie l'image et on ouvre wa.me (le numéro saisi est alors utile).
+const canShareQrNatively = () => {
+  if (typeof navigator === 'undefined' || !navigator.canShare) return false;
+  if (!/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) return false;
+  try {
+    return navigator.canShare({ files: [new File([''], 't.png', { type: 'image/png' })] });
+  } catch {
+    return false;
+  }
+};
+
 export default function Admin() {
   const [shipments, setShipments] = useState<Shipment[]>([]);
   const [loading, setLoading] = useState(true);
@@ -600,7 +612,7 @@ export default function Admin() {
     const file = new File([blob], `qrcode-${qrModal.trackingNumber}.png`, { type: 'image/png' });
 
     // Mobile : partage natif avec l'image jointe (WhatsApp apparaît dans la liste)
-    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+    if (canShareQrNatively() && navigator.canShare({ files: [file] })) {
       try {
         await navigator.share({ files: [file], text });
         return;
@@ -1865,17 +1877,19 @@ export default function Admin() {
               </button>
             </div>
             <div className="mt-4 border-t border-gray-200 pt-4">
-              <div className="flex items-center mb-2">
-                <span className="inline-flex items-center px-3 py-2 bg-gray-100 border border-r-0 border-gray-300 rounded-l-lg text-gray-700 text-sm font-medium">+237</span>
-                <input
-                  type="tel"
-                  value={qrPhone}
-                  onChange={(e) => setQrPhone(e.target.value.replace(/[^0-9]/g, ''))}
-                  maxLength={9}
-                  placeholder="N° du client (optionnel)"
-                  className="flex-1 px-3 py-2 text-sm border border-gray-300 rounded-r-lg focus:outline-none focus:ring-2 focus:ring-green-600"
-                />
-              </div>
+              {!canShareQrNatively() && (
+                <div className="flex items-center mb-2">
+                  <span className="inline-flex items-center px-3 py-2 bg-gray-100 border border-r-0 border-gray-300 rounded-l-lg text-gray-700 text-sm font-medium">+237</span>
+                  <input
+                    type="tel"
+                    value={qrPhone}
+                    onChange={(e) => setQrPhone(e.target.value.replace(/[^0-9]/g, ''))}
+                    maxLength={9}
+                    placeholder="N° du client (optionnel)"
+                    className="flex-1 px-3 py-2 text-sm border border-gray-300 rounded-r-lg focus:outline-none focus:ring-2 focus:ring-green-600"
+                  />
+                </div>
+              )}
               <button onClick={handleSendQrWhatsApp} className="w-full flex items-center justify-center gap-2 px-3 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
                 <MessageCircle size={16} /> Envoyer via WhatsApp
               </button>
