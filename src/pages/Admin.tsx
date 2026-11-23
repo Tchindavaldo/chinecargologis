@@ -105,6 +105,7 @@ export default function Admin() {
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' | 'info' } | null>(null);
   const [menuOpen, setMenuOpen] = useState<{ id: string; top: number; right: number } | null>(null);
   const [qrModal, setQrModal] = useState<{ trackingNumber: string; dataUrl: string; url: string } | null>(null);
+  const [qrPhone, setQrPhone] = useState('');
   const [showWhatsAppModal, setShowWhatsAppModal] = useState(false);
   const [whatsappPhone, setWhatsappPhone] = useState('');
   const [whatsappMessage, setWhatsappMessage] = useState('');
@@ -590,6 +591,38 @@ export default function Admin() {
     } catch {
       setToast({ message: 'Copie impossible sur ce navigateur, utilisez Télécharger', type: 'error' });
     }
+  };
+
+  const handleSendQrWhatsApp = async () => {
+    if (!qrModal) return;
+    const text = `Bonjour, voici le QR code de suivi de votre colis ${qrModal.trackingNumber}.\nScannez-le ou ouvrez ce lien : ${qrModal.url}`;
+    const blob = await (await fetch(qrModal.dataUrl)).blob();
+    const file = new File([blob], `qrcode-${qrModal.trackingNumber}.png`, { type: 'image/png' });
+
+    // Mobile : partage natif avec l'image jointe (WhatsApp apparaît dans la liste)
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+      try {
+        await navigator.share({ files: [file], text });
+        return;
+      } catch (err) {
+        if ((err as Error).name === 'AbortError') return;
+      }
+    }
+
+    // Ordinateur : on copie l'image, on ouvre WhatsApp avec le message, le QR se colle avec Ctrl+V
+    let copied = false;
+    try {
+      await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+      copied = true;
+    } catch { /* ignoré */ }
+    if (!copied) handleDownloadQr();
+    const phone = qrPhone.replace(/[^0-9]/g, '');
+    const base = phone.length === 9 ? `https://wa.me/237${phone}` : 'https://wa.me/';
+    window.open(`${base}?text=${encodeURIComponent(text)}`, '_blank');
+    setToast({
+      message: copied ? 'QR code copié : collez-le dans la discussion (Ctrl+V)' : 'QR code téléchargé : joignez-le dans la discussion',
+      type: 'info',
+    });
   };
 
   const handleCopyTrackingLink = async () => {
@@ -1815,7 +1848,7 @@ export default function Admin() {
           <div className="bg-white rounded-lg shadow-2xl max-w-sm w-full p-6">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-xl font-bold text-gray-900">QR code de suivi</h3>
-              <button onClick={() => setQrModal(null)} className="text-gray-400 hover:text-gray-600">
+              <button onClick={() => { setQrModal(null); setQrPhone(''); }} className="text-gray-400 hover:text-gray-600">
                 <X size={24} />
               </button>
             </div>
@@ -1829,6 +1862,22 @@ export default function Admin() {
               </button>
               <button onClick={handleCopyQr} className="flex items-center justify-center gap-2 px-3 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">
                 <Copy size={16} /> Copier l'image
+              </button>
+            </div>
+            <div className="mt-4 border-t border-gray-200 pt-4">
+              <div className="flex items-center mb-2">
+                <span className="inline-flex items-center px-3 py-2 bg-gray-100 border border-r-0 border-gray-300 rounded-l-lg text-gray-700 text-sm font-medium">+237</span>
+                <input
+                  type="tel"
+                  value={qrPhone}
+                  onChange={(e) => setQrPhone(e.target.value.replace(/[^0-9]/g, ''))}
+                  maxLength={9}
+                  placeholder="N° du client (optionnel)"
+                  className="flex-1 px-3 py-2 text-sm border border-gray-300 rounded-r-lg focus:outline-none focus:ring-2 focus:ring-green-600"
+                />
+              </div>
+              <button onClick={handleSendQrWhatsApp} className="w-full flex items-center justify-center gap-2 px-3 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
+                <MessageCircle size={16} /> Envoyer via WhatsApp
               </button>
             </div>
             <button onClick={handleCopyTrackingLink} className="mt-2 w-full px-3 py-2 text-sm text-gray-600 hover:text-gray-900">
