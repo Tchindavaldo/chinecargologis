@@ -54,8 +54,6 @@ interface Shipment {
 
 export default function Track() {
   const [searchParams] = useSearchParams();
-  // Page ouverte via lien / QR code : le champ de saisie est masqué, le colis s'affiche directement
-  const hasCode = !!searchParams.get('tracking');
   const [trackingNumber, setTrackingNumber] = useState('');
   const [shipment, setShipment] = useState<Shipment | null>(null);
   const [loading, setLoading] = useState(false);
@@ -172,10 +170,8 @@ export default function Track() {
       <section className="how py-16" style={{ background: 'var(--darker)' }}>
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto -mt-32 relative z-20">
-            {(!hasCode || error) && (
             <div className="bg-white p-1 shadow-2xl rounded-lg border border-gray-100">
               <div className="p-8 bg-white rounded-lg">
-                {!hasCode && (
                 <form onSubmit={(e) => handleTrack(e)} className="flex flex-col md:flex-row gap-4">
                   <div className="flex-1 relative">
                     <input
@@ -195,7 +191,6 @@ export default function Track() {
                     {loading ? 'Recherche...' : 'Suivre maintenant'}
                   </button>
                 </form>
-                )}
                 {error && (
                   <div className="mt-4 p-4 bg-red-50 border border-red-200 text-red-600 rounded-lg text-center font-bold">
                     {error}
@@ -203,7 +198,6 @@ export default function Track() {
                 )}
               </div>
             </div>
-            )}
           </div>
 
           {/* RESULTS AREA */}
@@ -476,13 +470,6 @@ export default function Track() {
                    </button>
                 </div>
               </div>
-            </div>
-          ) : hasCode && !error ? (
-            <div className="text-center py-20 animate-fade-in-up">
-              <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center mx-auto mb-6 border border-gray-100 shadow-xl">
-                 <Package size={48} className="text-red-600" />
-              </div>
-              <p className="text-gray-500 italic">Recherche de votre colis...</p>
             </div>
           ) : !loading && !error && (
             <div className="text-center py-20 animate-fade-in-up">
